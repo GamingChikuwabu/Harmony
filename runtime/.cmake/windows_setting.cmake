@@ -1,0 +1,12 @@
+macro(windows_setting)
+# ビルドタイプに応じた定義
+    if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+        add_compile_definitions(_DEBUG)
+        add_compile_options("/EHsc")
+    elseif(CMAKE_BUILD_TYPE STREQUAL "Release")
+        add_compile_definitions(_NODEBUG)
+    elseif(CMAKE_BUILD_TYPE STREQUAL "Develop")
+        add_compile_definitions(_DEVELOP)
+        add_compile_options("/EHsc")
+    endif()
+endmacro()

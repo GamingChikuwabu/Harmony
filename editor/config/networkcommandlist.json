@@ -1,0 +1,72 @@
+{
+  "commands": [
+    {
+      "id": 1,
+      "name": "StartProcess",
+      "description": "プロセスの開始を指示する",
+      "parameters": {
+        "processName": "string",
+        "priority": "int"
+      }
+    },
+    {
+      "id": 101,
+      "name": "LevelEditorMakeChild",
+      "description": "LevelEditorに子ウィンドウを作成する",
+      "parameters": {
+        "ウィンドウハンドル": "long long"
+      }
+    },
+    {
+      "id": 201,
+      "name": "AddGameObject",
+      "description": "指定したシーンにGameObjectを追加する",
+      "parameters": {
+        "シーンの名前": "char[32]",
+        "名前の長さ": "int"
+      }
+    },
+    {
+      "id": 202,
+      "name": "CreateSceneObject",
+      "description": "動的なシーンをルートシーンにを追加する",
+      "parameters": {
+        "ルートシーンの名前": "char[32]",
+        "名前の長さ": "int"
+      }
+    },
+    {
+      "id": 203,
+      "name": "AddScene",
+      "description": "シーン追加する",
+      "parameters": {
+        "シーンのタイプ": "int",
+        "ルートシーンの名前": "char[32]"
+      }
+    },
+    {
+      "id":204,
+      "name": "AddedScene",
+      "description": "シーンを追加した後の処理",
+      "parameters": {
+        "ルートシーンの名前": "char[32]",
+        "名前の長さ": "int"
+      }
+    },
+    {
+      "id": 301,
+      "name": "SendLog",
+      "description": "debugLogをエディタに送信する",
+      "parameters": {
+        "destination": "string",
+        "data": "string"
+      }
+    },
+    {
+      "id":999,
+      "name":"ShutdownRuntime",
+      "description": "ランタイムを終了させる",
+      "parameters": null
+    }
+  ]
+}

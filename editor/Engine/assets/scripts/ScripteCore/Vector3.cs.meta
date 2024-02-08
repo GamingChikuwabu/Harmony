@@ -1,0 +1,14 @@
+{
+    "x": {
+        "FieldType": "System.Single",
+        "Attributes": []
+    },
+    "y": {
+        "FieldType": "System.Single",
+        "Attributes": []
+    },
+    "z": {
+        "FieldType": "System.Single",
+        "Attributes": []
+    }
+}

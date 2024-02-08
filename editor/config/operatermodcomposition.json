@@ -1,0 +1,13 @@
+{
+  "operaters": [
+    {
+      "name": "KsModLevelEditor"
+    },
+    {
+      "name" : "KsModHierarchy"
+    },
+    {
+      "name":"KsModAssetsManager"
+    }
+  ]
+}

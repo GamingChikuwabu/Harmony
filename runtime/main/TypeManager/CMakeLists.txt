@@ -1,0 +1,5 @@
+include("${CMAKE_SOURCE_DIR}/.cmake/common.cmake")
+init_main_module_setting(TypeManager)
+target_link_libraries(TypeManager "EventManager")
+target_include_directories(TypeManager PRIVATE "generate")
+target_include_directories(TypeManager PRIVATE "${CMAKE_SOURCE_DIR}/thirdparty/rapidjson")

@@ -1,0 +1,27 @@
+{
+    "_position": {
+        "FieldType": "KALEIDOSCOPE.MATH.Vector3",
+        "Attributes": [
+            "KALEIDOSCOPE.SerializeField"
+        ]
+    },
+    "_scale": {
+        "FieldType": "KALEIDOSCOPE.MATH.Vector3",
+        "Attributes": [
+            "KALEIDOSCOPE.SerializeField"
+        ]
+    },
+    "_rotate": {
+        "FieldType": "KALEIDOSCOPE.MATH.Quaternion",
+        "Attributes": [
+            "KALEIDOSCOPE.SerializeField"
+        ]
+    },
+    "<parent>k__BackingField": {
+        "FieldType": "KALEIDOSCOPE.Transform",
+        "Attributes": [
+            "System.Runtime.CompilerServices.CompilerGeneratedAttribute",
+            "System.Diagnostics.DebuggerBrowsableAttribute"
+        ]
+    }
+}

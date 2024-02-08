@@ -1,0 +1,13 @@
+{
+    "<material>k__BackingField": {
+        "FieldType": "KALEIDOSCOPE.Material",
+        "Attributes": [
+            "System.Runtime.CompilerServices.CompilerGeneratedAttribute",
+            "System.Diagnostics.DebuggerBrowsableAttribute"
+        ]
+    },
+    "_material": {
+        "FieldType": "KALEIDOSCOPE.Material",
+        "Attributes": []
+    }
+}

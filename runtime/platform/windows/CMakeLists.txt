@@ -1,0 +1,2 @@
+﻿add_subdirectory(HMModWin32)
+add_subdirectory(HMModDirectX12)

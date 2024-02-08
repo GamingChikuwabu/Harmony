@@ -1,0 +1,45 @@
+{
+    "<projectiontype>k__BackingField": {
+        "FieldType": "KALEIDOSCOPE.Camera+ProjectionType",
+        "Attributes": [
+            "System.Runtime.CompilerServices.CompilerGeneratedAttribute",
+            "System.Diagnostics.DebuggerBrowsableAttribute"
+        ]
+    },
+    "_fieldOfView": {
+        "FieldType": "System.Single",
+        "Attributes": [
+            "KALEIDOSCOPE.SerializeField"
+        ]
+    },
+    "_aspectRatio": {
+        "FieldType": "System.Single",
+        "Attributes": [
+            "KALEIDOSCOPE.SerializeField"
+        ]
+    },
+    "_nearClipPlane": {
+        "FieldType": "System.Single",
+        "Attributes": [
+            "KALEIDOSCOPE.SerializeField"
+        ]
+    },
+    "_farClipPlane": {
+        "FieldType": "System.Single",
+        "Attributes": [
+            "KALEIDOSCOPE.SerializeField"
+        ]
+    },
+    "_height": {
+        "FieldType": "System.Single",
+        "Attributes": [
+            "KALEIDOSCOPE.SerializeField"
+        ]
+    },
+    "_width": {
+        "FieldType": "System.Single",
+        "Attributes": [
+            "KALEIDOSCOPE.SerializeField"
+        ]
+    }
+}

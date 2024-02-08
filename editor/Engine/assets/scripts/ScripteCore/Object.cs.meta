@@ -1,0 +1,8 @@
+{
+    "name": {
+        "FieldType": "System.String",
+        "Attributes": [
+            "KALEIDOSCOPE.SerializeField"
+        ]
+    }
+}

@@ -1,0 +1,1 @@
+{"guid":"{1185C7CE-B7DD-4DB1-86FA-3AD7EA08497F}","ConstantBuffers":{"1":{"lightDirection":"float3","lightColor":"float3","lightIntensity":"float"},"2":{"cameraPosition":"float3"}},"Textures":{"0":"textureSampler","1":"roughnessTexture","2":"metallicTexture","3":"normalTexture"},"Samplers":{}}

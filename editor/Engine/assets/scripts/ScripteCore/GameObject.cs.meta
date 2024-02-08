@@ -1,0 +1,20 @@
+{
+    "_transform": {
+        "FieldType": "KALEIDOSCOPE.Transform",
+        "Attributes": [
+            "KALEIDOSCOPE.SerializeField"
+        ]
+    },
+    "tag": {
+        "FieldType": "System.String",
+        "Attributes": [
+            "KALEIDOSCOPE.SerializeField"
+        ]
+    },
+    "layer": {
+        "FieldType": "System.String",
+        "Attributes": [
+            "KALEIDOSCOPE.SerializeField"
+        ]
+    }
+}

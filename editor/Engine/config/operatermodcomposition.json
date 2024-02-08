@@ -1,0 +1,16 @@
+{
+  "operaters": [
+    {
+      "name": "IPCManager"
+    },
+    {
+      "name": "KsModLevelEditor"
+    },
+    {
+      "name": "KsModHierarchy"
+    },
+    {
+      "name": "KsModAssetsManager"
+    }
+  ]
+}

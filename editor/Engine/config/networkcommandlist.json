@@ -1,0 +1,57 @@
+{
+  "commands": [
+    {
+      "id": 1,
+      "name": "StartProcess",
+      "description": "プロセスの開始を指示する",
+      "parameters": {
+        "processName": "string",
+        "priority": "int"
+      }
+    },
+    {
+      "id": 101,
+      "name": "LevelEditorMakeChild",
+      "description": "LevelEditorに子ウィンドウを作成する",
+      "parameters": {
+        "windowhandole": "long long"
+      }
+    },
+    {
+      "id": 102,
+      "name": "Risizedata",
+      "description": "データの送信を指示する",
+      "parameters": {
+        "destination": "string",
+        "data": "string"
+      }
+    },
+    {
+      "id": 201,
+      "name": "LoadAssembly",
+      "description": "データの送信を指示する",
+      "parameters": {
+        "destination": "string",
+        "data": "string"
+      }
+    },
+    {
+      "id": 202,
+      "name": "CreateObject",
+      "description": "データの送信を指示する",
+      "parameters": {
+        "destination": "string",
+        "data": "string"
+      }
+    },
+    {
+      "id": 203,
+      "name": "AddComponent",
+      "description": "データの送信を指示する",
+      "parameters": {
+        "destination": "string",
+        "data": "string"
+      }
+    }
+  ]
+}

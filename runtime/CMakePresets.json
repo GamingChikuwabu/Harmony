@@ -1,0 +1,56 @@
+{
+  "version": 3,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 20,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "windows-base",
+      "hidden": true,
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/out/build/${presetName}",
+      "installDir": "${sourceDir}/out/install/${presetName}",
+      "cacheVariables": {
+        "CMAKE_C_COMPILER": "clang-cl.exe",
+        "CMAKE_CXX_COMPILER": "clang-cl.exe"
+      },
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Windows"
+      }
+    },
+    {
+      "name": "x64-Debug-Ninja",
+      "hidden": false,
+      "inherits": "windows-base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_CXX_FLAGS": "/utf-8",
+        "CMAKE_C_FLAGS": "/utf-8"
+      }
+    },
+    {
+      "name": "x64-Develop-Ninja",
+      "hidden": false,
+      "inherits": "windows-base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Develop",
+        "CMAKE_CXX_FLAGS": "/utf-8 -DDEVELOP",
+        "CMAKE_C_FLAGS": "/utf-8 -DDEVELOP"
+      }
+    },
+    {
+      "name": "x64-Release-Ninja",
+      "hidden": false,
+      "inherits": "windows-base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "CMAKE_CXX_FLAGS": "/utf-8 -O2",
+        "CMAKE_C_FLAGS": "/utf-8 -O2"
+      }
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+    "w": {
+        "FieldType": "System.Double",
+        "Attributes": []
+    },
+    "x": {
+        "FieldType": "System.Double",
+        "Attributes": []
+    },
+    "y": {
+        "FieldType": "System.Double",
+        "Attributes": []
+    },
+    "z": {
+        "FieldType": "System.Double",
+        "Attributes": []
+    }
+}

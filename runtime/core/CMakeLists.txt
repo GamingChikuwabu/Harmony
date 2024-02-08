@@ -1,0 +1,10 @@
+﻿include("${CMAKE_SOURCE_DIR}/.cmake/common.cmake")
+
+add_subdirectory("HMModAudio")
+add_subdirectory("HMModInput")
+add_subdirectory("HMModNetwork")
+add_subdirectory("HMModPhysics")
+add_subdirectory("HMModRenderer")
+add_subdirectory("HMModResourceManager")
+add_subdirectory("HMModSceneManager")
+add_subdirectory("HMModWindow")

@@ -1,0 +1,18 @@
+{
+    "name": "Material1",
+    "albedo": {
+        "texture": "textures/albedo1.png",
+        "color": [1.0, 1.0, 1.0]
+    },
+    "normalMap": "textures/normalMap1.png",
+    "roughness": 0.5,
+    "metallic": 0.3,
+    "ambientOcclusion": "textures/ambientOcclusion1.png",
+    "pipelineState": {
+        "vertexShader": "{F803A7B1-F923-4F6C-9B70-8D002A7C9043}",
+        "pixelShader": "{1185C7CE-B7DD-4DB1-86FA-3AD7EA08497F}",
+        "blendMode": "Opaque",
+        "depthTest": true,
+        "cullMode": "Back"
+    }
+}

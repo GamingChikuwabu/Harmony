@@ -1,0 +1,9 @@
+{
+    "<IsEnable>k__BackingField": {
+        "FieldType": "System.Boolean",
+        "Attributes": [
+            "System.Runtime.CompilerServices.CompilerGeneratedAttribute",
+            "System.Diagnostics.DebuggerBrowsableAttribute"
+        ]
+    }
+}

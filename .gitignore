@@ -3,3 +3,7 @@ x64/
 .vscode/
 out/
 build/
+*.dll
+*.pdb
+*.so
+*.ilk

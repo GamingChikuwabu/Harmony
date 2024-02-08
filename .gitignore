@@ -7,3 +7,4 @@ build/
 *.pdb
 *.so
 *.ilk
+__pycache__/

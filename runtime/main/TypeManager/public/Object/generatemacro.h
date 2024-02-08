@@ -1,5 +1,4 @@
 #pragma once
-#include"ArchiveBace.h"
 
 ///クラスのトークン
 #define HMCLASS(...)

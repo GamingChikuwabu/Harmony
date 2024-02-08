@@ -15,6 +15,6 @@ namespace HARMONY
 		return { name, value };
 	}
 
-#define MAKE_NVP(value) make_nvp(#value,value)
+#define MAKE_NVP(value) make_nvp(#value,value);
 
 }

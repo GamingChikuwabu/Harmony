@@ -1,8 +1,6 @@
 #pragma once
 #include"generatemacro.h"
-#include"ArchiveBace.h"
 #include<string>
-#include"HMObject.generate.h"
 
 namespace HARMONY
 {
@@ -13,9 +11,9 @@ namespace HARMONY
 	public:
 		HMObject() {};
 		virtual ~HMObject() = default;
+		virtual void Serialize(class HMArchive arcive);
 	protected:
 		HMPROPERTY()
 		std::string _guid;
-		int* counter;
 	};
 }

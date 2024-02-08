@@ -1,9 +1,17 @@
-﻿#include"main.h"
+#include"HMObject.h"
+namespace HARMONY
+{
+	template<typename Archive>
+	void archive(Archive& ar, HMObject& obj)
+	{
+		ar& make_nvp("_guid", obj._guid);
+	};
+}
+#include"main.h"
 #include<filesystem>
 #include<typeinfo>
 #include<iostream>
 #include"Archive/JsonOArchive.h"
-#include"Archive/ArchiveBace.h"
 
 //#ifdef 0
 //int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR argv, int argc)
@@ -22,10 +30,12 @@ int main(int argc, char** argv)
 	int c;
 	int* pA = &a;
 	float fa;
+	HMObject object;
+
 	{
 		std::ofstream ofs("text.json");
-		JsonOArcive archive(ofs); 
-		archive & MAKE_NVP(a);
+		JsonOArchive archive(ofs);
+		archive & MAKE_NVP(object);
 	}
 
 	ModuleManager::CommandLineAnalyze(argc, (void**)argv);

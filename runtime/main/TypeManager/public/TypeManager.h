@@ -21,6 +21,7 @@ namespace HARMONY
 {     
     class TYPEMANAGER_API TypeManager {
     public:
+        static bool Init();
         template<class ClassType>
         class class_ : public TypeBase{
         public:

@@ -11,5 +11,6 @@ enum class PROPERTY_ACCESS_LEVEL
 	LEVEL_PRIVATE,
 	/// @brief readonly access
 	LEVEL_READONLY,
+	/// @brief num access
 	MAX
 };

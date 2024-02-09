@@ -6,6 +6,17 @@
 
 namespace HARMONY
 {
+    class TYPEMANAGER_API Property
+    {
+    public:
+        /// @brief このプロパティが有効かどうか
+        /// @return 有効時　True
+        bool IsAalid() noexcept;
+
+
+    };
+
+
     class PropertyBase {
     public:
         PropertyBase() {}

@@ -23,11 +23,11 @@ namespace HARMONY
     public:
         static bool Init();
         template<class ClassType>
-        class class_ : public TypeBase{
+        class class_ : public Type{
         public:
             /// @brief コンストラクタ
             /// @param name このクラスの型名
-            class_(std::string name):TypeBase::TypeBase(typeid(ClassType), name,sizeof(ClassType)) {
+            class_(std::string name):Type::Type(typeid(ClassType), name,sizeof(ClassType)) {
                 // std::type_indexを使って型安全性を確保
                 TypeManager::_Types[name] = std::move(this);
             }
@@ -81,13 +81,13 @@ namespace HARMONY
             template <typename... Args>
             using ConstructorDelegate = std::function<ClassType* (Args...)>;
 
-            TypeBase* _baceClass; 
+            Type* _baceClass; 
             std::unordered_map<std::type_index, std::unordered_map<std::string, std::any>>  _classConstructors;//コンストラクタのマップ
             std::unordered_map<std::string, PropertyBase*>                                  _properties;//プロパティのマップ
         };
 
         template<class Type>
-        static const TypeBase* GetType()
+        static const Type* GetType()
         {
             std::type_index index(typeid(Type));
             if (_Types.find(index) != _Types.end()) { 
@@ -106,6 +106,6 @@ namespace HARMONY
     private:
         
         // 型の名前をキーにして型安全にメタデータを保存
-        static inline std::unordered_map<std::string, TypeBase*> _Types;
+        static inline std::unordered_map<std::string, Type*> _Types;
     };
 }

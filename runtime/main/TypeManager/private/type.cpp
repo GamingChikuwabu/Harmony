@@ -4,28 +4,22 @@
 
 namespace HARMONY
 {
-	Type::Type(const std::type_info& info, const std::string& name, size_t size)
-		:_info(typeid(info)), _name(name), _size(size)
-	{
-		// このオブジェクトを_typeListに登録
-		_typeMap[_info] = this;
-	}
-
+	using namespace DETAIL;
 	const std::string& Type::GetName() const
 	{
-		// TODO: return ステートメントをここに挿入します
+		return _data->_name;
 	}
 
 	size_t Type::GetSize() const
 	{
-		return size_t();
+		return _data->_size;
 	}
 
 	bool Type::operator==(const Type& other) const
 	{
-		return (_info == other._info) &&
-			(_name == other._name) &&
-			(_size == other._size);
+		return (_data->_typeCategory == other._data->_typeCategory) &&
+			(_data->_name == other._data->_name) &&
+			(_data->_size == other._data->_size);
 	}
 
 	bool Type::operator!=(const Type& other) const
@@ -33,21 +27,33 @@ namespace HARMONY
 		return !(*this == other);
 	}
 
-	Type* Type::FindByName(const std::string& name)
+	Type Type::FindByName(const std::string& name)
 	{
-		for (auto type_bace : _typeMap)
+		for (auto type_base : Type_Data::_typeMap)
 		{
-			if (name == type_bace.second->_name)
+			if (name == type_base.second._data->_name)
 			{
-				return type_bace.second;
+				return type_base.second;
 			}
 		}
-		return nullptr;
+		return Type();
+	}
+
+	Type Type::FindByTypeInfo(const std::type_info& info)
+	{
+		for (auto type_base : Type_Data::_typeMap)
+		{
+			if (info == type_base.second._data->_index)
+			{
+				return type_base.second;
+			}
+		}
+		return Type();
 	}
 
 	bool Type::IsArithmetic()
 	{
-		if (_typeCategory == TYPE_CATEGORY::TYPE_ARITHMETIC)
+		if (_data->_typeCategory == TYPE_CATEGORY::TYPE_ARITHMETIC)
 		{
 			return true;
 		}
@@ -56,7 +62,7 @@ namespace HARMONY
 
 	bool Type::IsEnum()
 	{
-		if (_typeCategory == TYPE_CATEGORY::TYPE_ENUM)
+		if (_data->_typeCategory == TYPE_CATEGORY::TYPE_ENUM)
 		{
 			return true;
 		}
@@ -65,7 +71,7 @@ namespace HARMONY
 
 	bool Type::IsArray()
 	{
-		if (_typeCategory == TYPE_CATEGORY::TYPE_ARRAY)
+		if (_data->_typeCategory == TYPE_CATEGORY::TYPE_ARRAY)
 		{
 			return true;
 		}
@@ -74,7 +80,7 @@ namespace HARMONY
 
 	bool Type::IsClass()
 	{
-		if (_typeCategory == TYPE_CATEGORY::TYPE_OBJECT)
+		if (_data->_typeCategory == TYPE_CATEGORY::TYPE_OBJECT)
 		{
 			return true;
 		}
@@ -83,6 +89,6 @@ namespace HARMONY
 
 	void* Type::CreateInstanceByType()
 	{
-		return (void*)GC_MALLOC(_size); 
+		return (void*)GC_MALLOC(_data->_size); 
 	}
 }

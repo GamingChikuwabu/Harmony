@@ -5,7 +5,6 @@ namespace HARMONY
 {
 	namespace DETAIL
 	{
-	
 		template<typename >
 		std::enable_if
 

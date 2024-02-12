@@ -8,15 +8,14 @@
 
 namespace HARMONY
 {
-    // 型情報を保存する基底クラス
+    namespace DETAIL {
+        struct Type_Data; // 前方宣言
+    }
+    ///@brief 型情報を保存するクラス
     class TYPEMANAGER_API Type {
     public:
-        /// @brief 初回登録用のコンストラクタ
-        /// @param info 型のtypeid情報
-        /// @param name 型の名前
-        /// @param size 型のサイズ
-        Type(const std::type_info& info, const std::string& name, size_t size);
 
+        Type() {}
         /// @brief コピーコンストラクタ
         /// @param other 
         Type(const Type& other) = default;
@@ -43,16 +42,6 @@ namespace HARMONY
         /// @param other 比較対象
         /// @return 結果
         bool operator!=(const Type& other) const;
-        
-
-        static Type* FindByName(const std::string& name);
-
-        template<typename T>
-        static Type* FindByType() {
-            std::type_index typeIndex(typeid(T));
-            auto it = _typeMap.find(typeIndex);
-            return it != _typeMap.end() ? it->second : nullptr;
-        }
 
         /// @brief この型が算術系かを判定する
         /// @return 結果
@@ -74,9 +63,25 @@ namespace HARMONY
         /// @return インスタンス
         void* CreateInstanceByType();
 
+        /// @brief 
+        /// @tparam T 
+        /// @return 
+        template<typename T>
+        static Type FindByType() {
+            std::type_index typeIndex(typeid(T));
+            return FindByTypeInfo(typeIndex);
+        }
+
+        /// @brief 型の名前からType型を探す関数
+        /// @param name 型名
+        /// @return Type
+        static Type FindByName(const std::string& name);
+
+        /// @brief 実行時型情報からTypeを探す関数
+        /// @param info type_info
+        /// @return Type型
+        static Type FindByTypeInfo(const std::type_info& info);
     private:
-        // 型情報からTypeBaseオブジェクトへのマッピングを保持するためのマップ
-        static inline std::unordered_map<std::type_index, Type*> _typeMap;
-        struct Type_Data* _data;
+        struct DETAIL::Type_Data* _data;
     };
 }

@@ -9,14 +9,13 @@ namespace HARMONY
 	}
 	void* Property::GetValue(void* class_instance)
 	{
-		void* memberptr = reinterpret_cast<char*>(class_instance) + _data->_offset;
-		return memberptr;
+		return _data->_getFunc(class_instance);
 	}
-	void Property::SetValue(void* classinstance, const std::any& value)
+	void Property::SetValue(void* class_instance, const std::any& value)
 	{
-		_data->_castFunc(classinstance, value); 
+		_data->_setFunc(class_instance, value);
 	}
-	PROPERTY_ACCESS_LEVEL Property::GetAccessLevel() const
+	ACCESS_LEVEL Property::GetAccessLevel() const
 	{
 		return _data->_accessLevel;
 	}

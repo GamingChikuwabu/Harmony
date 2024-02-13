@@ -1,10 +1,7 @@
-#include"HMObject.generate.inc"
 #include"HMObject.h"
+#include"HMObject.generate.inc"
 
 namespace HARMONY
 {
-	void HMObject::Serialize(HMArchive arcive)
-	{
-
-	}
+	
 }

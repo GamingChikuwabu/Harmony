@@ -12,6 +12,7 @@ namespace HARMONY
 #include<typeinfo>
 #include<iostream>
 #include"Archive/JsonOArchive.h"
+#include"TypeManager.h"
 
 //#ifdef 0
 //int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR argv, int argc)
@@ -25,17 +26,17 @@ int main(int argc, char** argv)
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF); 
 #endif // _WIN32
 	using namespace HARMONY;
+	TypeManager::Init();
 	//テストコード
 	int a = 0;
 	int c;
 	int* pA = &a;
 	float fa;
 	HMObject object;
-
 	{
 		std::ofstream ofs("text.json");
 		JsonOArchive archive(ofs);
-		archive & MAKE_NVP(object);
+		archive & MAKE_NVP(a);
 	}
 
 	ModuleManager::CommandLineAnalyze(argc, (void**)argv);

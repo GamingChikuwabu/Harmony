@@ -10,22 +10,23 @@ namespace HARMONY
 {
     namespace DETAIL {
         struct Type_Data; // 前方宣言
+        class ItemCreator;
     }
+    // 型の種類を表す列挙体
+    enum class TYPE_CATEGORY {
+        TYPE_ARITHMETIC,//int,floatなどの算術型
+        TYPE_ARRAY,     // 配列型
+        TYPE_ENUM,      // Enum型
+        TYPE_OBJECT,    // classやstructなどの規定値以外
+        MAX
+    };
     ///@brief 型情報を保存するクラス
     class TYPEMANAGER_API Type {
     public:
-
-        Type() {}
-        /// @brief コピーコンストラクタ
-        /// @param other 
-        Type(const Type& other) = default;
-
-        /// @brief ムーブコンストラクタ
-        /// @param other 
-        Type(Type&& other) noexcept = default;
-
+        Type();
         /// @brief 型の名前を取得する関数
         /// @return 型の名前
+        /// 
         const std::string& GetName() const;
 
         /// @brief 
@@ -36,7 +37,6 @@ namespace HARMONY
         /// @param other 比較対象
         /// @return 結果
         bool operator==(const Type& other) const;
-
 
         /// @brief 型のタイプを比べる用のオペレータ(不当演算子バージョン)
         /// @param other 比較対象
@@ -80,8 +80,9 @@ namespace HARMONY
         /// @brief 実行時型情報からTypeを探す関数
         /// @param info type_info
         /// @return Type型
-        static Type FindByTypeInfo(const std::type_info& info);
+        static Type FindByTypeInfo(const std::type_index& info);
     private:
-        struct DETAIL::Type_Data* _data;
+        friend DETAIL::ItemCreator;
+        std::shared_ptr<struct DETAIL::Type_Data> _data;
     };
 }

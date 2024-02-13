@@ -1,19 +1,15 @@
 #pragma once
 #include<string>
+#include"variant.h"
 
 namespace HARMONY
 {
-	template<typename T>
-	struct NVP {
+	struct TYPEMANAGER_API NVP {
 		std::string name; // 名前（キー）
-		T value;          // 値
+		variant value;          // 値
 	};
-
 	// NVPを作成するヘルパー関数
-	template<typename T>
-	NVP<T> make_nvp(const std::string& name, const T& value) {
-		return { name, value };
-	}
+	TYPEMANAGER_API NVP make_nvp(const std::string& name, variant value);
 
 #define MAKE_NVP(value) make_nvp(#value,value);
 

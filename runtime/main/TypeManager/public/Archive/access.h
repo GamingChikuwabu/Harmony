@@ -1,7 +1,7 @@
 #pragma once
 
 /// @brief クラスのメンバ変数へのアクセスレベル
-enum class PROPERTY_ACCESS_LEVEL
+enum class ACCESS_LEVEL
 {
 	/// @brief public access
 	LEVEL_PUBLIC = 0,

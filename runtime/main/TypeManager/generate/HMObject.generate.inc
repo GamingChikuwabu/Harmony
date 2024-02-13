@@ -1,6 +1,5 @@
 #pragma once
 #include"generatemacro.h"
-#include"HMObject.h"
 #include "TypeManager.h"
 
 HM_GENERATE_CLASS_METADATA_REGIST_START()

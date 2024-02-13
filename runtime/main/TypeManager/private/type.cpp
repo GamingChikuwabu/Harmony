@@ -1,10 +1,15 @@
 #include"Types/type.h"
 #include"gc.h"
 #include"type_data.h"
+#include"ItemCreator.h"
 
 namespace HARMONY
 {
 	using namespace DETAIL;
+	Type::Type()
+	{
+		
+	}
 	const std::string& Type::GetName() const
 	{
 		return _data->_name;
@@ -39,7 +44,7 @@ namespace HARMONY
 		return Type();
 	}
 
-	Type Type::FindByTypeInfo(const std::type_info& info)
+	Type Type::FindByTypeInfo(const std::type_index& info)
 	{
 		for (auto type_base : Type_Data::_typeMap)
 		{

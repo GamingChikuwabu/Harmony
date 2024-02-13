@@ -11,7 +11,6 @@ namespace HARMONY
 	public:
 		HMObject() {};
 		virtual ~HMObject() = default;
-		virtual void Serialize(class HMArchive arcive);
 	protected:
 		HMPROPERTY()
 		std::string _guid;

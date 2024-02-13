@@ -20,31 +20,9 @@ namespace HARMONY
 		/// @tparam T valueの型
 		/// @param nvp 値と名前のペア
 		/// @return *this 理由はar & MAKE_NVP() & MAKE_NVP()のようにできるようにするため
-		template<typename T>
-		JsonOArchive& operator&(const NVP<T>& nvp)
+		JsonOArchive& operator&(const NVP& nvp)
 		{
-			if constexpr (std::is_class<T>::value)
-			{
-				PushObjectType();
-				archive(*this,nvp.value);
-				PopObjectType(nvp.name.c_str());
-			}
-			else if constexpr(std::is_same<T,std::string>::value)
-			{
-				SaveValue(nvp.name.c_str(), (std::string)nvp.value);
-			}
-			else
-			{
-				if constexpr (std::is_integral<T>::value)
-				{
-					SaveValue(nvp.name.c_str(), (int)nvp.value);
-				}
-				else if constexpr(std::is_floating_point<T>::value)
-				{
-					SaveValue(nvp.name.c_str(), (float)nvp.value);
-				}
-			}
-			return *this;
+			
 		}
 	private:
 		void SaveValue(const char* name, int value);

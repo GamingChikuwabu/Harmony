@@ -17,7 +17,7 @@
 //========================================================================
 #include"Types/property.h"
 #include"Types/type.h"
-#include"Types/ItemCreater.h"
+#include"Types/ItemCreator.h"
 
 namespace HARMONY
 {     
@@ -30,28 +30,25 @@ namespace HARMONY
             /// @brief コンストラクタ
             /// @param name このクラスの型名
             class_(std::string name){
-                
+                DETAIL::ItemCreator::CreateType<ClassType>(name);
             }
             
             // 引数を取るコンストラクタを登録するメソッド
             template<typename... Args, typename = std::enable_if_t<std::is_constructible<ClassType, Args...>::value>>
             class_& construct() {
-                std::string key = GenerateConstructorKey<Args...>();
+                /*std::string key = GenerateConstructorKey<Args...>();
                 ConstructorDelegate<Args...> delegate = [](Args... args) -> ClassType* {
                     return new ClassType(std::forward<Args>(args)...);
                     };
-                _classConstructors[std::type_index(typeid(ClassType))][key] = delegate;
+                _classConstructors[std::type_index(typeid(ClassType))][key] = delegate;*/
                 return *this;
             }
 
-            template<typename ClassType, typename MemberType>
+            template<typename MemberType>
             auto property(const std::string& name, MemberType ClassType::* memberPtr)
                 -> std::enable_if_t<std::is_member_pointer<MemberType ClassType::*>::value, class_&>
             {
-                // offsetofを使用してメンバ変数のオフセットを取得
-                Property prop{};
-                std::size_t offset = offsetof(ClassType,memberPtr);
-                _properties[name] = DETAIL::ItemCreater::CreateProperty(prop, name,offset);
+                _properties[name] = DETAIL::ItemCreator::CreateProperty<ClassType,MemberType>(name,memberPtr); 
                 return *this;
             }
 
@@ -75,17 +72,7 @@ namespace HARMONY
                 return nullptr;
             }
         private:
-            // 引数の型情報を基にキーを生成するヘルパー関数
-            template<typename... Args>
-            std::string GenerateConstructorKey() {
-                return typeid(std::tuple<Args...>).name();
-            }
-
-            // コンストラクタ用のデリゲートをテンプレート化
-            template <typename... Args>
-            using ConstructorDelegate = std::function<ClassType* (Args...)>;
-
-            Type* _baceClass; 
+            Type* _baseClass;
             std::unordered_map<std::type_index, std::unordered_map<std::string, std::any>>  _classConstructors;//コンストラクタのマップ
             std::unordered_map<std::string, Property>                                       _properties;//プロパティのマップ
         };

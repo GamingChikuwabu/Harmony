@@ -1,20 +1,23 @@
 #include"Types/property.h"
+#include"property_data.h"
 
 namespace HARMONY
 {
 	const std::string Property::GetName() const
 	{
-		return std::string();
+		return _data->_propertyName;
 	}
-	void Property::SetValue(void* class_instance, std::any value)
+	void* Property::GetValue(void* class_instance)
 	{
+		void* memberptr = reinterpret_cast<char*>(class_instance) + _data->_offset;
+		return memberptr;
 	}
-	std::any Property::GetValue(void* class_instance)
+	void Property::SetValue(void* classinstance, const std::any& value)
 	{
-		return std::any();
+		_data->_castFunc(classinstance, value); 
 	}
 	PROPERTY_ACCESS_LEVEL Property::GetAccessLevel() const
 	{
-		return PROPERTY_ACCESS_LEVEL();
+		return _data->_accessLevel;
 	}
 }

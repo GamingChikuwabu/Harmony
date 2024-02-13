@@ -10,12 +10,14 @@
 #include<typeindex>
 #include<functional>
 #include<memory>
+#include <cstddef>
 
 //========================================================================
 // Mylib
 //========================================================================
 #include"Types/property.h"
 #include"Types/type.h"
+#include"Types/ItemCreater.h"
 
 namespace HARMONY
 {     
@@ -23,13 +25,12 @@ namespace HARMONY
     public:
         static bool Init();
         template<class ClassType>
-        class class_ : public Type{
+        class class_{
         public:
             /// @brief コンストラクタ
             /// @param name このクラスの型名
-            class_(std::string name):Type::Type(typeid(ClassType), name,sizeof(ClassType)) {
-                // std::type_indexを使って型安全性を確保
-                TypeManager::_Types[name] = std::move(this);
+            class_(std::string name){
+                
             }
             
             // 引数を取るコンストラクタを登録するメソッド
@@ -43,11 +44,14 @@ namespace HARMONY
                 return *this;
             }
 
-            template<typename MemberType>
-            std::enable_if_t<std::is_member_pointer<MemberType ClassType::*>::value, class_&>
-            property(const std::string& name, MemberType ClassType::* memberPtr) {
-                // std::anyを使って異なる型のPropertyを保存
-                _properties[name] = new Property<ClassType, MemberType>(name,memberPtr);
+            template<typename ClassType, typename MemberType>
+            auto property(const std::string& name, MemberType ClassType::* memberPtr)
+                -> std::enable_if_t<std::is_member_pointer<MemberType ClassType::*>::value, class_&>
+            {
+                // offsetofを使用してメンバ変数のオフセットを取得
+                Property prop{};
+                std::size_t offset = offsetof(ClassType,memberPtr);
+                _properties[name] = DETAIL::ItemCreater::CreateProperty(prop, name,offset);
                 return *this;
             }
 
@@ -83,7 +87,7 @@ namespace HARMONY
 
             Type* _baceClass; 
             std::unordered_map<std::type_index, std::unordered_map<std::string, std::any>>  _classConstructors;//コンストラクタのマップ
-            std::unordered_map<std::string, PropertyBase*>                                  _properties;//プロパティのマップ
+            std::unordered_map<std::string, Property>                                       _properties;//プロパティのマップ
         };
 
         template<class Type>
@@ -104,7 +108,6 @@ namespace HARMONY
         }
 
     private:
-        
         // 型の名前をキーにして型安全にメタデータを保存
         static inline std::unordered_map<std::string, Type*> _Types;
     };

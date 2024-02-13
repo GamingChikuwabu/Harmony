@@ -2,12 +2,14 @@
 #include<string>
 #include<any>
 #include"Types/type.h"
+#include"ItemCreater.h"
 #include"Archive/access.h"
 
 namespace HARMONY
 {
     namespace DETAIL {
         struct Property_Data; // 前方宣言
+        class ItemCreater;
     }
     class TYPEMANAGER_API Property
     {
@@ -16,13 +18,13 @@ namespace HARMONY
 
         const std::string GetName()const;
 
-        void SetValue(void* classinstance, std::any value);
-
-        std::any GetValue(void* classinstance);
+        void* GetValue(void* classinstance);
+        // 実際のセット処理を隠蔽するためのプライベートメンバ関数
+        void SetValue(void* classinstance, const std::any& value);
 
         PROPERTY_ACCESS_LEVEL GetAccessLevel() const;
-
     private:
-        DETAIL::Property_Data* _propertyData;
+        friend DETAIL::ItemCreater;
+        DETAIL::Property_Data* _data;
     };
 }

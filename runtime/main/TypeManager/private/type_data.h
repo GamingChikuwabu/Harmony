@@ -1,6 +1,10 @@
 #pragma once
 #include<string>
 #include<type_traits>
+#include<unordered_map>
+#include<typeindex>
+#include"Types/type.h"
+
 namespace HARMONY
 {
 	namespace DETAIL

@@ -4,7 +4,7 @@
 #define HMCLASS(...)
 #define HMFUNCTION(...)
 #define HMPROPERTY(...)
-#define HM_CLASS_ACCESS_FRIEND()\
+#define HM_CLASS_BODY()\
 friend void ::auto_register_class_type();
 
 static void auto_register_class_type();

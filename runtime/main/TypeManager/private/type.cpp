@@ -56,7 +56,7 @@ namespace HARMONY
 		return Type();
 	}
 
-	bool Type::IsArithmetic()
+	bool Type::IsArithmetic()noexcept
 	{
 		if (_data->_typeCategory == TYPE_CATEGORY::TYPE_ARITHMETIC)
 		{
@@ -65,7 +65,7 @@ namespace HARMONY
 		return false;
 	}
 
-	bool Type::IsEnum()
+	bool Type::IsEnum()noexcept
 	{
 		if (_data->_typeCategory == TYPE_CATEGORY::TYPE_ENUM)
 		{
@@ -74,7 +74,7 @@ namespace HARMONY
 		return false;
 	}
 
-	bool Type::IsArray()
+	bool Type::IsArray()noexcept
 	{
 		if (_data->_typeCategory == TYPE_CATEGORY::TYPE_ARRAY)
 		{
@@ -83,9 +83,27 @@ namespace HARMONY
 		return false;
 	}
 
-	bool Type::IsClass()
+	bool Type::IsClass()noexcept
 	{
 		if (_data->_typeCategory == TYPE_CATEGORY::TYPE_OBJECT)
+		{
+			return true;
+		}
+		return false;
+	}
+
+	bool Type::IsAssociativeContainer() noexcept
+	{
+		if (_data->_typeCategory == TYPE_CATEGORY::TYPE_ASSOCIATIVE_CONTAINER)
+		{
+			return true;
+		}
+		return false;
+	}
+
+	bool Type::IsSequentialContainer() noexcept
+	{
+		if (_data->_typeCategory == TYPE_CATEGORY::TYPE_SEQUENTIAL_CONTAINER)
 		{
 			return true;
 		}

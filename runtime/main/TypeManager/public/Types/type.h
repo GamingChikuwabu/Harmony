@@ -12,21 +12,13 @@ namespace HARMONY
         struct Type_Data; // 前方宣言
         class ItemCreator;
     }
-    // 型の種類を表す列挙体
-    enum class TYPE_CATEGORY {
-        TYPE_ARITHMETIC,//int,floatなどの算術型
-        TYPE_ARRAY,     // 配列型
-        TYPE_ENUM,      // Enum型
-        TYPE_OBJECT,    // classやstructなどの規定値以外
-        MAX
-    };
     ///@brief 型情報を保存するクラス
     class TYPEMANAGER_API Type {
     public:
         Type();
-        /// @brief 型の名前を取得する関数
+        /// @brief Userが登録したクラス型ならその型名をでなければコンパイラ依存の名前を返します
+        /// HARMONY::TypeManager::class_<HARMONY::HMObject>("HMObject")"HMObject"の部分
         /// @return 型の名前
-        /// 
         const std::string& GetName() const;
 
         /// @brief 
@@ -45,19 +37,27 @@ namespace HARMONY
 
         /// @brief この型が算術系かを判定する
         /// @return 結果
-        bool IsArithmetic();
+        bool IsArithmetic()noexcept;
 
         /// @brief この型がenumかを判定する
         /// @return 結果
-        bool IsEnum();
+        bool IsEnum()noexcept;
 
         /// @brief この型が配列かを判定する
         /// @return 結果
-        bool IsArray();
+        bool IsArray()noexcept;
 
         /// @brief この型がクラス型かを判定する
         /// @return 結果
-        bool IsClass();
+        bool IsClass()noexcept;
+
+        /// @brief この型が連想配列コンテナかを判定する
+        /// @return 結果
+        bool IsAssociativeContainer()noexcept;
+
+        /// @brief この型が連続コンテナかを判別する
+        /// @return 結果
+        bool IsSequentialContainer()noexcept;
 
         /// @brief このタイプ型のインスタンスを作成する関数
         /// @return インスタンス

@@ -10,13 +10,13 @@ namespace HARMONY
 		{
 			Type type;
 			type._data = std::make_shared<Type_Data>(cate,name,size,index);
-			Type_Data::_typeMap[name] = type;
 			return type;
 		}
+
 		Property ItemCreator::CreateProperty(std::string name, std::function<void(void*, std::any)> setter, std::function<void* (void*)> getter, ACCESS_LEVEL acc)
 		{
-			Property prop{};
-			prop._data = std::make_shared<Property_Data>();
+			auto data = std::make_shared<Property_Data>();
+			Property prop{ data };
 			prop._data->_accessLevel = acc;
 			prop._data->_setFunc = setter;
 			prop._data->_getFunc = getter;

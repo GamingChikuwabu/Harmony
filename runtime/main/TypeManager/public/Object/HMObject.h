@@ -7,7 +7,7 @@ namespace HARMONY
 	HMCLASS()
 	class HMObject
 	{
-		HM_CLASS_ACCESS_FRIEND()
+		HM_CLASS_BODY()
 	public:
 		HMObject() {};
 		virtual ~HMObject() = default;

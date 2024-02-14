@@ -3,6 +3,7 @@
 #include<functional>
 #include"Types/property.h"
 #include"Types/type.h"
+#include<string>
 
 namespace HARMONY
 {

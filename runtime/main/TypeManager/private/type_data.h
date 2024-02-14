@@ -9,6 +9,16 @@ namespace HARMONY
 {
 	namespace DETAIL
 	{
+		// 型の種類を表す列挙体
+		enum class TYPE_CATEGORY {
+			TYPE_ARITHMETIC,//int,floatなどの算術型
+			TYPE_ARRAY,     // 配列型
+			TYPE_ENUM,      // Enum型
+			TYPE_OBJECT,    // classやstructなどの規定値以外
+			TYPE_SEQUENTIAL_CONTAINER,
+			TYPE_ASSOCIATIVE_CONTAINER,
+			MAX
+		};
 		struct TYPEMANAGER_API Type_Data
 		{
 			Type_Data(TYPE_CATEGORY cate, std::string name, size_t size, const std::type_index& index)

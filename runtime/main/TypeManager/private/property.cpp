@@ -19,4 +19,8 @@ namespace HARMONY
 	{
 		return _data->_accessLevel;
 	}
+	Property::Property(std::shared_ptr<DETAIL::Property_Data> data)
+	{
+		_data = data;
+	}
 }

@@ -56,7 +56,7 @@ namespace HARMONY
             class_& baceclass()
             {
                 static_assert(std::is_base_of<BaceClass,ClassType>::value,"基底クラスがないのでこの宣言は無効です");
-                _baceClass = TypeManager::GetType<BaceClass>();
+                _baceClass = Type::FindByType<BaceClass>();
             }
 
             // 引数を取るインスタンス生成メソッド
@@ -72,30 +72,12 @@ namespace HARMONY
                 return nullptr;
             }
         private:
-            Type* _baseClass;
+            Type _baseClass;
             std::unordered_map<std::type_index, std::unordered_map<std::string, std::any>>  _classConstructors;//コンストラクタのマップ
             std::unordered_map<std::string, Property>                                       _properties;//プロパティのマップ
         };
-
-        template<class Type>
-        static const Type* GetType()
-        {
-            std::type_index index(typeid(Type));
-            if (_Types.find(index) != _Types.end()) { 
-                return _Types[index];
-            }
-            return nullptr;
-        }
-
-        static void* CreateInstanceByName(const std::string& name) {
-            if (_Types.find(name) != _Types.end()) {
-                return _Types[name]->CreateInstanceByType();
-            }
-            return nullptr;
-        }
-
     private:
         // 型の名前をキーにして型安全にメタデータを保存
-        static inline std::unordered_map<std::string, Type*> _Types;
+        static inline std::unordered_map<std::string, Type> _Types;
     };
 }

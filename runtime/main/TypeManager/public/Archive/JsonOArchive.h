@@ -22,7 +22,7 @@ namespace HARMONY
 		/// @return *this 理由はar & MAKE_NVP() & MAKE_NVP()のようにできるようにするため
 		JsonOArchive& operator&(const NVP& nvp)
 		{
-			
+			return *this;
 		}
 	private:
 		void SaveValue(const char* name, int value);

@@ -2,14 +2,14 @@
 
 namespace HARMONY
 {
-	class Type;
+	class type;
 	namespace DETAIL
 	{
 		struct data_address_container
 		{
-			Type _type;
-			Type _wrappedType;
-			void* _typeAdderss;
+			type _type;
+			type _wrappedType;
+			void* _typeAddress;
 			void* _wrappedTypeAddress;
 		};
 	}

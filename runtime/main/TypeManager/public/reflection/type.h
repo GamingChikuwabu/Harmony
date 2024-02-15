@@ -2,6 +2,7 @@
 #include<string_view>
 #include<vector>
 #include<typeindex>
+#include<memory>
 
 namespace HARMONY
 {
@@ -11,9 +12,15 @@ namespace HARMONY
 	class property;
 	class instance;
 
+	namespace DETAIL
+	{
+		struct type_data;
+	}
+
 	class TYPEMANAGER_API type
 	{
 	public:
+		type(const type& othr);
 		template<typename T>
 		static type get();
 
@@ -77,7 +84,12 @@ namespace HARMONY
 
 	private:
 		type();
+		type(DETAIL::type_data* _data);
+		std::unique_ptr<DETAIL::type_data> _data;
 	};
+
+	//無効なタイプ型を生成します
+	type GetInvalidType();
 }
 
 #include"reflection/impl/type_impl.h"

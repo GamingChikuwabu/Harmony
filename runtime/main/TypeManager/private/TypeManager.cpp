@@ -2,5 +2,8 @@
 
 namespace HARMONY
 {
-
+    bool TypeManager::Init()
+    {
+        return false;
+    }
 }

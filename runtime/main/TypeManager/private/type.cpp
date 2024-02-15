@@ -1,10 +1,20 @@
 #include"type.h"
 #include"variant.h"
-
+#include"instance.h"
 
 namespace HARMONY
 {
 	type::type()
+	{
+
+	}
+
+	type::type(DETAIL::type_data* _data)
+	{
+	}
+
+	type::type(const type& other)
+	:_data(other._data.get())
 	{
 
 	}
@@ -26,7 +36,7 @@ namespace HARMONY
 
 	std::type_index type::GetTypeID()
 	{
-		return std::type_index();
+		return 
 	}
 
 	std::size_t type::GetSizeof() const noexcept
@@ -133,4 +143,8 @@ namespace HARMONY
 		return false;
 	}
 
+	type GetInvalidType()
+	{
+		return type();
+	}
 }

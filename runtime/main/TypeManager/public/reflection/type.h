@@ -45,7 +45,7 @@ namespace HARMONY
 
 		property GetProperty(std::string_view prop_name)noexcept;
 
-		std::vector<property> GetPropertys()noexcept;
+		std::vector<property> GetProperties()noexcept;
 
 		variant GetPropertyValue(std::string_view name,instance obj)noexcept; 
 

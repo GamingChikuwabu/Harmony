@@ -58,7 +58,7 @@ namespace HARMONY
 		return constructor();
 	}
 
-	std::vector<property> type::GetPropertys() noexcept
+	std::vector<property> type::GetProperties() noexcept
 	{
 		return std::vector<property>();
 	}

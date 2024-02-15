@@ -1,117 +1,136 @@
-#include"Types/type.h"
-#include"gc.h"
-#include"type_data.h"
-#include"ItemCreator.h"
+#include"type.h"
+#include"variant.h"
+
 
 namespace HARMONY
 {
-	using namespace DETAIL;
-	Type::Type()
+	type::type()
 	{
-		
-	}
-	const std::string& Type::GetName() const
-	{
-		return _data->_name;
+
 	}
 
-	size_t Type::GetSize() const
+	type type::getByName(std::string_view name)
 	{
-		return _data->_size;
+		return type();
 	}
 
-	bool Type::operator==(const Type& other) const
+	variant type::Create()
 	{
-		return (_data->_typeCategory == other._data->_typeCategory) &&
-			(_data->_name == other._data->_name) &&
-			(_data->_size == other._data->_size);
+		return variant();
 	}
 
-	bool Type::operator!=(const Type& other) const
+	std::string_view type::GetName()
 	{
-		return !(*this == other);
+		return std::string_view();
 	}
 
-	Type Type::FindByName(const std::string& name)
+	std::type_index type::GetTypeID()
 	{
-		for (auto type_base : Type_Data::_typeMap)
-		{
-			if (name == type_base.second._data->_name)
-			{
-				return type_base.second;
-			}
-		}
-		return Type();
+		return std::type_index();
 	}
 
-	Type Type::FindByTypeInfo(const std::type_index& info)
+	std::size_t type::GetSizeof() const noexcept
 	{
-		for (auto type_base : Type_Data::_typeMap)
-		{
-			if (info == type_base.second._data->_index)
-			{
-				return type_base.second;
-			}
-		}
-		return Type();
+		return std::size_t();
 	}
 
-	bool Type::IsArithmetic()noexcept
+	type::operator bool() const noexcept
 	{
-		if (_data->_typeCategory == TYPE_CATEGORY::TYPE_ARITHMETIC)
-		{
-			return true;
-		}
+	}
+
+	type type::GetRawType() noexcept
+	{
+		return type();
+	}
+
+	type type::GetWrappedType() const noexcept
+	{
+		return type();
+	}
+
+	enumeration type::GetEnumeration() const
+	{
+		return enumeration();
+	}
+
+	constructor type::GetConstructor() const noexcept
+	{
+		return constructor();
+	}
+
+	std::vector<property> type::GetPropertys() noexcept
+	{
+		return std::vector<property>();
+	}
+
+	variant type::GetPropertyValue(std::string_view name, instance obj) noexcept
+	{
+		return variant();
+	}
+
+	bool type::SetPropertyValue(std::string_view name, instance obj) noexcept
+	{
 		return false;
 	}
 
-	bool Type::IsEnum()noexcept
+	bool type::isValid() noexcept
 	{
-		if (_data->_typeCategory == TYPE_CATEGORY::TYPE_ENUM)
-		{
-			return true;
-		}
 		return false;
 	}
 
-	bool Type::IsArray()noexcept
+	bool type::isArithmetic() noexcept
 	{
-		if (_data->_typeCategory == TYPE_CATEGORY::TYPE_ARRAY)
-		{
-			return true;
-		}
 		return false;
 	}
 
-	bool Type::IsClass()noexcept
+	bool type::isEnumeration() noexcept
 	{
-		if (_data->_typeCategory == TYPE_CATEGORY::TYPE_OBJECT)
-		{
-			return true;
-		}
 		return false;
 	}
 
-	bool Type::IsAssociativeContainer() noexcept
+	bool type::isArray() noexcept
 	{
-		if (_data->_typeCategory == TYPE_CATEGORY::TYPE_ASSOCIATIVE_CONTAINER)
-		{
-			return true;
-		}
 		return false;
 	}
 
-	bool Type::IsSequentialContainer() noexcept
+	bool type::isClass() noexcept
 	{
-		if (_data->_typeCategory == TYPE_CATEGORY::TYPE_SEQUENTIAL_CONTAINER)
-		{
-			return true;
-		}
 		return false;
 	}
 
-	void* Type::CreateInstanceByType()
+	bool type::isWrapped() noexcept
 	{
-		return (void*)GC_MALLOC(_data->_size); 
+		return false;
 	}
+
+	bool type::isSequential() noexcept
+	{
+		return false;
+	}
+
+	bool type::isAssociation() noexcept
+	{
+		return false;
+	}
+
+	bool type::isPointer() noexcept
+	{
+		return false;
+	}
+
+	bool type::isFunctionPointer() noexcept
+	{
+		return false;
+	}
+
+	bool type::isMemberObjectPointer() noexcept
+	{
+		return false;
+	}
+
+	bool type::isMemberFunctionPointer() noexcept
+	{
+		return false;
+	}
+
 }

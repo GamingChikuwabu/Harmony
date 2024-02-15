@@ -1,26 +1,26 @@
-#include"Types/property.h"
-#include"property_data.h"
+#include"property.h"
+#include"variant.h"
+#include"instance.h"
 
 namespace HARMONY
 {
-	const std::string Property::GetName() const
+	property::property(const property_data& data)
 	{
-		return _data->_propertyName;
+
 	}
-	void* Property::GetValue(void* class_instance)
+	property::property()
 	{
-		return _data->_getFunc(class_instance);
+
 	}
-	void Property::SetValue(void* class_instance, const std::any& value)
+	variant property::GetValue(instance obj)
 	{
-		_data->_setFunc(class_instance, value);
+		return variant();
 	}
-	ACCESS_LEVEL Property::GetAccessLevel() const
+	void property::SetValue(instance obj, variant value)
 	{
-		return _data->_accessLevel;
 	}
-	Property::Property(std::shared_ptr<DETAIL::Property_Data> data)
+	type property::GetType() const noexcept
 	{
-		_data = data;
+		return type();
 	}
 }

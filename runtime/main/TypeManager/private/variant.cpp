@@ -1,87 +1,79 @@
-#include "Types/variant.h"
-#include"Types/type.h"
-#include<any>
+#include"variant.h"
+#include"type.h"
 
 namespace HARMONY
 {
-	struct variant_data
+	variant::variant()
+		:_data()
 	{
-		Type _type;
-		std::any _value;
-	};
 
-	variant& variant::operator=(variant arg)
-	{
-		// TODO: return ステートメントをここに挿入します
 	}
-
-	bool variant::operator==(const variant& arg) const
+	bool variant::CanConvert(const type& type) const
 	{
 		return false;
 	}
-
-	Type variant::GetType() const
+	type variant::GetType() const noexcept
 	{
-		return _data->_type;
+		return type();
 	}
-
-	bool variant::to_bool() const
+	type variant::GetWrappedType() const noexcept
 	{
-		return convert<bool>();
+		return _data.type;
 	}
-
-	int8_t variant::to_int8() const
+	bool variant::isAssociativeContainer() const
 	{
-		return convert<int8_t>();
+		return false;
 	}
-
-	int16_t variant::to_int16() const
+	bool variant::isSequentialContainer() const
 	{
-		return convert<int16_t>();
+		return false;
 	}
-
-	int32_t variant::to_int32() const
+	bool variant::ToBool() const
 	{
-		return convert<int32_t>();
+		return Convert<bool>();
 	}
-
-	int64_t variant::to_int64() const
+	int8_t variant::ToInt8() const
 	{
-		return convert<int64_t>();
+		return Convert<int8_t>();
 	}
-
-	uint8_t variant::to_uint8() const
+	int16_t variant::ToInt16() const
 	{
-		return convert<uint8_t>();
+		return Convert<int16_t>();
 	}
-
-	uint16_t variant::to_uint16() const
+	int32_t variant::ToInt32() const
 	{
-		return convert<uint16_t>();
+		return Convert<int32_t>();
 	}
-
-	uint32_t variant::to_uint32() const
+	int64_t variant::ToInt64() const
 	{
-		return convert<uint32_t>();
+		return Convert<int64_t>();
 	}
-
-	uint64_t variant::to_uint64() const
+	uint8_t variant::ToUint8() const
 	{
-		return convert<uint64_t>();
+		return Convert<uint8_t>();
 	}
-
-	float variant::to_float() const
+	uint16_t variant::ToUint16() const
 	{
-		return convert<float>();
+		return Convert<uint16_t>();
 	}
-
-	double variant::to_double() const
+	uint32_t variant::ToUint32() const
 	{
-		return convert<double>();
+		return Convert<uint32_t>();
 	}
-
-	std::string variant::to_string() const
+	uint64_t variant::ToUint64() const
 	{
-		return convert<std::string>();
+		return Convert<uint64_t>();
+	}
+	float variant::ToFloat() const
+	{
+		return Convert<float>();
+	}
+	double variant::ToDouble() const
+	{
+		return Convert<double>();
+	}
+	std::string variant::ToString() const
+	{
+		return Convert<std::string>(); 
 	}
 }

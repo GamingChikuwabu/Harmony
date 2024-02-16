@@ -10,7 +10,7 @@
 #include<typeindex>
 #include<functional>
 #include<memory>
-#include <cstddef>
+#include<cstddef>
 
 //========================================================================
 // Mylib
@@ -41,6 +41,8 @@ namespace HARMONY
             template<typename MemberType>
             auto property(const std::string& name, MemberType ClassType::* memberPtr)
                 -> std::enable_if_t<std::is_member_pointer<MemberType ClassType::*>::value, class_&>;
+        private:
+
         };
     private:
         static inline std::unordered_map < std::string, DETAIL:: class_data > _classData;

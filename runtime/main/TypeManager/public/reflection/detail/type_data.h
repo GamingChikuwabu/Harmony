@@ -72,10 +72,10 @@ namespace HARMONY
 		struct type_data
 		{
 			std::string _typename;//コンパイラ依存の名前
-
 			type_trait_infos _typeTrait;
 			bool isValid;
-			
+			class_data _data;
+
 		}; 
 	}
 }

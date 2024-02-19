@@ -82,7 +82,7 @@ namespace HARMONY
 			<typename std::remove_cv
 			<typename std::remove_reference<T>::type>
 			::type>
-			::wrapped_type;
+			::wrapper_type;
 
 
 		template<typename T>

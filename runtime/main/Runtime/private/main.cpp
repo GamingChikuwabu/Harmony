@@ -3,7 +3,9 @@
 #include<filesystem>
 #include<typeinfo>
 #include<iostream>
+#include<memory>
 #include"TypeManager.h"
+#include"variant.h"
 
 //#ifdef 0
 //int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR argv, int argc)
@@ -14,10 +16,19 @@ int main(int argc, char** argv)
 #ifdef _WIN32
 	SetConsoleOutputCP(CP_UTF8);
 	// メモリリークを検知
-	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF); 
+	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 #endif // _WIN32
 	using namespace HARMONY;
-
+	std::unique_ptr<int> a = std::make_unique<int>();
+	variant var = a;
+	if (var.GetType().IsWrapped())
+	{
+		if (var.GetType() == type::Get<std::unique_ptr<int>>())
+		{
+			printf("same");
+		}
+		
+	}
 	ModuleManager::CommandLineAnalyze(argc, (void**)argv);
 	LogManager::InitLogManager();
 	EventManager::GetEvent<const char*, const char*, int>("Assert").Add(GameLoopManager::AssertLoop);

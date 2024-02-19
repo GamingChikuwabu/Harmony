@@ -8,16 +8,25 @@ namespace HARMONY
 		struct variant_data;
 	}
 	class type;
-	class variant
+	class TYPEMANAGER_API variant
 	{
 	public:
+		template<typename T>
+		variant(T&& obj);
 		template<typename T>
 		variant(T& obj);
 		variant(const variant& var);
 		~variant();
-		void operator=(const variant& var);
-		bool isValid()const;
-		type GetType()const;
+		inline void operator=(const variant& var);
+		inline bool operator==(const variant& var)const;
+		inline bool operator!=(const variant& var)const;
+		inline bool IsValid()const;
+		inline type GetType()const;
+		inline type GetWrappedType()const;
+		inline variant GetWrappedValue()const;
+		template<typename T>
+		T Convert();
+
 	private:
 		variant();
 		DETAIL::variant_data* _data;

@@ -20,12 +20,28 @@ namespace HARMONY
 	void variant::operator=(const variant& var)
 	{
 	}
-	bool variant::isValid() const
+	inline bool variant::operator==(const variant& var) const
+	{
+		return false;
+	}
+	inline bool variant::operator!=(const variant& var) const
+	{
+		return false;
+	}
+	bool variant::IsValid() const
 	{
 		return false;
 	}
 	type variant::GetType() const
 	{
 		return _data->_type;
+	}
+	inline type variant::GetWrappedType() const
+	{
+		return type();
+	}
+	inline variant variant::GetWrappedValue() const
+	{
+		return variant();
 	}
 }

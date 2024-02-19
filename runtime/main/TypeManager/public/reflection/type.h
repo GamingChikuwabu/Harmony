@@ -1,5 +1,6 @@
 #pragma once
 #include<string>
+#include<memory>
 
 namespace HARMONY
 {
@@ -31,6 +32,10 @@ namespace HARMONY
 		/// @brief この型のサイズ
 		/// @return サイズ
 		size_t GetSizeOf()const noexcept;
+
+		/// @brief この型がラップ型ならラップされたtypeを返す std::uniq_ptr<int>ならint
+		/// @return ラップじゃなければこのtype型をそのまま返す
+		type GetWrappedType()const;
 
 		/// @brief 比較演算子
 		/// @param _this 比較対象一
@@ -83,7 +88,9 @@ namespace HARMONY
 	private:
 		type();
 		type(DETAIL::type_data* data);
-		DETAIL::type_data* _data;
+		std::shared_ptr<DETAIL::type_data> _data;
+		template<typename T>
+		friend DETAIL::type_data* CreateTypeData();
 	};
 }
 

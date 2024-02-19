@@ -1,7 +1,8 @@
 #pragma once
 #include<string>
 #include<type_traits>
-#include <bitset>
+#include<bitset>
+#include<memory>
 
 namespace HARMONY
 {
@@ -25,15 +26,63 @@ namespace HARMONY
         };
 
         // access_levelの値の数を取得
-        constexpr size_t access_level_count = static_cast<size_t>(type_trait_infos::TYPE_TRAIT_COUNT);
+        constexpr size_t type_trait_count = static_cast<size_t>(type_trait_infos::TYPE_TRAIT_COUNT);
 
 		struct type_data
 		{
-            // アクセスレベルを管理するためのビットセット
-			std::string _name;
-            std::bitset<access_level_count> _info;
-			bool _isValid;
-            std::size_t _size;
+            std::shared_ptr<type_data> _rawType;        //コンストやポインタが外されたタイプ
+            std::shared_ptr<type_data> _wrappedType;    //!ラップされたタイプ
+            std::shared_ptr<type_data> _arrayRawType;   //配列の元の型
+			std::string _name;                          //型の名前ユーザー登録型じゃない場合はマングルされている可能性がある
+            std::bitset<type_trait_count> _info;        //この型のビット情報
+            std::size_t _size;                          //この型のサイズ
+			bool _isValid;                              //このtype型が有効かを示す
 		};
+
+        template<typename T, bool = std::is_same<T,typename std::remove_cv_t<T>>::value>
+        struct raw_type_info
+        {
+            static inline type getType(){}
+        };
+
+        template<typename T>
+        struct raw_type_info<T,false>
+        {
+            static inline type getType() { return type::Get<typename std::remove_cv_t<T>>(); }
+        };
+
+        template<typename T, bool = std::is_same<T, typename is_wrapper<T>>::value>
+        struct wrapped_type_info
+        {
+            static inline type getType() {}
+        };
+
+        template<typename T>
+        struct wrapped_type_info<T,false>
+        {
+            static inline type getType() { return type::Get<typename wrapper_mapper_t<T>>(); }
+        };
+
+        template<typename T, bool = std::is_same<T, typename std::is_array<T>>::value>
+        struct array_raw_type_info
+        {
+            static inline type getType() {}
+        };
+
+        template<typename T>
+        struct array_raw_type_info<T, false>
+        {
+            static inline type getType() { return type::Get<typename std::is_array<T>>(); }
+        };
+
+        template<typename T>
+        type_data* CreateTypeData()
+        {
+            return new type_data
+            {
+                raw_type_info<T>::getType()._data,
+                wrapped_type_info<T>::getType()._data,
+            }
+        }
 	}
 }

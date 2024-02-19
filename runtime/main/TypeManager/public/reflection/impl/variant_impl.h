@@ -15,4 +15,13 @@ namespace HARMONY
 	{
 		_data = new DETAIL::variant_data(type::Get<T>());
 	}
+	template<typename T>
+	inline T variant::Convert()
+	{
+		if (_data->_type == type::Get<T>())
+		{
+			//static_cast<T>(_data->_typeAdder);
+		}
+		return T();
+	}
 }

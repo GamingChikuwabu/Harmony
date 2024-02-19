@@ -11,6 +11,7 @@ namespace HARMONY
 	inline type type::Get()
 	{
         type_data* data = new type_data();
+        data->_rawType = type::Get<std::remove_cv_t<std::remove_pointer_t<T>>>()._data;
         data->_isValid = true;
         data->_size = sizeof(T); 
         data->_name = typeid(T).name();
@@ -49,6 +50,7 @@ namespace HARMONY
         }
         // ラッパータイプかどうか
         if constexpr (is_wrapper<T>::value){
+            data->_wrappedType = type::Get<wrapper_mapper_t<T>>()._data;
             data->_info.set(static_cast<std::size_t>(type_trait_infos::is_wrappermapper));
         }
 		return type(data);

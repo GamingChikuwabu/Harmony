@@ -19,15 +19,18 @@ int main(int argc, char** argv)
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 #endif // _WIN32
 	using namespace HARMONY;
-	std::unique_ptr<int> a = std::make_unique<int>();
+	std::shared_ptr<int> a = std::make_shared<int>();
 	variant var = a;
 	if (var.GetType().IsWrapped())
 	{
-		if (var.GetType() == type::Get<std::unique_ptr<int>>())
+		if (var.GetType() == type::Get<std::shared_ptr<int>>())
 		{
-			printf("same");
+			if (type::Get<int>() == var.GetWrappedType())
+			{
+				printf("same");
+			}
 		}
-		
+		std::unique_ptr<int> t = std::move(var.Convert<std::unique_ptr<int>>());
 	}
 	ModuleManager::CommandLineAnalyze(argc, (void**)argv);
 	LogManager::InitLogManager();

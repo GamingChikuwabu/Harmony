@@ -38,7 +38,7 @@ namespace HARMONY
 	}
 	inline type variant::GetWrappedType() const
 	{
-		return type();
+		return _data->_type;
 	}
 	inline variant variant::GetWrappedValue() const
 	{

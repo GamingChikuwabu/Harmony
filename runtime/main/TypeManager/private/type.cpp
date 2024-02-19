@@ -6,10 +6,11 @@ namespace HARMONY
 	type::type(const type& other)
 	:_data(other._data)
 	{
+
 	}
 	void type::operator=(const type& other)
 	{
-
+		_data = other._data;
 	}
 	std::string type::GetName()
 	{
@@ -19,6 +20,14 @@ namespace HARMONY
 	size_t type::GetSizeOf() const noexcept
 	{
 		return _data->_size;
+	}
+
+	type type::GetWrappedType() const
+	{
+		if (_data->_info.test(static_cast<size_t>(DETAIL::type_trait_infos::is_wrappermapper))) {
+			return type(_data->_wrappedType.get());
+		}
+		return type(_data.get());
 	}
 
 	TYPEMANAGER_API bool operator==(const type& _this, const type& other)

@@ -31,8 +31,9 @@ namespace HARMONY
 		{
             // アクセスレベルを管理するためのビットセット
 			std::string _name;
-			bool _isValid;
             std::bitset<access_level_count> _info;
+			bool _isValid;
+            std::size_t _size;
 		};
 	}
 }

@@ -10,7 +10,8 @@ namespace HARMONY
 	{
         using namespace DETAIL;
         type_data data = new type_data();
-        data._isValid = true;
+        data->_isValid = true;
+        data->_size = sizeof(T);
 
         // 算術型の場合
         if constexpr (std::is_arithmetic_v<T>) {

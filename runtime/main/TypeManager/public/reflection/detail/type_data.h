@@ -2,7 +2,7 @@
 #include<string>
 #include<vector>
 #include<functional>
-#include<unordered_map>
+#include<utility>
 
 namespace HARMONY
 {
@@ -10,7 +10,7 @@ namespace HARMONY
 	class enumeration;
 	class constructor;
 	class property;
-	class method
+	class method;
 	class instance;
 	class type;
 	namespace DETAIL
@@ -40,6 +40,14 @@ namespace HARMONY
 			is_readonry
 		};
 
+		struct enumeration_data
+		{
+			type		_type;//型
+			std::string _typename;	//enumの型の名前
+			uint16_t	_size;		//enumの要素数
+			std::unordered_map<uint16_t, std::string> _valueNamePair;//enumの要素の値と名前のペア
+		};
+
 		struct property_data
 		{
 			std::string _name;
@@ -63,9 +71,11 @@ namespace HARMONY
 
 		struct type_data
 		{
+			std::string _typename;//コンパイラ依存の名前
+
 			type_trait_infos _typeTrait;
-			bool isVaild;
-			static inline std::unordered_map<std::string, class_data> _classData;
-		};
+			bool isValid;
+			
+		}; 
 	}
 }

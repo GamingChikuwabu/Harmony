@@ -51,7 +51,7 @@ namespace HARMONY
             
         };
     private:
-        static inline std::unordered_map<std::string,std::unique_ptr<DETAIL::type_data>> _typeData;
+        
     };
 }
 

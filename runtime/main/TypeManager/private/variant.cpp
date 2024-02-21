@@ -19,6 +19,7 @@ namespace HARMONY
 	}
 	void variant::operator=(const variant& var)
 	{
+
 	}
 	inline bool variant::operator==(const variant& var) const
 	{
@@ -38,6 +39,14 @@ namespace HARMONY
 	}
 	inline type variant::GetWrappedType() const
 	{
-		return _data->_type;
+		return _data->_type.GetWrappedType();
+	}
+	inline type variant::GetRawType() const
+	{
+		return _data->_type.GetRawType();
+	}
+	inline type variant::GetArrayRawType() const
+	{
+		return _data->_type.GetArrayRawType();
 	}
 }

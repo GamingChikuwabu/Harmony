@@ -12,6 +12,18 @@ namespace HARMONY
 	{
 		_data = other._data;
 	}
+	bool type::operator==(const type& other)
+	{
+		if (_data->_name == other._data->_name)
+		{
+			return true;
+		}
+		return false;
+	}
+	bool type::operator!=(const type& other)
+	{
+		return !(*this == other);
+	}
 	std::string type::GetName()
 	{
 		return _data->_name;
@@ -25,23 +37,21 @@ namespace HARMONY
 	type type::GetWrappedType() const
 	{
 		if (_data->_info.test(static_cast<size_t>(DETAIL::type_trait_infos::is_wrappermapper))) {
-			return type(_data->_wrappedType.get());
+			return type(_data->_wrappedType);
 		}
 		return type(_data);
 	}
 
-	TYPEMANAGER_API bool operator==(const type& _this, const type& other)
+	type type::GetRawType() const
 	{
-		if (_this._data->_name == other._data->_name)
-		{
-			return true;
-		}
-		return false;
+		return CreateType(_data->_rawType);
 	}
-	TYPEMANAGER_API bool operator!=(const type& _this, const type& other)
+
+	type type::GetArrayRawType() const
 	{
-		return !(_this == other);
+		return CreateType(_data->_arrayRawType);
 	}
+
 	bool type::IsValid() const
 	{
 		return _data->_isValid;
@@ -137,6 +147,7 @@ namespace HARMONY
 		return false;
 	}
 	type::type()
+	:_data(GetInvalidTypeData())
 	{
 
 	}
@@ -146,8 +157,7 @@ namespace HARMONY
 	}
 	type GetInvalidType()
 	{
-		DETAIL::type_data* temp = new type_data();
-		temp->_isValid = false;
+		DETAIL::type_data* temp = DETAIL::GetInvalidTypeData();
 		return type(temp);
 	}
 }

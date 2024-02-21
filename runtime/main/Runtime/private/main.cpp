@@ -20,17 +20,19 @@ int main(int argc, char** argv)
 #endif // _WIN32
 	using namespace HARMONY;
 	std::shared_ptr<int> a = std::make_shared<int>();
-	variant var = 10;
-	if (var.GetType().IsWrapped())
+	int b[8]{};
+	variant var = b;
+	if (var.GetType() == type::Get<std::shared_ptr<int>>())
 	{
-		if (var.GetType() == type::Get<std::shared_ptr<int>>())
-		{
-			if (type::Get<int>() == var.GetWrappedType())
-			{
-				printf("same");
-			}
-		}
-		std::unique_ptr<int> t = std::move(var.Convert<std::unique_ptr<int>>());
+		printf("最高");
+	}
+	if (var.GetWrappedType() == type::Get<int*>())
+	{
+		printf("最高");
+	}
+	if (var.GetArrayRawType() == type::Get<int>())
+	{
+		printf("最高");
 	}
 	ModuleManager::CommandLineAnalyze(argc, (void**)argv);
 	LogManager::InitLogManager();

@@ -1,15 +1,25 @@
 #pragma once
 #include<string>
 #include<memory>
+#include<type_traits>
 
 namespace HARMONY
 {
+	class type;
 	namespace DETAIL
 	{
 		struct invalid_type {};
 		struct type_data;
 		template<typename T>
 		std::unique_ptr<DETAIL::type_data> make_type_data();
+		/// @brief type_dataからtypeを作成する関数
+		/// @param _data nullptrなら無効なtype型が作成される
+		/// @return type
+		inline type CreateType(DETAIL::type_data* _data);
+
+		/// @brief 無効なType型を取得する関数
+		/// @return 無効なタイプ型
+		inline type GetInvalidType();
 	}
 	class TYPEMANAGER_API type
 	{
@@ -21,6 +31,10 @@ namespace HARMONY
 		/// @brief 代入用の演算子
 		/// @param other 代入元
 		void operator=(const type& other);
+
+		bool operator==(const type& other);
+
+		bool operator!=(const type& other);
 
 		/// @brief テンプレート引数の型のtype型を返す
 		/// @tparam T 生成する型
@@ -40,17 +54,9 @@ namespace HARMONY
 		/// @return ラップじゃなければこのtype型をそのまま返す
 		type GetWrappedType()const;
 
-		/// @brief 比較演算子
-		/// @param _this 比較対象一
-		/// @param other 比較対象二
-		/// @return 比較の結果
-		TYPEMANAGER_API friend bool operator==(const type& _this, const type& other);
+		type GetRawType()const;
 
-		/// @brief 比較演算子
-		/// @param _this 比較対象一
-		/// @param other 比較対象二
-		/// @return 比較の結果
-		TYPEMANAGER_API friend bool operator!=(const type& _this, const type& other);
+		type GetArrayRawType()const;
 
 		/// @brief この型が有効かを示す関数
 		/// @return 有効ならtrueを
@@ -107,10 +113,10 @@ namespace HARMONY
 		friend type GetInvalidType();
 		template<typename T>
 		friend std::unique_ptr<DETAIL::type_data> DETAIL::make_type_data();
+		friend type DETAIL::CreateType(DETAIL::type_data* _data);
 	private:
 		DETAIL::type_data* _data;
 	};
-	type GetInvalidType();
 }
 
 #include"reflection/impl/type_impl.h"

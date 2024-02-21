@@ -3,62 +3,55 @@
 #include<type_traits>
 #include"wrapper_mapper.h"
 #include"detail/type_data.h"
+#include"registration.h"
 
 namespace HARMONY
 {
     using namespace DETAIL;
-	template<typename T>
-	inline type type::Get()
-	{
-        type_data* data = CreateTypeData<T>(); 
-        // 算術型の場合
-        if constexpr (std::is_arithmetic_v<std::remove_cv_t<std::remove_pointer_t<T>>>) {
-            data->_info.set(static_cast<std::size_t>(type_trait_infos::is_arithmetic));
-        }
-        // クラスの場合
-        if constexpr (std::is_class_v<std::remove_cv_t<std::remove_pointer_t<T>>>) {
-            data->_info.set(static_cast<std::size_t>(type_trait_infos::is_class));
-        }
-        // 列挙型の場合
-        if constexpr (std::is_enum_v<std::remove_cv_t<std::remove_pointer_t<T>>>) {
-            data->_info.set(static_cast<std::size_t>(type_trait_infos::is_enum));
-        }
-        // 配列の場合
-        if constexpr (std::is_array_v<std::remove_cv_t<std::remove_pointer_t<T>>>) {
-            data->_info.set(static_cast<std::size_t>(type_trait_infos::is_array));
-        }
-        // ポインタの場合
-        if constexpr (std::is_pointer_v<T>) {
-            data->_info.set(static_cast<std::size_t>(type_trait_infos::is_pointer));
-        }
-        // 関数ポインタの場合
-        if constexpr (std::is_function_v<std::remove_pointer_t<T>>) {
-            data->_info.set(static_cast<std::size_t>(type_trait_infos::is_function_pointer));
-        }
-        // メンバオブジェクトポインタの場合
-        if constexpr (std::is_member_object_pointer_v<T>) {
-            data->_info.set(static_cast<std::size_t>(type_trait_infos::is_member_object_pointer));
-        }
-        // メンバ関数ポインタの場合
-        if constexpr (std::is_member_function_pointer_v<T>) {
-            data->_info.set(static_cast<std::size_t>(type_trait_infos::is_member_function_pointer));
-        }
-        // ラッパータイプかどうか
-        if constexpr (is_wrapper<T>::value){
-            data->_info.set(static_cast<std::size_t>(type_trait_infos::is_wrappermapper));
-        }
-		return type(data);
-	}
+    //==================================================================================
+    // エイリアス
+    //==================================================================================
+    template<typename T>
+    using is_complete_type = std::integral_constant<bool, !std::is_function<T>::value && !std::is_same<T, void>::value>;
 
-    template<>
-    inline type type::Get<DETAIL::invalid_type>()
+    type DETAIL::CreateType(DETAIL::type_data* _data)
     {
-        return GetInvalidType();
+        return _data ? type(_data) : type();
+    }
+
+    type DETAIL::GetInvalidType()
+    {
+        return CreateType(nullptr);
+    }
+    
+    template<typename T>
+    inline std::enable_if_t<is_complete_type<T>::value, type> create_or_get_type() noexcept
+    {
+        using type_must_be_complete = char[sizeof(T) ? 1 : -1];
+        (void)sizeof(type_must_be_complete);
+        static const type val = CreateType(registration::AddItem(make_type_data<T>()));
+        return val;
     }
 
     template<typename T>
-    std::unique_ptr<DETAIL::type_data> make_type_data()
+    inline std::enable_if_t<!is_complete_type<T>::value, type> create_or_get_type() noexcept
     {
-        return std::unique_ptr<DETAIL::type_data>();
+        static const type val = CreateType(registration::AddItem(make_type_data<T>()));
+        return val;
+    }
+
+	template<typename T>
+	inline type type::Get()
+	{
+        auto typeData = create_or_get_type<T>()._data;
+        return typeData;
+	}
+
+    /// @brief 無効な型を取得する時にのみ行う
+    /// @return 
+    template<>
+    inline type type::Get<DETAIL::invalid_type>()
+    {
+        return DETAIL::GetInvalidType();
     }
 }

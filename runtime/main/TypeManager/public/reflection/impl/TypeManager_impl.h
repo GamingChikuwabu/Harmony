@@ -1,19 +1,17 @@
 #include "TypeManager.h"
 #pragma once
-#include"class_data.h"
 
 namespace HARMONY
 {
     template<class ClassType>
     inline TypeManager::class_<ClassType>::class_(std::string name)
     {
-        _data = new DETAIL::class_data(); 
+        
     }
     template<class ClassType>
     inline TypeManager::class_<ClassType>::~class_()
     {
-        _classData[_data->_name] = *_data;
-        delete _data;
+       
     }
     template<class ClassType>
     template<typename ...Args>

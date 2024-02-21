@@ -20,7 +20,7 @@ int main(int argc, char** argv)
 #endif // _WIN32
 	using namespace HARMONY;
 	std::shared_ptr<int> a = std::make_shared<int>();
-	variant var = a;
+	variant var = 10;
 	if (var.GetType().IsWrapped())
 	{
 		if (var.GetType() == type::Get<std::shared_ptr<int>>())

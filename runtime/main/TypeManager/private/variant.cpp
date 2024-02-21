@@ -40,8 +40,4 @@ namespace HARMONY
 	{
 		return _data->_type;
 	}
-	inline variant variant::GetWrappedValue() const
-	{
-		return variant();
-	}
 }

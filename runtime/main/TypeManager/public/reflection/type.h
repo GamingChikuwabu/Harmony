@@ -6,7 +6,10 @@ namespace HARMONY
 {
 	namespace DETAIL
 	{
+		struct invalid_type {};
 		struct type_data;
+		template<typename T>
+		std::unique_ptr<DETAIL::type_data> make_type_data();
 	}
 	class TYPEMANAGER_API type
 	{
@@ -73,25 +76,41 @@ namespace HARMONY
 		/// @return 
 		bool IsEnum()const noexcept;
 
+		/// @brief 関数ポインタか
+		/// @return 
 		bool IsFunctionPointer()const noexcept;
 
+		/// @brief メンバ変数ポインタか
+		/// @return 
 		bool IsMemberObjectPointer()const noexcept;
 
+		/// @brief メンバ関数ポインタか
+		/// @return 
 		bool IsMemberFunctionPointer()const noexcept;
 
+		/// @brief ラップ型か
+		/// @return 
 		bool IsWrapped()const noexcept;
 
+		/// @brief 一連配列コンテナか
+		/// @return 
 		bool IsSequentialContainer()const noexcept;
 
+		/// @brief 連想配列コンテナか
+		/// @return 
 		bool IsAssociativeContainer()const noexcept;
 
 	private:
 		type();
 		type(DETAIL::type_data* data);
-		std::shared_ptr<DETAIL::type_data> _data;
+		friend DETAIL::type_data;
+		friend type GetInvalidType();
 		template<typename T>
-		friend DETAIL::type_data* CreateTypeData();
+		friend std::unique_ptr<DETAIL::type_data> DETAIL::make_type_data();
+	private:
+		DETAIL::type_data* _data;
 	};
+	type GetInvalidType();
 }
 
 #include"reflection/impl/type_impl.h"

@@ -23,7 +23,6 @@ namespace HARMONY
 		inline bool IsValid()const;
 		inline type GetType()const;
 		inline type GetWrappedType()const;
-		inline variant GetWrappedValue()const;
 		template<typename T>
 		T Convert();
 

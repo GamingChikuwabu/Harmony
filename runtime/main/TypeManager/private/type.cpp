@@ -27,7 +27,7 @@ namespace HARMONY
 		if (_data->_info.test(static_cast<size_t>(DETAIL::type_trait_infos::is_wrappermapper))) {
 			return type(_data->_wrappedType.get());
 		}
-		return type(_data.get());
+		return type(_data);
 	}
 
 	TYPEMANAGER_API bool operator==(const type& _this, const type& other)
@@ -143,5 +143,11 @@ namespace HARMONY
 	type::type(DETAIL::type_data* data) :_data(data)
 	{
 
+	}
+	type GetInvalidType()
+	{
+		DETAIL::type_data* temp = new type_data();
+		temp->_isValid = false;
+		return type(temp);
 	}
 }

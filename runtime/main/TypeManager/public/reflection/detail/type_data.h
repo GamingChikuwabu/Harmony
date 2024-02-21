@@ -42,7 +42,7 @@ namespace HARMONY
         template<typename T, bool = std::is_same<T,typename std::remove_cv_t<T>>::value>
         struct raw_type_info
         {
-            static inline type getType(){}
+            static inline type getType() { return GetInvalidType(); }
         };
 
         template<typename T>
@@ -51,10 +51,10 @@ namespace HARMONY
             static inline type getType() { return type::Get<typename std::remove_cv_t<T>>(); }
         };
 
-        template<typename T, bool = std::is_same<T, typename is_wrapper<T>>::value>
+        template<typename T, bool = is_wrapper<T>::value>
         struct wrapped_type_info
         {
-            static inline type getType() {}
+            static inline type getType() { return GetInvalidType(); }
         };
 
         template<typename T>
@@ -63,10 +63,10 @@ namespace HARMONY
             static inline type getType() { return type::Get<typename wrapper_mapper_t<T>>(); }
         };
 
-        template<typename T, bool = std::is_same<T, typename std::is_array<T>>::value>
+        template<typename T, bool = std::is_array<T>::value>
         struct array_raw_type_info
         {
-            static inline type getType() {}
+            static inline type getType() { return GetInvalidType(); }
         };
 
         template<typename T>
@@ -78,11 +78,18 @@ namespace HARMONY
         template<typename T>
         type_data* CreateTypeData()
         {
-            return new type_data
-            {
-                raw_type_info<T>::getType()._data,
-                wrapped_type_info<T>::getType()._data,
-            }
+            auto t = new type_data();
+            t->_rawType = std::shared_ptr<type_data>(raw_type_info<T>::getType().GetTypeData());
+            return t;
+            /*{
+                std::shared_ptr<type_data>(raw_type_info<T>::getType().GetTypeData()),
+                std::shared_ptr<type_data>(wrapped_type_info<T>::getType().GetTypeData()), 
+                std::shared_ptr<type_data>(array_raw_type_info<T>::getType().GetTypeData()),
+                typeid(T).name(),
+                std::bitset<type_trait_count>(),
+                sizeof(T),
+                true
+            };*/
         }
 	}
 }

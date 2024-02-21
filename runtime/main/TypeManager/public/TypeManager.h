@@ -21,11 +21,16 @@ namespace HARMONY
 {     
     namespace DETAIL
     {
-        struct class_data;
+        struct type_data;
     }
     class TYPEMANAGER_API TypeManager {
     public:
+        /// @brief 
+        /// @return 
         static bool Init();
+
+        /// @brief 
+        /// @tparam ClassType 
         template<class ClassType>
         class class_{
         public:
@@ -43,10 +48,11 @@ namespace HARMONY
             auto property(const std::string& name, MemberType ClassType::* memberPtr)
                 -> std::enable_if_t<std::is_member_pointer<MemberType ClassType::*>::value, class_&>;
         private:
-            DETAIL::class_data* _data;
+            
         };
     private:
-        static inline std::unordered_map < std::string, DETAIL::class_data> _classData;
+        static inline std::unordered_map<>;
+        static inline std::unordered_map<std::string,std::unique_ptr<DETAIL::type_data>> _typeData;
     };
 }
 

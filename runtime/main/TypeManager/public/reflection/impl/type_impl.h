@@ -10,12 +10,7 @@ namespace HARMONY
 	template<typename T>
 	inline type type::Get()
 	{
-        type_data* data = new type_data();
-        data->_rawType = type::Get<std::remove_cv_t<std::remove_pointer_t<T>>>()._data;
-        data->_isValid = true;
-        data->_size = sizeof(T); 
-        data->_name = typeid(T).name();
-
+        type_data* data = CreateTypeData<T>(); 
         // 算術型の場合
         if constexpr (std::is_arithmetic_v<std::remove_cv_t<std::remove_pointer_t<T>>>) {
             data->_info.set(static_cast<std::size_t>(type_trait_infos::is_arithmetic));
@@ -50,9 +45,20 @@ namespace HARMONY
         }
         // ラッパータイプかどうか
         if constexpr (is_wrapper<T>::value){
-            data->_wrappedType = type::Get<wrapper_mapper_t<T>>()._data;
             data->_info.set(static_cast<std::size_t>(type_trait_infos::is_wrappermapper));
         }
 		return type(data);
 	}
+
+    template<>
+    inline type type::Get<DETAIL::invalid_type>()
+    {
+        return GetInvalidType();
+    }
+
+    template<typename T>
+    std::unique_ptr<DETAIL::type_data> make_type_data()
+    {
+        return std::unique_ptr<DETAIL::type_data>();
+    }
 }

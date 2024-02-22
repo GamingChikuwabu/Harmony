@@ -1,7 +1,5 @@
 #pragma once
 #include<type_traits>
-#include<map>
-#include<unordered_map>
 
 namespace HARMONY
 {
@@ -11,7 +9,8 @@ namespace HARMONY
 	template<typename T>
 	struct associative_mapper
 	{
-		using type = T;
-		
+		using is_valid = std::false_type;
 	};
 }
+
+#include"reflection/impl/associative_mapper_impl.h"

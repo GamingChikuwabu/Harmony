@@ -20,8 +20,12 @@ int main(int argc, char** argv)
 #endif // _WIN32
 	using namespace HARMONY;
 	std::shared_ptr<int> a = std::make_shared<int>();
-	int b[8]{};
-	variant var = b;
+	int abb = 10;
+	int* b = &abb;
+	variant var = std::string("aregaerg");
+
+	std::string aa = var.ToString();
+
 	if (var.GetType() == type::Get<std::shared_ptr<int>>())
 	{
 		printf("最高");

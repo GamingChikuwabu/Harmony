@@ -2,6 +2,7 @@
 #pragma once
 #include"type.h"
 #include"detail/variant_data.h"
+#include"detail/misc_type_traits.h"
 
 namespace HARMONY
 {
@@ -9,19 +10,35 @@ namespace HARMONY
 	inline variant::variant(T&& obj)
 	{
 		_data = new DETAIL::variant_data(type::Get<T>());
+		_data->_typeAdder = DETAIL::get_void_ptr(obj);
+	}
+
+	template<typename T>
+	inline T variant::Convert()const
+	{
+		return Convert_imple<T>();
 	}
 	template<typename T>
-	inline variant::variant(T& obj)
+	inline bool variant::Convert(T& object) const
 	{
-		_data = new DETAIL::variant_data(type::Get<T>());
+		bool re = false;
+		const type source_type = GetType();
+		const type target_type = type::Get<T>();
+
+
+		return re;
 	}
 	template<typename T>
-	inline T variant::Convert()
+	inline std::enable_if_t<std::is_arithmetic_v<T>, T> variant::Convert_imple()const
 	{
-		if (_data->_type == type::Get<T>())
+		return (*reinterpret_cast<T*>(_data->_typeAdder));
+	}
+	template<typename T>
+	inline std::enable_if_t<!std::is_arithmetic_v<T>, T> variant::Convert_imple()const
+	{
+		if constexpr (std::is_pointer<T>::value)
 		{
-			//static_cast<T>(_data->_typeAdder);
+			return reinterpret_cast<T>(_data->_typeAdder);
 		}
-		return T();
 	}
 }

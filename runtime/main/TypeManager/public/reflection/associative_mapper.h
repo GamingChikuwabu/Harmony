@@ -7,7 +7,7 @@ namespace HARMONY
 	struct invalid_associative_type { };
 
 	template<typename T>
-	struct associative_mapper
+	struct associative_container_mapper
 	{
 		using is_valid = std::false_type;
 	};

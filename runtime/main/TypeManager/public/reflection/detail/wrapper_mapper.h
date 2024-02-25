@@ -91,5 +91,21 @@ namespace HARMONY
 			<bool, 
 			!std::is_same<invalid_wrapper_type, wrapper_mapper_t<T>
 			>::value >;
+
+		template<typename T>
+		typename std::enable_if<is_wrapper<T>::value, wrapper_mapper_t<T>>::type wrapped_raw_addressof(T& obj)
+		{
+			using raw_wrapper_type = std::remove_cv_t<std::remove_reference_t<T>>;
+			wrapper_mapper_t<T> value = wrapper_mapper<raw_wrapper_type>::get(obj);
+			return std::addressof(value);
+		}
+
+		//////////////////////////////////////////////////////////////////////////////////////
+
+		template<typename T>
+		typename std::enable_if<!is_wrapper<T>::value,T>::type wrapped_raw_addressof(T& obj)
+		{
+			return std::addressof(obj);
+		}
 	}
 }

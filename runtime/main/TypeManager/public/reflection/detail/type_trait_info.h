@@ -6,7 +6,7 @@ namespace HARMONY
     namespace DETAIL
     {
         
-        /// @brief Œ^‚Ìí—Ş
+        /// @brief å‹ã®ç¨®é¡
         enum class type_trait_infos : size_t
         {
             is_class = 0,
@@ -24,51 +24,51 @@ namespace HARMONY
             TYPE_TRAIT_COUNT
         };
 
-        // access_level‚Ì’l‚Ì”‚ğæ“¾
+        // access_levelã®å€¤ã®æ•°ã‚’å–å¾—
         constexpr size_t type_trait_count = static_cast<size_t>(type_trait_infos::TYPE_TRAIT_COUNT);
 
         using TypeTraitBitSet = std::bitset<type_trait_count>;
 
-        /// @brief “n‚³‚ê‚½Œ^‚Ìƒrƒbƒg‚ğ—§‚Ä‚é
-        /// @tparam T ’²‚×‚éŒ^
+        /// @brief æ¸¡ã•ã‚ŒãŸå‹ã®ãƒ“ãƒƒãƒˆã‚’ç«‹ã¦ã‚‹
+        /// @tparam T èª¿ã¹ã‚‹å‹
         /// @return bit
         template<typename T>
         TypeTraitBitSet GetBitSet()
         {
             std::bitset<type_trait_count> retBit;
-            // ZpŒ^‚Ìê‡
+            // ç®—è¡“å‹ã®å ´åˆ
             if constexpr (std::is_arithmetic_v<std::remove_cv_t<std::remove_pointer_t<T>>>) {
                 retBit.set(static_cast<std::size_t>(type_trait_infos::is_arithmetic));
             }
-            // ƒNƒ‰ƒX‚Ìê‡
+            // ã‚¯ãƒ©ã‚¹ã®å ´åˆ
             if constexpr (std::is_class_v<std::remove_cv_t<std::remove_pointer_t<T>>>) {
                 retBit.set(static_cast<std::size_t>(type_trait_infos::is_class));
             }
-            // —ñ‹“Œ^‚Ìê‡
+            // åˆ—æŒ™å‹ã®å ´åˆ
             if constexpr (std::is_enum_v<std::remove_cv_t<std::remove_pointer_t<T>>>) {
                 retBit.set(static_cast<std::size_t>(type_trait_infos::is_enum));
             }
-            // ”z—ñ‚Ìê‡
+            // é…åˆ—ã®å ´åˆ
             if constexpr (std::is_array_v<std::remove_cv_t<std::remove_pointer_t<T>>>) {
                 retBit.set(static_cast<std::size_t>(type_trait_infos::is_array));
             }
-            // ƒ|ƒCƒ“ƒ^‚Ìê‡
+            // ãƒã‚¤ãƒ³ã‚¿ã®å ´åˆ
             if constexpr (std::is_pointer_v<T>) {
                 retBit.set(static_cast<std::size_t>(type_trait_infos::is_pointer));
             }
-            // ŠÖ”ƒ|ƒCƒ“ƒ^‚Ìê‡
+            // é–¢æ•°ãƒã‚¤ãƒ³ã‚¿ã®å ´åˆ
             if constexpr (std::is_function_v<std::remove_pointer_t<T>>) {
                 retBit.set(static_cast<std::size_t>(type_trait_infos::is_function_pointer));
             }
-            // ƒƒ“ƒoƒIƒuƒWƒFƒNƒgƒ|ƒCƒ“ƒ^‚Ìê‡
+            // ãƒ¡ãƒ³ãƒã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãƒã‚¤ãƒ³ã‚¿ã®å ´åˆ
             if constexpr (std::is_member_object_pointer_v<T>) {
                 retBit.set(static_cast<std::size_t>(type_trait_infos::is_member_object_pointer));
             }
-            // ƒƒ“ƒoŠÖ”ƒ|ƒCƒ“ƒ^‚Ìê‡
+            // ãƒ¡ãƒ³ãƒé–¢æ•°ãƒã‚¤ãƒ³ã‚¿ã®å ´åˆ
             if constexpr (std::is_member_function_pointer_v<T>) {
                 retBit.set(static_cast<std::size_t>(type_trait_infos::is_member_function_pointer));
             }
-            // ƒ‰ƒbƒp[ƒ^ƒCƒv‚©‚Ç‚¤‚©
+            // ãƒ©ãƒƒãƒ‘ãƒ¼ã‚¿ã‚¤ãƒ—ã‹ã©ã†ã‹
             if constexpr (is_wrapper<T>::value) {
                 retBit.set(static_cast<std::size_t>(type_trait_infos::is_wrappermapper));
             }

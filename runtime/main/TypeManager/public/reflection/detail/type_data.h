@@ -6,30 +6,14 @@
 
 #include"type_trait_info.h"
 #include"wrapper_mapper.h"
+#include"misc_type_traits.h"
+#include"array_traits.h"
 
 namespace HARMONY
 {
     class type;
 	namespace DETAIL
 	{
-        template<typename T, typename Enable = void>
-        struct raw_array_type { using type = std::remove_cv_t<T>; };
-
-        template<typename T>
-        struct raw_array_type_impl;
-
-        template<typename T, std::size_t N>
-        struct raw_array_type_impl<T[N]> { using type = typename raw_array_type<T>::type; };
-
-        template<typename T>
-        struct raw_array_type<T, typename std::enable_if<std::is_array<T>::value>::type>
-        {
-            using type = typename raw_array_type_impl< std::remove_cv_t<T> >::type;
-        };
-
-        template<typename T>
-        using raw_array_type_t = typename raw_array_type<T>::type;
-
         /// @brief 型情報を提供するための構造体です。基本型に対する情報を取得します。
         /// @tparam T 調べる型
         /// @tparam 二番目のテンプレートパラメータは、TがCV修飾（const/volatile）されていないかを確認します。デフォルトでは、Tとその非CV修飾版が同じかどうかを検証します。
@@ -46,7 +30,7 @@ namespace HARMONY
         {
             /// @brief 型の情報を取得します。
             /// @return CV修飾を除去した型の情報を返します。
-            static inline type getType() { return type::Get<typename std::remove_cv_t<T>>(); }
+            static inline type getType() { return type::Get<DETAIL::raw_type_t<T>>(); }
         };
 
         /// @brief ラップされた型に対する情報を提供するための構造体です。

@@ -1,7 +1,7 @@
 #include "variant.h"
 #include"type.h"
-#include"detail/variant_data.h"
-#include"data_address_container.h"
+#include"detail/variant/variant_data.h"
+#include"detail/misc/data_address_container.h"
 
 namespace HARMONY
 {
@@ -9,17 +9,6 @@ namespace HARMONY
 	variant::variant()
 	{
 		
-	}
-	DETAIL::data_address_container variant::GetDataAddressContainer() const
-	{
-		DETAIL::data_address_container container =
-		{
-			GetType(),
-			GetWrappedType(),
-			_data->_typeAdder,
-			_data->_wrappedAdder
-		};
-		return container;
 	}
 	variant::variant(const variant& var)
 	{
@@ -31,7 +20,7 @@ namespace HARMONY
 	}
 	void variant::operator=(const variant& var)
 	{
-
+		_data = var._data;
 	}
 	inline bool variant::operator==(const variant& var) const
 	{

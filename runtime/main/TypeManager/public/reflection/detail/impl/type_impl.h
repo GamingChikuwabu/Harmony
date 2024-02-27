@@ -2,7 +2,7 @@
 #pragma once
 #include<type_traits>
 #include"wrapper_mapper.h"
-#include"detail/type_data.h"
+#include"detail/type/type_data.h"
 #include"registration.h"
 
 namespace HARMONY
@@ -44,7 +44,7 @@ namespace HARMONY
 	inline type type::Get()
 	{
         auto typeData = create_or_get_type<T>()._data;
-        return typeData;
+        return typeData; 
 	}
 
     /// @brief 無効な型を取得する時にのみ行う

@@ -1,5 +1,6 @@
 #pragma once
 #include<bitset>
+#include"detail/type_traits/misc_type_traits.h"
 
 namespace HARMONY
 {
@@ -71,6 +72,14 @@ namespace HARMONY
             // ラッパータイプかどうか
             if constexpr (is_wrapper<T>::value) {
                 retBit.set(static_cast<std::size_t>(type_trait_infos::is_wrappermapper));
+            }
+            // ラッパータイプかどうか
+            if constexpr (is_sequential_container<T>::value) {
+                retBit.set(static_cast<std::size_t>(type_trait_infos::is_sequential_container));
+            }
+            // ラッパータイプかどうか
+            if constexpr (is_associative_container<T>::value) {
+                retBit.set(static_cast<std::size_t>(type_trait_infos::is_associative_container));
             }
             return retBit; 
         }

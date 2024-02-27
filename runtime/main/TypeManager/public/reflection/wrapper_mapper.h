@@ -93,19 +93,17 @@ namespace HARMONY
 			>::value >;
 
 		template<typename T>
-		typename std::enable_if<is_wrapper<T>::value, wrapper_mapper_t<T>>::type wrapped_raw_addressof(T& obj)
+		auto wrapped_raw_addressof(T& obj) -> decltype(std::addressof(obj))
 		{
-			using raw_wrapper_type = std::remove_cv_t<std::remove_reference_t<T>>;
-			wrapper_mapper_t<T> value = wrapper_mapper<raw_wrapper_type>::get(obj);
-			return std::addressof(value);
+			if constexpr (is_wrapper<T>::value) {
+				using raw_wrapper_type = std::remove_cv_t<std::remove_reference_t<T>>;
+				auto& value = wrapper_mapper<raw_wrapper_type>::get(obj);
+				return std::addressof(value); // これはwrapper_mapper_t<T>*型を返します。
+			}
+			else {
+				return std::addressof(obj); // これはT*型を返します。
+			}
 		}
 
-		//////////////////////////////////////////////////////////////////////////////////////
-
-		template<typename T>
-		typename std::enable_if<!is_wrapper<T>::value,T>::type wrapped_raw_addressof(T& obj)
-		{
-			return std::addressof(obj);
-		}
 	}
 }

@@ -111,7 +111,7 @@ namespace HARMONY
 
         template<typename T, typename Tp = std::remove_cv_t<std::remove_reference_t<T>>>
         using is_associative_container = std::integral_constant<bool, !has_is_valid_alias<associative_container_mapper<Tp>>::value>;
-
-
+        template<typename T, typename Tp = std::remove_cv_t<std::remove_reference_t<T>>>
+        using is_sequential_container = std::integral_constant<bool, !has_is_valid_alias<sequential_container_mapper<Tp>>::value>;
 	}
 }

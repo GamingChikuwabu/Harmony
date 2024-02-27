@@ -4,6 +4,7 @@
 #include<typeinfo>
 #include<iostream>
 #include<memory>
+#include<vector>
 #include"TypeManager.h"
 #include"variant.h"
 
@@ -19,25 +20,16 @@ int main(int argc, char** argv)
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 #endif // _WIN32
 	using namespace HARMONY;
-	std::shared_ptr<int> a = std::make_shared<int>();
-	int abb = 10;
-	int* b = &abb;
-	variant var = std::string("aregaerg");
+	std::unique_ptr<HMObject> obj = std::make_unique<HMObject>();
+	variant var = obj;
+	auto types =  var.GetWrappedType().GetRawType();
+	for (auto& prop : types.GetProperties())
+	{
+		printf(prop.GetName().c_str());
+	}
+	types.GetProperties();
+	types.GetProperties();
 
-	std::string aa = var.ToString();
-
-	if (var.GetType() == type::Get<std::shared_ptr<int>>())
-	{
-		printf("最高");
-	}
-	if (var.GetWrappedType() == type::Get<int*>())
-	{
-		printf("最高");
-	}
-	if (var.GetArrayRawType() == type::Get<int>())
-	{
-		printf("最高");
-	}
 	ModuleManager::CommandLineAnalyze(argc, (void**)argv);
 	LogManager::InitLogManager();
 	EventManager::GetEvent<const char*, const char*, int>("Assert").Add(GameLoopManager::AssertLoop);

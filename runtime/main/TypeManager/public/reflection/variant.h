@@ -43,17 +43,13 @@ namespace HARMONY
 
 	private:
 		variant();
-		friend class instance;
 		template<typename T>
 		std::enable_if_t<std::is_arithmetic_v<T>, T> Convert_imple()const;
-
 		template<typename T>
 		std::enable_if_t<!std::is_arithmetic_v<T>, T> Convert_imple()const;
-
-		DETAIL::data_address_container GetDataAddressContainer()const;
 	private:
 		DETAIL::variant_data* _data;
 	};
 }
 
-#include"reflection/impl/variant_impl.h"
+#include"reflection/detail/impl/variant_impl.h"

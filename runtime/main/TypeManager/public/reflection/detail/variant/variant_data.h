@@ -1,5 +1,6 @@
 #pragma once
 #include<string>
+#include<type_traits>
 
 namespace HARMONY
 {
@@ -8,11 +9,9 @@ namespace HARMONY
 	{
 		struct variant_data
 		{
-			variant_data(type vartype)
-			:_type(vartype){};
+			variant_data(type vartype,void* address):_type(vartype),_typeAdder(address) {};
 			type _type;
 			void* _typeAdder;
-			void* _wrappedAdder;
 		};
 	}
 }

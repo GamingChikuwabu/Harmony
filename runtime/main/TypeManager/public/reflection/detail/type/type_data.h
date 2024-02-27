@@ -3,21 +3,25 @@
 #include<type_traits>
 #include<bitset>
 #include<memory>
+#include<vector>
 
 #include"type_trait_info.h"
 #include"wrapper_mapper.h"
-#include"misc_type_traits.h"
-#include"array_traits.h"
+#include"detail/type_traits/misc_type_traits.h"
+#include"detail/type_traits/array_traits.h"
+#include"property.h"
 
 namespace HARMONY
 {
     class type;
 	namespace DETAIL
 	{
+        
+        // end namespace impl
         /// @brief 型情報を提供するための構造体です。基本型に対する情報を取得します。
         /// @tparam T 調べる型
         /// @tparam 二番目のテンプレートパラメータは、TがCV修飾（const/volatile）されていないかを確認します。デフォルトでは、Tとその非CV修飾版が同じかどうかを検証します。
-        template<typename T, bool = std::is_same<T, typename std::remove_cv_t<T>>::value>
+        template<typename T, bool = std::is_same<T, typename DETAIL::raw_type_t<T>>::value>
         struct raw_type_info
         {
             /// @brief 型の情報を取得します。
@@ -71,20 +75,47 @@ namespace HARMONY
             static inline type getType() { return GetInvalidType(); }
         };
 
+        struct class_data
+        {
+            std::vector<type>           m_base_types;
+            std::vector<type>           m_derived_types;
+            std::vector<property>       m_properties;
+        };
+
+        template<typename T>
+        inline class_data& GetClassData() {
+            static std::unique_ptr<class_data> data;
+            if (data)
+            {
+                return(*data.get());
+            }
+            else
+            {
+                data = std::make_unique<class_data>();
+                return(*data.get());
+            }
+        }
+       
+        namespace impl
+        {
+            using get_class_data_func = class_data & (*)(void);
+        }
+
 		/// @brief 型情報のデータ
-		struct type_data
+		struct TYPEMANAGER_API type_data
 		{
             type_data* _rawType;                        //コンストやポインタが外されたタイプ
-            type_data* _wrappedType;                    //!ラップされたタイプ
+            type_data* _wrappedType;                    //ラップされたタイプ
             type_data* _arrayRawType;                   //配列の元の型
 			std::string _name;                          //型の名前ユーザー登録型じゃない場合はマングルされている可能性がある
             TypeTraitBitSet _info;                      //この型のビット情報
             std::size_t _size;                          //この型のサイズ
 			bool _isValid;                              //このtype型が有効かを示す
+            impl::get_class_data_func _getClassDataFunc;//この型のクラス情報を取得する関数ポインタ
 		};
 
         template<typename T>
-        std::unique_ptr<DETAIL::type_data> make_type_data()
+        inline std::unique_ptr<DETAIL::type_data> make_type_data()
         {
             auto val = std::unique_ptr<type_data>
                 (
@@ -96,7 +127,8 @@ namespace HARMONY
                         typeid(T).name(),
                         GetBitSet<T>(), 
                         sizeof(T),
-                        true
+                        true,
+                        &GetClassData<T>
                     }
                 );
             return val;
@@ -114,7 +146,8 @@ namespace HARMONY
                     "",
                     GetBitSet<int>(),
                     0,
-                    false
+                    false,
+                    nullptr
                 }
             );
             return val.get();

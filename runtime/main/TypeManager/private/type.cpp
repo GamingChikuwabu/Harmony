@@ -1,5 +1,7 @@
 #include"type.h"
-#include"type_data.h"
+#include"detail/type/type_data.h"
+#include"detail/registration/registration.h"
+#include"property.h"
 
 namespace HARMONY
 {
@@ -50,6 +52,16 @@ namespace HARMONY
 	type type::GetArrayRawType() const
 	{
 		return CreateType(_data->_arrayRawType);
+	}
+
+	type type::GetTypeByName(const char* name)
+	{
+		return registration::GetCustomTypeName(name);
+	}
+
+	const std::vector<property>& type::GetProperties() const
+	{
+		return _data->_getClassDataFunc().m_properties;
 	}
 
 	bool type::IsValid() const
@@ -145,6 +157,10 @@ namespace HARMONY
 			return true;
 		}
 		return false;
+	}
+	DETAIL::type_data* type::GetData()
+	{
+		return _data;
 	}
 	type::type()
 	:_data(GetInvalidTypeData())

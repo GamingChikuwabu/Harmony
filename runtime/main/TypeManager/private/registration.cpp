@@ -1,5 +1,6 @@
 #include"registration.h"
-#include"type_data.h"
+#include"detail/type/type_data.h"
+#include"type.h"
 
 namespace HARMONY
 {
@@ -7,5 +8,13 @@ namespace HARMONY
 	{
 		_typeData.push_back(std::move(_data));
 		return _typeData.back().get();
+	}
+	void registration::RegisterCustomTypeName(type regType, std::string _name)
+	{
+		_customTypeName[_name] = regType;
+	}
+	type registration::GetCustomTypeName(const char* name)
+	{
+		return _customTypeName[name];
 	}
 }

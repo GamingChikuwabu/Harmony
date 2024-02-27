@@ -2,10 +2,13 @@
 #include<string>
 #include<memory>
 #include<type_traits>
+#include<vector>
+
 
 namespace HARMONY
 {
 	class type;
+	class property;
 	namespace DETAIL
 	{
 		struct invalid_type {};
@@ -58,6 +61,10 @@ namespace HARMONY
 
 		type GetArrayRawType()const;
 
+		type GetTypeByName(const char* name);
+
+		const std::vector<property>& GetProperties()const;
+
 		/// @brief この型が有効かを示す関数
 		/// @return 有効ならtrueを
 		bool IsValid()const;
@@ -106,8 +113,12 @@ namespace HARMONY
 		/// @return 
 		bool IsAssociativeContainer()const noexcept;
 
-	private:
+		/// @brief 使用しないでください
+		/// @return 
+		DETAIL::type_data* GetData();
+
 		type();
+	private:
 		type(DETAIL::type_data* data);
 		friend DETAIL::type_data;
 		friend type GetInvalidType();
@@ -119,4 +130,4 @@ namespace HARMONY
 	};
 }
 
-#include"reflection/impl/type_impl.h"
+#include"reflection/detail/impl/type_impl.h"

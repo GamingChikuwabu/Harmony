@@ -44,9 +44,14 @@ namespace HARMONY
             typename std::enable_if<std::is_constructible<ClassType, Args...>::value, class_&>::type
             construct();
 
-            template<typename MemberType>
-            auto property(const std::string& name, MemberType ClassType::* memberPtr)
-                -> std::enable_if_t<std::is_member_pointer<MemberType ClassType::*>::value, class_&>;
+            template<typename A>
+            auto property(const std::string& name, A memberPtr)
+                -> std::enable_if_t<std::is_member_pointer<A>::value, class_&>;
+
+            template<typename A>
+            auto property_readonry(const std::string& name, A memberPtr)
+                -> std::enable_if_t<std::is_member_pointer<A>::value, class_&>;
+
         private:
             
         };
@@ -55,4 +60,4 @@ namespace HARMONY
     };
 }
 
-#include"reflection/impl/TypeManager_impl.h"
+#include"reflection/detail/impl/TypeManager_impl.h"

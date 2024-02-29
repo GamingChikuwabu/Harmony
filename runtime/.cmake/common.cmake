@@ -42,7 +42,6 @@ endmacro()
 
 macro(init_main_module_setting targetname)
     defo_module_setting(${targetname})
-    # DLLの出力拡張子を.pydに設定
     set_target_properties(${targetname} PROPERTIES
         
         RUNTIME_OUTPUT_DIRECTORY_DEBUG "${OUTPUT_DIR}/main"
@@ -56,7 +55,7 @@ endmacro()
 
 macro(init_core_module_setting targetname)
     defo_module_setting(${targetname})
-    # DLLの出力拡張子を.pydに設定
+   
     set_target_properties(${targetname} PROPERTIES
         
         RUNTIME_OUTPUT_DIRECTORY_DEBUG "${OUTPUT_DIR}/core"
@@ -66,13 +65,13 @@ macro(init_core_module_setting targetname)
         RUNTIME_OUTPUT_DIRECTORY_DEVELOP "${OUTPUT_DIR}/core"
         ARCHIVE_OUTPUT_DIRECTORY_DEVELOP "${OUTPUT_DIR}/lib/core"
     )
-    #ModuleManagerとリンクする
+    
     target_link_libraries(${targetname} ModuleManager EventManager GameLoopManager JobSystem)
 endmacro()
 
 macro(init_coreplugin_module_setting targetname)
     defo_module_setting(${targetname})
-    # DLLの出力拡張子を.pydに設定
+    
     set_target_properties(${targetname} PROPERTIES
         
         RUNTIME_OUTPUT_DIRECTORY_DEBUG "${OUTPUT_DIR}/coreplugin"
@@ -82,7 +81,7 @@ macro(init_coreplugin_module_setting targetname)
         RUNTIME_OUTPUT_DIRECTORY_DEVELOP "${OUTPUT_DIR}/coreplugin"
         ARCHIVE_OUTPUT_DIRECTORY_DEVELOP "${OUTPUT_DIR}/lib/coreplugin"
     )
-    #ModuleManagerとリンクする
+    
     target_link_libraries(${targetname} ModuleManager EventManager GameLoopManager JobSystem)
 endmacro()
 

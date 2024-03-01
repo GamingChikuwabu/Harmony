@@ -1,11 +1,9 @@
-#include"HMObject.h"
 #include"main.h"
 #include<filesystem>
 #include<typeinfo>
 #include<iostream>
 #include<memory>
 #include<vector>
-#include"TypeManager.h"
 #include"variant.h"
 
 //#ifdef 0
@@ -20,15 +18,8 @@ int main(int argc, char** argv)
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 #endif // _WIN32
 	using namespace HARMONY;
-	std::unique_ptr<HMObject> obj = std::make_unique<HMObject>();
-	variant var = obj;
-	auto types =  var.GetWrappedType().GetRawType();
-	for (auto& prop : types.GetProperties())
-	{
-		printf(prop.GetName().c_str());
-	}
-	types.GetProperties();
-	types.GetProperties();
+
+	variant var = "a";
 
 	ModuleManager::CommandLineAnalyze(argc, (void**)argv);
 	LogManager::InitLogManager();

@@ -1,6 +1,6 @@
 #pragma once
 #include"Type.h"
-
+#include<memory>
 
 namespace HARMONY
 {
@@ -8,6 +8,11 @@ namespace HARMONY
 	{
 	public:
 		Property();
+		~Property();
+
+	private:
 
 	};
 }
+
+#include"inl/Property.inl"

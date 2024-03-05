@@ -1,6 +1,7 @@
 #pragma once
 #include"Type.h"
-
+#include<memory>
+#include<vector>
 
 namespace HARMONY
 {

@@ -28,9 +28,6 @@
     target_include_directories(${targetname} PRIVATE "${CMAKE_SOURCE_DIR}/thirdparty/Eigen")
     #自分のprivateディレクトリのインクルードパスを通す
     target_include_directories(${targetname} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/${targetname}/private")
-    #boost
-    target_include_directories(${targetname} PRIVATE "${CMAKE_SOURCE_DIR}/thirdparty/boost/include")
-    target_link_directories(${targetname} PRIVATE  "${CMAKE_SOURCE_DIR}/thirdparty/boost/lib/lib")
     #GCのパスを通す
     target_include_directories(${targetname} PRIVATE "${CMAKE_SOURCE_DIR}/thirdparty/platform/windows/bdwgc/include")
     target_link_directories(${targetname} PRIVATE  "${CMAKE_SOURCE_DIR}/thirdparty/platform/windows/bdwgc/lib/debug")

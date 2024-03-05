@@ -21,4 +21,10 @@ namespace HARMONY
 	{
 		return *this;
 	}
+	template<typename Class_Type>
+	template<typename F>
+	inline Registration::class_<Class_Type>& Registration::class_<Class_Type>::method(std::string name, F Class_Type::* memberFPtr)
+	{
+		return *this;
+	}
 }

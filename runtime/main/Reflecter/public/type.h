@@ -7,10 +7,9 @@ namespace HARMONY
 	class Type
 	{
 	public:
-		template<typename T>
-		Type(std::string name)
+		Type(std::string name,size_t size)
 		:_name(name),
-		_size(sizeof(T)),{}
+		_size(size){}
 		virtual ~Type() {};
 		inline std::string GetName() { return _name; }
 		inline std::size_t GetSize() { return _size; }

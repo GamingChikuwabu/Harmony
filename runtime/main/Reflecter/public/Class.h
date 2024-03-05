@@ -1,10 +1,14 @@
 #pragma once
+#include"Type.h"
+
 
 namespace HARMONY
 {
-	class property_wrapper_base
+	class Class
 	{
 	public:
+
+	private:
 
 	};
 }

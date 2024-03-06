@@ -1,5 +1,5 @@
 #pragma once
-#include"generatemacro.h"
+#include"GenerateMacro.h"
 #include<string>
 
 namespace HARMONY

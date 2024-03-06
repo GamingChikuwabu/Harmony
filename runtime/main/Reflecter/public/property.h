@@ -9,7 +9,6 @@ namespace HARMONY
 	public:
 		Property();
 		~Property();
-
 	private:
 
 	};

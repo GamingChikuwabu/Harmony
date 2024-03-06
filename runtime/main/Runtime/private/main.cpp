@@ -4,7 +4,6 @@
 #include<iostream>
 #include<memory>
 #include<vector>
-#include"variant.h"
 
 //#ifdef 0
 //int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR argv, int argc)
@@ -18,8 +17,6 @@ int main(int argc, char** argv)
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 #endif // _WIN32
 	using namespace HARMONY;
-
-	variant var = "a";
 
 	ModuleManager::CommandLineAnalyze(argc, (void**)argv);
 	LogManager::InitLogManager();

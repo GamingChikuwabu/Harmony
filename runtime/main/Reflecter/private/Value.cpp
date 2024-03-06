@@ -17,7 +17,6 @@ namespace HARMONY
 		std::bitset<(size_t)ValueKind::MAX> _bit;
 	};
 
-
 	Value::Value()
 	{
 	}

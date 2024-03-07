@@ -8,28 +8,38 @@
 
 namespace HARMONY
 {
+	template<typename T>
+	struct SeqentialArrayWrapper
+	{
+
+	};
+
+
 	template<typename T,typename E = void>
 	struct SeqentialArray:std::false_type
 	{};
 
+
+
 	template<typename T>
 	struct SequentialArray<std::vector<T>> : std::true_type {
+		using ContainerType = std::vector<T>;
+		using Itereter_t = std::vector<T>::iterator;
+		using Const_Itereter_t = std::vector<T>::const_iterator;
+
 		// サイズを取得
-		static size_t Size(void* container) {
-			auto* temp = reinterpret_cast<std::vector<T>*>(container);
-			return temp->size();
+		static size_t Size(ContainerType& container) {
+			return container.size();
 		}
 
 		// サイズを変更
-		static void Resize(void* container, size_t size) {
-			auto* temp = reinterpret_cast<std::vector<T>*>(container);
-			temp->resize(size);
+		static void Resize(ContainerType& container, size_t size) {
+			container.resize(size); 
 		}
 
 		// 特定の位置の値を取得
-		static T At(void* container, size_t index) {
-			auto* temp = reinterpret_cast<std::vector<T>*>(container); 
-			return temp->at(index);
+		static T At(ContainerType& container, size_t index) { 
+			return container[index];
 		}
 
 		// 動的サイズかを返す
@@ -38,14 +48,12 @@ namespace HARMONY
 		}
 
 		// イテレータを取得するメソッドの例
-		static typename std::vector<T>::iterator Begin(void* container) {
-			auto* temp = reinterpret_cast<std::vector<T>*>(container);
-			return temp->begin();
-		}
+		static Itereter_t Begin(ContainerType& container) { 
+			return container.begin();
+		} 
 
-		static typename std::vector<T>::iterator End(void* container) {
-			auto* temp = reinterpret_cast<std::vector<T>*>(container);
-			return temp->end();
+		static Itereter_t End(ContainerType& container) {
+			return container.end();
 		}
 
 		// イテレータを使用して要素を挿入

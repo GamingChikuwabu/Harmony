@@ -6,5 +6,5 @@ HM_GENERATE_CLASS_METADATA_REGIST_START()
 {
 	using namespace HARMONY;
 	Registration::class_<HMObject>("HMObject")
-		.property("guid", &HMObject::_guid);
+		.property("_guid", &HMObject::_guid);
 }

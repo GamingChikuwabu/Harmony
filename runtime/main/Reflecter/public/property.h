@@ -1,17 +1,25 @@
 #pragma once
-#include"Type.h"
 #include<memory>
-
+#include<string>
+#include "Value.h"
 namespace HARMONY
 {
-	class Property : public Type
+	namespace DETAIL
+	{
+		class PropertyWrapperBase;
+	}
+	class REFLECTER_API Property
 	{
 	public:
-		Property();
 		~Property();
+		std::string GetPropertyName();
+		Value GetValue(void* classinstance);
+		void SetValue(void* classinstance,Value value);
 	private:
-
+		Property() {};
+		Property(std::shared_ptr<DETAIL::PropertyWrapperBase>);
+		std::shared_ptr<DETAIL::PropertyWrapperBase> _wrapper;
+		friend class Registration;
+		friend class Class;
 	};
 }
-
-#include"inl/Property.inl"

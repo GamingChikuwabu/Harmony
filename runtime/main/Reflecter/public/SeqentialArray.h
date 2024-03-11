@@ -9,107 +9,223 @@
 namespace HARMONY
 {
 	template<typename T>
-	struct SeqentialArrayWrapper
+	struct SeqentialArrayMapperWrapper
 	{
 
 	};
 
-
 	template<typename T,typename E = void>
-	struct SeqentialArray:std::false_type
-	{};
-
-
-
+	struct SeqentialArrayMapper:std::false_type
+	{
+		using isvaild = std::false_type;
+	};
+	
 	template<typename T>
-	struct SequentialArray<std::vector<T>> : std::true_type {
-		using ContainerType = std::vector<T>;
-		using Itereter_t = std::vector<T>::iterator;
-		using Const_Itereter_t = std::vector<T>::const_iterator;
+	struct SeqentialArrayDynamicBase
+	{
+		using Container_t = T;
+		using Iterator_t = typename T::iterator;
+		using ConstIteretor_t = typename T::const_iterator;
+		using value_t = typename T::value_type;
 
-		// サイズを取得
-		static size_t Size(ContainerType& container) {
-			return container.size();
-		}
-
-		// サイズを変更
-		static void Resize(ContainerType& container, size_t size) {
-			container.resize(size); 
-		}
-
-		// 特定の位置の値を取得
-		static T At(ContainerType& container, size_t index) { 
-			return container[index];
-		}
-
-		// 動的サイズかを返す
-		static bool IsDynamic() {
+		static bool IsDynamic()
+		{
 			return true;
 		}
 
-		// イテレータを取得するメソッドの例
-		static Itereter_t Begin(ContainerType& container) { 
-			return container.begin();
-		} 
+		static size_t GetSize(Container_t& container)
+		{
+			return container.size();
+		}
 
-		static Itereter_t End(ContainerType& container) {
+		static bool SetSize(Container_t& container,size_t size)
+		{
+			container.resize(size);
+			return true;
+		}
+
+		static value_t GetData(Iterator_t& ite)
+		{
+			return *ite;
+		}
+
+		static const value_t GetData(const ConstIteretor_t& ite)
+		{
+			return *ite;
+		}
+
+		static Iterator_t begin(Container_t& container)
+		{
+			return container.begin();
+		}
+
+		static const ConstIteretor_t begin(const Container_t& container)
+		{
+			return container.begin();
+		}
+
+		static Iterator_t end(Container_t& container)
+		{
 			return container.end();
 		}
 
-		// イテレータを使用して要素を挿入
-		static void Insert(void* container, typename std::vector<T>::iterator pos, const T& value) {
-			auto* temp = reinterpret_cast<std::vector<T>*>(container);
-			temp->insert(pos, value);
+		static ConstIteretor_t end(const Container_t& container)
+		{
+			return container.end();
 		}
 
-		// イテレータを使用して要素を削除
-		static void Erase(void* container, typename std::vector<T>::iterator pos) {
-			auto* temp = reinterpret_cast<std::vector<T>*>(container);
-			temp->erase(pos);
+		static void clear(Container_t& container)
+		{
+			container.clear();
+		}
+
+		static bool IsEmpty(const Container_t& container)
+		{
+			return container.empty();
+		}
+
+		static Iterator_t Erase(Container_t& container, const Iterator_t& itr)
+		{
+			return container.erase(itr);
+		}
+
+		static Iterator_t Erase(Container_t& container, const ConstIteretor_t& itr)
+		{
+			return container.erase(itr);
+		}
+
+		static Iterator_t Insert(Container_t& container, const value_t& value, const Iterator_t& itr_pos)
+		{
+			return container.insert(itr_pos, value);
+		}
+
+		static Iterator_t Insert(Container_t& container, const value_t& value, const ConstIteretor_t& itr_pos)
+		{
+			return container.insert(itr_pos, value);
 		}
 	};
-
 
 	template<typename T>
-	struct SeqentialArray<std::deque<T>> :std::true_type
+	struct SeqentialArrayDynamicBaseDirectAccess
 	{
-		static size_t Size(void* container)
+		using Container_t = T;
+		using value_t = typename T::value_type;
+
+		static value_t& GetValue(Container_t& container,std::size_t index)
 		{
-			std::deque<T> temp = *reinterpret_cast<std::deque<T>>(container);
-			return temp.size();
+			return container[index];
 		}
-		static bool IsDynamic() { return true; }
+
+		static const value_t& GetValue(const Container_t& container, std::size_t index)
+		{
+			return container[index];
+		}
 	};
 
 	template<typename T>
-	struct SeqentialArray<std::list<T>> :std::true_type
+	struct SeqentialArrayDynamicBaseIteraterAccess
 	{
-		static size_t Size(void* container)
+		using container_t = T;
+		using value_t = typename T::value_type;
+
+		static value_t& get_value(container_t& container, std::size_t index)
 		{
-			std::list<T> tempVec = *reinterpret_cast<std::list<T>>(container);
-			return tempVec.size();
+			auto it = container.begin();
+			std::advance(it, index);
+			return *it;
 		}
-		static bool IsDynamic() { return true; }
+
+		static const value_t& get_value(const container_t& container, std::size_t index)
+		{
+			auto it = container.begin();
+			std::advance(it, index);
+			return *it;
+		}
 	};
 
-	template<typename T, size_t N>
-	struct SeqentialArray<std::array<T,N>> :std::true_type
+	template<typename T>
+	struct SeqentialArrayStaticBase
 	{
-		static size_t Size(void* container) 
+		using Container_t = T;
+		using Iterator_t = typename T::iterator;
+		using ConstIteretor_t = typename T::const_iterator;
+		using value_t = typename T::value_type;
+
+		static bool IsDynamic()
 		{
-			return N;
+			return false;
 		}
-		static bool IsDynamic() { return false; }
+
+		static size_t GetSize(Container_t& container)
+		{
+			return container.size();
+		}
+
+		static bool SetSize(Container_t& container, size_t size)
+		{
+			return false;
+		}
+
+		static value_t GetData(Iterator_t& ite)
+		{
+			return *ite;
+		}
+
+		static const value_t GetData(const ConstIteretor_t& ite)
+		{
+			return *ite;
+		}
+
+		static Iterator_t begin(Container_t& container)
+		{
+			return container.begin();
+		}
+
+		static const ConstIteretor_t begin(const Container_t& container)
+		{
+			return container.begin();
+		}
+
+		static Iterator_t end(Container_t& container)
+		{
+			return container.end();
+		}
+
+		static ConstIteretor_t end(const Container_t& container)
+		{
+			return container.end();
+		}
+
+		static void clear(Container_t& container)
+		{
+			
+		}
+
+		static bool IsEmpty(const Container_t& container)
+		{
+			return container.empty();
+		}
+
+		static Iterator_t Erase(Container_t& container, const Iterator_t& itr)
+		{
+			return container.erase(itr);
+		}
+
+		static Iterator_t Erase(Container_t& container, const ConstIteretor_t& itr)
+		{
+			return container.erase(itr);
+		}
+
+		static Iterator_t Insert(Container_t& container, const value_t& value, const Iterator_t& itr_pos)
+		{
+			return container.insert(itr_pos, value);
+		}
+
+		static Iterator_t Insert(Container_t& container, const value_t& value, const ConstIteretor_t& itr_pos)
+		{
+			return container.insert(itr_pos, value);
+		}
 	};
 
-	template<typename T,size_t N>
-	struct SeqentialArray<T[N]> :std::true_type
-	{
-		static size_t GetSize(void* container)
-		{
-			return N;
-		}
-		static bool IsDynamic() { return false; }
-	};
 
 }

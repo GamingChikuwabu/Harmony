@@ -1,13 +1,15 @@
 #pragma once
 #include<string>
+#include<memory>
 
 namespace HARMONY
 {
-	class Registration
+	class Class;
+	class REFLECTER_API Registration
 	{
 	public:
 		template<typename Class_Type>
-		class class_
+		class REFLECTER_API class_
 		{
 		public:
 			class_(std::string name);
@@ -18,6 +20,8 @@ namespace HARMONY
 			class_& property(std::string name,Getter getter,Setter setter);
 			template<typename F>
 			class_& method(std::string name,F Class_Type::* memberFPtr);
+		private:
+			Class* _class;
 		};
 	};
 }

@@ -1,18 +1,24 @@
 #include "Value.h"
 #pragma once
 #include"detail/void_ptr.h"
+#include"Value/ValueImpl.h"
+#include"detail/rawtype.h"
 
 namespace HARMONY
 {
-	template<typename T, typename Tp>
-	inline Value::Value(T& var)
-	:_impl(new ValueImpl(var))
+	template<typename T>
+	inline Value::Value(T&& var)
 	{
-		if constexpr (std::is_same_v<Tp, std::string> || std::is_same_v<std::decay_t<Tp>, char*>)
+		if constexpr (!std::is_same_v<Value, DETAIL::raw_type_t<T>>)
 		{
-			_impl->_bit.set(static_cast<uint32_t>(ValueKind::STRING));
+			_impl = std::make_unique<ValueImpl>(var); 
+		}
+		else
+		{
+			_impl = var._impl;
 		}
 	}
+
 	template<typename T>
 	inline T Value::TryConvert()
 	{

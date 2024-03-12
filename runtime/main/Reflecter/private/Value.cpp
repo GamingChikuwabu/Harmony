@@ -3,6 +3,8 @@
 
 namespace HARMONY
 {
+	
+
 	Value::Value()
 	{
 
@@ -22,10 +24,7 @@ namespace HARMONY
 
 	Value::~Value()
 	{
-		if (_impl)
-		{
-			delete _impl;
-		}
+		
 	}
 
 

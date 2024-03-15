@@ -1,4 +1,9 @@
-﻿macro(lib_setting targetname)
+﻿macro(defo_module_setting targetname)
+     # ソースファイルを探す
+    file(GLOB KS_MODULE_MANAGER_SOURCES "private/*.cpp" "public/*.h" "public/*.cpp" "generate/*.cpp" "generate/*.h")
+    # ターゲットの追加
+    add_library(${targetname} SHARED ${KS_MODULE_MANAGER_SOURCES})
+    message(${KS_MODULE_MANAGER_SOURCES})
     string(TOUPPER ${targetname} target_upper)
     # Windows以外の場合は空の定義を使用
     if(NOT WIN32)
@@ -11,34 +16,24 @@
     endif()
     # ビルドするライブラリ自体にはEXPORT_DLLを使用
     target_compile_definitions(${targetname} PRIVATE ${target_upper}_API=${EXPORT_DLL})
+    # TypeManagerを使用する他のターゲットにはIMPORT_DLLを適用
+    # これは、TypeManagerをリンクする全てのターゲットに適用されます
     target_compile_definitions(${targetname} INTERFACE ${target_upper}_API=${IMPORT_DLL})
-    add_compile_definitions(_SILENCE_CXX20_CISO646_REMOVED_WARNING)
     message(${target_upper}_API)
     target_compile_definitions(${targetname} PRIVATE ${target_upper}_EXPORTS=1)
-endmacro()
-
-macro(defo_module_setting targetname)
-     # ソースファイルを探す
-    file(GLOB KS_MODULE_MANAGER_SOURCES "private/*.cpp" "public/*.h" "generate/*.cpp" "generate/*.h")
-    # ターゲットの追加
-    add_library(${targetname} SHARED ${KS_MODULE_MANAGER_SOURCES})
-    message(${KS_MODULE_MANAGER_SOURCES})
-    #dllやsoのセッティング
-    lib_setting(${targetname})
-    #自分のprivateディレクトリのインクルードパスを通す
-    target_include_directories(${targetname} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/${targetname}/private")
+    #message(${target_upper}_EXPORTS)
     #Utirytyともつなぐ
     target_include_directories(${targetname} PRIVATE "${CMAKE_SOURCE_DIR}/utility")
     #Eigenのパス
     target_include_directories(${targetname} PRIVATE "${CMAKE_SOURCE_DIR}/thirdparty/Eigen")
-    target_include_directories(${targetname} PRIVATE "${CMAKE_SOURCE_DIR}/thirdparty/platform/windows/rttr/include")
+    #自分のprivateディレクトリのインクルードパスを通す
+    target_include_directories(${targetname} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/${targetname}/private")
     #GCのパスを通す
     target_include_directories(${targetname} PRIVATE "${CMAKE_SOURCE_DIR}/thirdparty/platform/windows/bdwgc/include")
     target_link_directories(${targetname} PRIVATE  "${CMAKE_SOURCE_DIR}/thirdparty/platform/windows/bdwgc/lib/debug")
     target_link_libraries(${targetname} "${CMAKE_SOURCE_DIR}/thirdparty/platform/windows/bdwgc/lib/debug/gc.lib")
     target_link_libraries(${targetname} "${CMAKE_SOURCE_DIR}/thirdparty/platform/windows/bdwgc/lib/debug/gccpp.lib")
     target_link_libraries(${targetname} "${CMAKE_SOURCE_DIR}/thirdparty/platform/windows/bdwgc/lib/debug/gctba.lib")
-    target_link_libraries(${targetname} "${CMAKE_SOURCE_DIR}/thirdparty/platform/windows/rttr/lib/Debug/rttr_core_d.lib")
     #CUSTOM_HEADER_GENERATER(${targetname})
 endmacro()
 

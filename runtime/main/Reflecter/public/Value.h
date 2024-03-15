@@ -19,7 +19,7 @@ namespace HARMONY
 		template<typename T>
 		T TryConvert();
 	private:
-		std::shared_ptr<struct ValueImplBase> _impl;//前方宣言と参照カウント用に使用
+		std::shared_ptr<struct ValueImpl> _impl;
 	};
 }
 

@@ -4,9 +4,6 @@
 #include<iostream>
 #include<memory>
 #include<vector>
-#include"Value.h"
-#include"Class.h"
-#include"Property.h"
 #include"HMObject.h"
 
 //#ifdef 0
@@ -22,15 +19,7 @@ int main(int argc, char** argv)
 #endif // _WIN32
 	using namespace HARMONY;
 
-	std::vector<int> vec{1,2,3};
-	Value var = vec;
-	HMObject* obj = new HMObject();
-	Class& _class = Class::GetClassByName("HMObject");
-	
-	Property& prope = _class.GetPropertyByName("_guid");
-	prope.SetValue(obj, "ff");
-	Value proval =  prope.GetValue(obj);
-	std::string f = proval.TryConvert<std::string>();
+	HMObject obj;
 
 	ModuleManager::CommandLineAnalyze(argc, (void**)argv);
 	LogManager::InitLogManager();

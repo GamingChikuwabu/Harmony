@@ -17,41 +17,51 @@ namespace HARMONY
 		STRING,
 		MAX
 	};
-    struct ValueImpl {
-        // ストレージのサイズとアライメントを定義
-        static constexpr size_t StorageSize = 64; // 必要に応じてサイズを調整
-        static constexpr size_t StorageAlign = alignof(std::max_align_t);
 
-        // std::aligned_storageを使用してストレージを定義
-        typename std::aligned_storage<StorageSize, StorageAlign>::type storage;
-        std::type_index typeIndex;
-        std::bitset<static_cast<size_t>(ValueKind::MAX)> bit;
+    struct ValueImplBase
+    {
+        virtual ~ValueImplBase() {};
+    };
 
-        template<typename T>
-        ValueImpl(T&& value) : typeIndex(typeid(T)) {
-            static_assert(sizeof(T) <= StorageSize, "Type is too large for storage");
-            static_assert(alignof(T) <= StorageAlign, "Type requires stricter alignment than storage provides");
-            // プレースメント newを使用してvalueをstorageにコピー
-            new (&storage) T(std::forward<T>(value));
+    template<typename T,typename Tp = std::remove_cvref_t<T>>
+    struct ValueImpl : public ValueImplBase {
+        std::aligned_storage_t<sizeof(T), alignof(T)> storage; // T型のオブジェクトを格納するためのストレージ
+        const std::type_info& typeIndex;                       // 格納されているオブジェクトのTypeID
+        std::bitset<static_cast<size_t>(ValueKind::MAX)> bit;  // 格納されているオブジェクトの型情報
+        bool empty = true; // ストレージが空かどうかを示すフラグ
 
-            // 特定の型の場合のフラグ設定
-            if constexpr (std::is_same_v<std::decay_t<T>, std::string> ||
-                          std::is_same_v<std::decay_t<T>, const char*>) {
-                bit.set(static_cast<size_t>(ValueKind::STRING));
-            }
+        // コンストラクタ
+        template<typename U>
+        ValueImpl(U&& value) : typeIndex(typeid(T)), empty(false) {
+            new (&storage) T(std::forward<U>(value));
         }
 
+        // デストラクタ
         ~ValueImpl() {
-            // typeIndexを使用して、適切な型のデストラクタを呼び出す
-            if (typeIndex == typeid(std::string)) {
-                std::destroy_at(reinterpret_cast<std::string*>(&storage));
+            if (!empty) {
+                
+                reinterpret_cast<T*>(&storage)->~T();
             }
-            // 他の型に対する破棄処理をここに追加
         }
 
-        // コピー操作やムーブ操作に関する定義が必要になる場合がある
-        // （デフォルトのコピー/ムーブコンストラクタ/代入演算子は避けるべき）
-        ValueImpl(const ValueImpl&) = delete;
-        ValueImpl& operator=(const ValueImpl&) = delete;
+        // 格納されているオブジェクトへのポインタを取得
+        T* get() {
+            return empty ? nullptr : reinterpret_cast<T*>(&storage);
+        }
+
+        // 格納されているオブジェクトへのconstポインタを取得
+        const T* get() const {
+            return empty ? nullptr : reinterpret_cast<const T*>(&storage);
+        }
+
+        // 格納されているオブジェクトの値を取得
+        T getValue() const {
+            return empty ? T() : *reinterpret_cast<const T*>(&storage);
+        }
+
+        // ストレージが空かどうかを確認
+        bool isEmpty() const {
+            return empty;
+        }
     };
 }

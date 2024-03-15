@@ -11,7 +11,7 @@ namespace HARMONY
 	{
 		if constexpr (!std::is_same_v<Value, DETAIL::raw_type_t<T>>)
 		{
-			_impl = std::make_unique<ValueImpl>(var); 
+			_impl = std::make_shared<ValueImpl<T>>(var); 
 		}
 		else
 		{
@@ -22,10 +22,7 @@ namespace HARMONY
 	template<typename T>
 	inline T Value::TryConvert()
 	{
-		if (_impl->_bit.test(static_cast<uint32_t>(ValueKind::STRING)))
-		{
-			return *reinterpret_cast<T*>(_impl->_ptr);
-		}
-		return T();
+		ValueImpl<T>* temp = static_cast<ValueImpl<T>*>(_impl.get());
+		return temp->getValue();
 	}
 }

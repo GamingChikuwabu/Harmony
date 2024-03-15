@@ -226,6 +226,4 @@ namespace HARMONY
 			return container.insert(itr_pos, value);
 		}
 	};
-
-
 }

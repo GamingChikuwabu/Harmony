@@ -21,6 +21,7 @@ int main(int argc, char** argv)
 
 	HMObject obj;
 
+
 	ModuleManager::CommandLineAnalyze(argc, (void**)argv);
 	LogManager::InitLogManager();
 	EventManager::GetEvent<const char*, const char*, int>("Assert").Add(GameLoopManager::AssertLoop);

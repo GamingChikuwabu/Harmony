@@ -1,5 +1,13 @@
 #include"HMObject.h"
-#include<rttr/registration.h>
+#pragma once
+HM_GENERATE_CLASS_METADATA_REGIST_START()
+HM_USING_NAMESPACE(HARMONY)
+HM_REGISTRATION_CLASS(HMObject)
+HM_REGISTRATION_CONSTRACTOR()
+HM_REGISTRATION_PROPERTY(HMObject, _guid)
+HM_REGISTRATION_METADATA("test", "テストです")
+HM_GENERATE_CLASS_METADATA_REGIST_END()
+
 
 namespace HARMONY
 {
@@ -12,10 +20,4 @@ namespace HARMONY
 	{
 
 	}
-}
-
-RTTR_REGISTRATION
-{
-	rttr::registration::class_<HARMONY::HMObject>("HMObject")
-	.property("guid",&HARMONY::HMObject::_guid);
 }

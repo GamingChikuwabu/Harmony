@@ -32,6 +32,7 @@ int main(int argc, char** argv)
 	Value proval =  prope.GetValue(obj);
 	std::string f = proval.TryConvert<std::string>();
 
+
 	ModuleManager::CommandLineAnalyze(argc, (void**)argv);
 	LogManager::InitLogManager();
 	EventManager::GetEvent<const char*, const char*, int>("Assert").Add(GameLoopManager::AssertLoop);

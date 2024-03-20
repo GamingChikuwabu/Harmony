@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #ifdef _WIN32
 #ifdef HMMODIPCMANAGER_EXPORTS 
 #define HMMODIPCMANAGER_API  __declspec(dllexport) 
@@ -29,6 +29,7 @@ namespace HARMONY
 		};
 		class HMMODIPCMANAGER_API HMModIPCManager : public IModule
 		{
+			HM_CLASS_BODY(IModule)
 		public:
 			HMModIPCManager();
 			~HMModIPCManager();

@@ -1,8 +1,9 @@
-﻿#include "ModuleManager.h"
+#include"ModuleManager.h"
 #include"EventManager.h"
 #include<Windows.h>
 #include<filesystem>
 #include <iostream>
+//#include"ModuleManager.generate.inc"
 
 namespace HARMONY
 {

@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #ifdef _WIN32
 #ifdef HMMODCONSOLE_EXPORTS 
 #define HMMODCONSOLE_API  __declspec(dllexport) 
@@ -12,6 +12,7 @@
 #include"ModuleManager.h"
 #include"HMModIPCManager.h"
 #include<functional>
+
 
 namespace HARMONY
 {

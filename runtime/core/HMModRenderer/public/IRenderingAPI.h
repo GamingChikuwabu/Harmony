@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include"IModule.h"
 #include<memory>
 
@@ -11,8 +11,9 @@ enum class ResourceType
 	Material
 };
 
-class IRenderingAPI : public IModule
+class IRenderingAPI : public HARMONY::IModule
 {
+	HM_CLASS_BODY(IModule)
 public:
 	virtual std::shared_ptr<void> CreateResource(ResourceType type) = 0;
 	virtual void WiteGPU() = 0;

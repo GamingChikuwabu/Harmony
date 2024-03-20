@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include"ModuleManager.h"
 #include"IWindow.h"
 #include<map>
@@ -15,6 +15,7 @@ namespace HARMONY
 		{
 			class HMModWin32 :public IWindow
 			{
+				HM_CLASS_BODY(IWindow)
 			public:
 				HMModWin32();
 				~HMModWin32();

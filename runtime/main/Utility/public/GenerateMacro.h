@@ -1,4 +1,8 @@
 #pragma once
+
+#define REF_LIB_CERIAL
+
+#ifdef REF_LIB_RTTR
 #include<rttr/registration>
 #include<rttr/registration_friend.h>
 
@@ -8,9 +12,9 @@
 #define HMPROPERTY(...)
 #define HM_CLASS_BODY(...)\
 RTTR_ENABLE(__VA_ARGS__)\
-RTTR_REGISTRATION_FRIEND
+RTTR_REGISTRATION_FRIEND \
 
-#define HM_GENERATE_CLASS_METADATA_REGIST_START(...)\
+#define HM_GENERATE_CLASS_METADATA_REGIST_START(myclass)\
 RTTR_REGISTRATION\
 {
 
@@ -45,3 +49,13 @@ rttr::registration::class_<Class>(#Class)
 //}\
 //static const register_type_static_initializer inintializer;\
 //static void auto_register_class_type()
+#endif
+#ifdef REF_LIB_CERIAL
+
+///クラスのトークン
+#define HMCLASS(...)
+#define HMFUNCTION(...)
+#define HMPROPERTY(...)
+#define HM_CLASS_BODY(...)
+
+#endif

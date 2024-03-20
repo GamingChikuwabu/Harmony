@@ -2,6 +2,16 @@
 #include<string>
 #include"GenerateMacro.h"
 
+#ifdef _WIN32
+#ifdef UTILITY_EXPORTS
+#define UTILITY_API  __declspec(dllexport) 
+#else
+#define UTILITY_API  __declspec(dllimport)
+#endif // UTILITY_API
+#else
+#define UTILITY_API
+#endif // WIND32
+
 namespace HARMONY
 {
 	HMCLASS()
@@ -13,6 +23,6 @@ namespace HARMONY
 		virtual ~HMObject();
 	protected:
 		HMPROPERTY()
-		std::string _guid;
+		std::string _guid = "";
 	};
 };

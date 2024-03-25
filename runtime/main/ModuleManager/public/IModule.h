@@ -1,5 +1,6 @@
 #pragma once
 #include"HMObject.h"
+#include"ObjectMacro.h"
 
 /**
  * @file IModule.h

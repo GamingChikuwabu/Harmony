@@ -32,9 +32,9 @@ macro(defo_module_setting targetname)
     file(GLOB KS_MODULE_MANAGER_SOURCES "private/*.cpp" "public/*.h")
     # ターゲットの追加
     add_library(${targetname} SHARED ${KS_MODULE_MANAGER_SOURCES})
+    lib_setting(${targetname})
     message(${KS_MODULE_MANAGER_SOURCES})
     #dllやsoのセッティング
-    lib_setting(${targetname})
     #自分のprivateディレクトリのインクルードパスを通す
     target_include_directories(${targetname} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/private")
     target_include_directories(${targetname} PRIVATE "${CMAKE_SOURCE_DIR}/generate")

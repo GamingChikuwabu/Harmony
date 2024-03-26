@@ -2,14 +2,9 @@
 
 namespace HARMONY
 {
-	Property::Property(const TCHAR* name, void* accessor):_name(name),accessor(accessor)
+	Property::Property(const TCHAR* name, void* accessor, size_t size):_name(name),accessor(accessor),_size(size)
 	{
 		
-	}
-
-	Property::~Property()
-	{
-		delete accessor;
 	}
 	
 	const TCHAR* Property::GetName()

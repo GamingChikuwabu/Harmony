@@ -19,7 +19,8 @@ namespace HARMONY
         ~HMArray() = default;
 
         void push_back(const value_type& value);
-        size_t getSize() const;
+        size_t GetSize() const;
+        value_type* GetData()const;
 
         iterator begin();
         iterator end();

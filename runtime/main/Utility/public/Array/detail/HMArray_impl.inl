@@ -25,7 +25,12 @@ namespace HARMONY
         data[size++] = value;
     }
     template<typename T>
-    inline size_t HMArray<T>::getSize() const
+    inline HMArray<T>::value_type* HMArray<T>::GetData()const
+    {
+        return data;
+    }
+    template<typename T>
+    inline size_t HMArray<T>::GetSize() const
     {
         return size;
     }
@@ -49,6 +54,7 @@ namespace HARMONY
     {
         return data + size;
     }
+
     template<typename T>
     inline void HMArray<T>::ensureCapacity(size_t minCapacity)
     {

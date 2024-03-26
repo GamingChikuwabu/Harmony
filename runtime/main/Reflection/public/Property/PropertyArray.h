@@ -1,21 +1,19 @@
 #pragma once
 #include"Property.h"
-#include"HMArray.h"
-
+#include"Property/ScriptArray.h"
+#include <functional> 
 namespace HARMONY
 {
-	class PropertyArray : public Property
+	class REFLECTION_API PropertyArray : public Property
 	{
 	public:
 		template<typename C,typename T>
 		PropertyArray(const TCHAR* name, HARMONY::HMArray<T> C::* memberptr);
-		template<typename C>
-		void* GetValue(C* instane);
-		template<typename C>
-		bool SetValue(C* instance, void* value);
+		ScriptArray GetScriptArray(void* classInstance);
 		inline PropertyKind GetKind()override;
 	private:
-		void* ArrayAccessor;
+		std::function<HARMONY::ScriptArray(void*)> GetScriptArrayFunc;
+		Property* inner;
 	};
 }
 

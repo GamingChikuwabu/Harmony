@@ -1,17 +1,14 @@
 #pragma once
-#include"Property.h"
+#include"HMString.h"
+#include"BasicProperty.h"
 
 namespace HARMONY
 {
-	class REFLECTION_API PropertyString : public Property
+	class REFLECTION_API PropertyString : public BasicProperty<HMString>
 	{
 	public:
 		template<typename C>
 		PropertyString(const TCHAR* name, HMString C::* memberptr);
-		template<typename C>
-		const HMString GetValue(C* instane);
-		template<typename C>
-		bool SetValue(C* instance, HMString& value);
 		inline PropertyKind GetKind()override;
 	};
 }

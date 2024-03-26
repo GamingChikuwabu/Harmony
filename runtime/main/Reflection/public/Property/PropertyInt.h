@@ -1,17 +1,22 @@
 #pragma once
-#include"Property.h"
+#include"BasicProperty.h"
+#include<cinttypes>
 
 namespace HARMONY
 {
-	class REFLECTION_API PropertyInt : public Property
+	class REFLECTION_API PropertyInt32 : public BasicProperty<int32_t>
 	{
 	public:
 		template<typename C>
-		PropertyInt(const TCHAR* name,int C::* memberptr);
+		PropertyInt32(const TCHAR* name,int32_t C::* memberptr);
+		inline PropertyKind GetKind()override;
+	};
+
+	class REFLECTION_API PropertyInt64 : public BasicProperty<int64_t>
+	{
+	public:
 		template<typename C>
-		int GetValue(C* instane);
-		template<typename C>
-		bool SetValue(C* instance, int value);
+		PropertyInt64(const TCHAR* name, int64_t C::* memberptr);
 		inline PropertyKind GetKind()override;
 	};
 }

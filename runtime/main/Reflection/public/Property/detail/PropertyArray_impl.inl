@@ -1,7 +1,6 @@
 #include"Property/PropertyArray.h"
 #pragma once
 #include"Property/PropertyAccessor.h"
-#include"PropertyArray_data.h"
 #include"gc/gc.h"
 #include<new>
 
@@ -12,22 +11,13 @@ namespace HARMONY
 	:PropertyArray::Property
 	(
 		name,
-		new ((void*)GC_malloc(sizeof(PropertyArrayData<C, T>))) PropertyArrayData<C, T>(memberptr)
+		nullptr,
+		sizeof(T)
 	)
 	{
-		
-	}
-
-	template<typename C>
-	inline void* PropertyArray::GetValue(C * instance)
-	{
-		PropertyArrayData<C, T>* propaccess = GetAccessorPtr<PropertyArrayData<C, T>*>();
-		return propaccess->GetValue(instance);
-	}
-
-	template<typename C>
-	inline bool PropertyArray::SetValue(C* instance, void* value)
-	{
-		return false;
+		GetScriptArrayFunc = [memberptr](void* classinstance)->ScriptArray {
+			C* pclass = reinterpret_cast<C*>(classinstance);
+			return ScriptArray(&(pclass->*memberptr));
+		};
 	}
 }

@@ -23,6 +23,24 @@ int main(int argc, char** argv)
 	GC_disable();
 	using namespace HARMONY;
 
+	HMObject obj;
+	obj._guid = TEXT("guid");
+	obj._array.push_back(2);
+
+
+	Property* p = (PropertyArray*)GC_malloc(sizeof(PropertyArray));
+	new (p) PropertyArray(TEXT("test"), &HMObject::_array);
+
+	if (p->GetKind() == PropertyKind::Array)
+	{
+		PropertyArray* str = dynamic_cast<PropertyArray*>(p);
+		ScriptArray sarray = str->GetScriptArray(&obj);
+		size_t size = sarray.GetSize();
+		void* ptr = sarray.GetData();
+		int* intaa = reinterpret_cast<int*>(ptr);
+		printf("%d", intaa[0]);
+	}
+
 	//ModuleManager::CommandLineAnalyze(argc, (void**)argv);
 	//LogManager::InitLogManager();
 	////EventManager::GetEvent<const char*, const char*, int>("Assert").Add(GameLoopManager::AssertLoop);

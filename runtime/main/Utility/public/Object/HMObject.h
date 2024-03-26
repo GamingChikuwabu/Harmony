@@ -2,6 +2,7 @@
 #include<string>
 #include"GenerateMacro.h"
 #include"HMString.h"
+#include"HMArray.h"
 
 namespace HARMONY
 {
@@ -14,6 +15,7 @@ namespace HARMONY
 		virtual ~HMObject();
 		int prop;
 		HMString _guid ;
+		HMArray<int> _array;
 	protected:
 		HMPROPERTY()
 	};

@@ -5,7 +5,8 @@ namespace HARMONY
 {
 	enum class PropertyKind
 	{
-		Int,
+		Int32,
+		Int64,
 		Float,
 		Double,
 		String,
@@ -18,15 +19,17 @@ namespace HARMONY
 	class REFLECTION_API Property
 	{
 	public:
-		Property(const TCHAR* name,void* accessor);
-		~Property();
+		Property(const TCHAR* name,void* accessor,size_t size);
+		~Property() = default;
 		virtual PropertyKind GetKind() { return PropertyKind(); }
 		const TCHAR* GetName();
 		template<typename A>
 		A GetAccessorPtr();
+		size_t GetSize() { return _size; };
 	private:
 		const TCHAR* _name;
 		void* accessor;
+		size_t _size;
 	};
 }
 

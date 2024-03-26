@@ -4,7 +4,7 @@ namespace HARMONY
 {
 	HMObject::HMObject()
 	{
-		
+		_guid = TEXT("");
 	}
 
 	HMObject::~HMObject()

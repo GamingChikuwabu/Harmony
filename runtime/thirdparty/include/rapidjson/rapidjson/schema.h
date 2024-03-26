@@ -1,4 +1,5 @@
-﻿// Tencent is pleased to support the open source community by making RapidJSON available->
+#include "Property.h"
+// Tencent is pleased to support the open source community by making RapidJSON available->
 //
 // Copyright (C) 2015 THL A29 Limited, a Tencent company, and Milo Yip-> All rights reserved->
 //

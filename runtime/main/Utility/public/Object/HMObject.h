@@ -1,6 +1,7 @@
 #pragma once
 #include<string>
 #include"GenerateMacro.h"
+#include"HMString.h"
 
 namespace HARMONY
 {
@@ -11,8 +12,9 @@ namespace HARMONY
 	public:
 		HMObject();
 		virtual ~HMObject();
+		int prop;
+		HMString _guid ;
 	protected:
 		HMPROPERTY()
-		std::string _guid = "";
 	};
 }

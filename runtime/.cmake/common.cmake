@@ -27,9 +27,14 @@ macro(lib_path_setting targetname)
     LINK_LIB_GC(${targetname})
 endmacro()
 
+macro(genarate_hedder_dir_setting targetname)
+    
+
+endmacro()
+
 macro(defo_module_setting targetname)
      # ソースファイルを探す
-    file(GLOB KS_MODULE_MANAGER_SOURCES "private/*.cpp" "public/*.h")
+    file(GLOB KS_MODULE_MANAGER_SOURCES "private/*.cpp" "public/*.h" "generate/*.cpp")
     # ターゲットの追加
     add_library(${targetname} SHARED ${KS_MODULE_MANAGER_SOURCES})
     lib_setting(${targetname})
@@ -37,7 +42,7 @@ macro(defo_module_setting targetname)
     #dllやsoのセッティング
     #自分のprivateディレクトリのインクルードパスを通す
     target_include_directories(${targetname} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/private")
-    target_include_directories(${targetname} PRIVATE "${CMAKE_SOURCE_DIR}/generate")
+    target_include_directories(${targetname} PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/generate")
     
     lib_path_setting(${targetname})
     #custom_header_generator(${targetname})
@@ -223,4 +228,3 @@ macro(custom_header_generator targetname)
     # メインのターゲットがこのカスタムターゲットに依存するように設定
     add_dependencies(${targetname} ${custom_target_name})
 endmacro()
-

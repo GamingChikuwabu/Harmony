@@ -16,6 +16,12 @@ namespace HARMONY
 		new (pImpl) HMStringImpl(str);
 	}
 
+	HMString::HMString(HMString&& other)
+	:pImpl(std::move(other.pImpl))
+	{
+
+	}
+
 	HMString::~HMString()
 	{
 		
@@ -33,7 +39,12 @@ namespace HARMONY
 
 	HMString& HMString::operator=(const HMString& other)
 	{
-		if (this != &other) {
+		if (!pImpl)
+		{
+			pImpl = static_cast<HMStringImpl*>(GC_MALLOC(sizeof(HMStringImpl)));
+			new (pImpl) HMStringImpl(*other.pImpl); // プレースメントnewを使用
+		}
+		else if (this != &other) {
 			*pImpl = *other.pImpl;
 		}
 		return *this;

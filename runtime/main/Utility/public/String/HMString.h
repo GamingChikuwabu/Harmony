@@ -9,10 +9,11 @@ namespace HARMONY
         // コンストラクタとデストラクタ
         HMString();
         HMString(const TCHAR* str);
-        ~HMString();
         HMString(const HMString& other);
+        HMString(HMString&& other);
+        ~HMString();
+
         HMString& operator=(const HMString& other);
-        
         HMString operator+(const HMString& other) const;// +オペレータでの文字列の連結
 
         // ==オペレータでの等価比較
@@ -31,7 +32,6 @@ namespace HARMONY
         TCHAR* GetRaw()const;
 
     public:
-        HMString(HMString&&) noexcept = default;
         HMString& operator=(HMString&&) noexcept = default;
     private:
         class HMStringImpl* pImpl; // Pimplパターンの実装

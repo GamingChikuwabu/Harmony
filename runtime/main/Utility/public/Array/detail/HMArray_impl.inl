@@ -17,9 +17,15 @@ namespace HARMONY
         data = static_cast<value_type*>(GC_MALLOC(sizeof(value_type) * capacity));
         std::copy(init.begin(), init.end(), data);    
     }
+
+    template<typename T>
+    inline HMArray<T>::HMArray(size_t size) : size(size),capacity(size)
+    {
+        data = static_cast<value_type*>(GC_MALLOC(sizeof(value_type) * capacity));
+    }
   
     template<typename T>
-    inline void HMArray<T>::push_back(const value_type& value)
+    inline void HMArray<T>::Add(const value_type& value)
     {
         ensureCapacity(size + 1);
         data[size++] = value;
@@ -34,6 +40,28 @@ namespace HARMONY
     {
         return size;
     }
+    template<typename T>
+    inline HMArray<T>::value_type& HMArray<T>::Back()const
+    {
+        return data[size];
+    }
+
+    template<typename T>
+    inline bool HMArray<T>::isEmpty()const noexcept
+    {
+        return size == 0 ? true : false;
+    }
+
+    template<typename T>
+    inline HMArray<T>::value_type& HMArray<T>::operator[](size_t size) const
+    {
+        if (capacity >= size)
+        {
+            return data[size];
+        }
+        assert(false);
+    }
+
     template<typename T>
     HMArray<T>::iterator HMArray<T>::begin()
     {
@@ -60,8 +88,15 @@ namespace HARMONY
     {
         if (minCapacity > capacity) {
             size_t newCapacity = std::max(2 * capacity, minCapacity);
-            value_type* newData = static_cast<value_type*>(GC_MALLOC(sizeof(value_type) * newCapacity));
-            std::copy(data, data + size, newData);
+            T* newData = static_cast<T*>(GC_MALLOC(sizeof(T) * newCapacity)); // GC管理下のメモリを確保
+
+            // プレースメントnewを使用してオブジェクトを構築
+            for (size_t i = 0; i < size; ++i) {
+                new (&newData[i]) T(std::move(data[i])); // ムーブコンストラクタを呼び出す
+                data[i].~T(); // 古いオブジェクトのデストラクタを明示的に呼び出す
+            }
+
+            // 新しいデータ配列へのポインタを更新
             data = newData;
             capacity = newCapacity;
         }

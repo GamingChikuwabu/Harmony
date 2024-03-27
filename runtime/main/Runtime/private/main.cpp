@@ -1,11 +1,4 @@
-#define GC_DEBUG 
-#include"Utility.hpp"
-#include"Refrection.hpp"
 #include"main.h"
-#include<typeinfo>
-#include<iostream>
-#include<memory>
-#include<vector>
 
 #ifdef WIN32
 #ifdef UNICODE
@@ -25,21 +18,7 @@ int main(int argc, char** argv)
 
 	HMObject obj;
 	obj._guid = TEXT("guid");
-	obj._array.push_back(2);
-
-
-	Property* p = (PropertyArray*)GC_malloc(sizeof(PropertyArray));
-	new (p) PropertyArray(TEXT("test"), &HMObject::_array);
-
-	if (p->GetKind() == PropertyKind::Array)
-	{
-		PropertyArray* str = dynamic_cast<PropertyArray*>(p);
-		ScriptArray sarray = str->GetScriptArray(&obj);
-		size_t size = sarray.GetSize();
-		void* ptr = sarray.GetData();
-		int* intaa = reinterpret_cast<int*>(ptr);
-		printf("%d", intaa[0]);
-	}
+	obj._array.Add(2);
 
 	//ModuleManager::CommandLineAnalyze(argc, (void**)argv);
 	//LogManager::InitLogManager();

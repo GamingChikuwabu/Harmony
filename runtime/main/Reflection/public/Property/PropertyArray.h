@@ -2,6 +2,7 @@
 #include"Property.h"
 #include"Property/ScriptArray.h"
 #include <functional> 
+
 namespace HARMONY
 {
 	class REFLECTION_API PropertyArray : public Property

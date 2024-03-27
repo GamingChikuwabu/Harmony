@@ -16,11 +16,15 @@ namespace HARMONY
 
         HMArray();
         HMArray(std::initializer_list<value_type> init);
+        HMArray(size_t size);
         ~HMArray() = default;
 
-        void push_back(const value_type& value);
+        void Add(const value_type& value);
         size_t GetSize() const;
         value_type* GetData()const;
+        value_type& Back()const;
+        bool isEmpty()const noexcept;
+        value_type& operator[](size_t size)const;
 
         iterator begin();
         iterator end();

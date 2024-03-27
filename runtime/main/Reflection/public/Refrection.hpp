@@ -4,4 +4,6 @@
 #include"Property/PropertyFloat.h"
 #include"Property/PropertyString.h"
 #include"Property/PropertyArray.h"
-#include"PropertyClass.h"
+#include"Property/PropertyClass.h"
+#include"Class/Class.h"
+#include"Construction/Construction.h"

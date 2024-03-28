@@ -71,7 +71,24 @@ namespace HARMONY
             bool operator!=(const iterator& other) const {
                 return !(*this == other);
             }
+
+            HMPair<KeyType, ValueType>* operator->() const {
+                return &(*entryIterator);
+            }
         };
+
+        iterator find(const KeyType& key) {
+            size_t bucketIndex = hashFunction(key); // キーからバケットインデックスを計算
+            auto& entries = buckets[bucketIndex].entries;
+            for (auto it = entries.begin(); it != entries.end(); ++it) {
+                if (it->first == key) {
+                    // キーが見つかった場合
+                    return iterator(this, bucketIndex, it);
+                }
+            }
+            // キーが見つからなかった場合
+            return end();
+        }
 
         iterator begin() {
             for (size_t i = 0; i < bucketCount; ++i) {

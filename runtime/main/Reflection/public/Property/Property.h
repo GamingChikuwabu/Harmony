@@ -5,6 +5,7 @@ namespace HARMONY
 {
 	enum class PropertyKind
 	{
+		Bool,
 		Int32,
 		Int64,
 		Float,

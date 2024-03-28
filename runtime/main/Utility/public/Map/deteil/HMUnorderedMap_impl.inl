@@ -33,7 +33,7 @@ namespace HARMONY
                 return &entry.second;
             }
         }
-        return nullptr; // キーが見つからない場合
+        
     }
 
     template<typename KeyType, typename ValueType>

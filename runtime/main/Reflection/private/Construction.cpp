@@ -2,7 +2,7 @@
 
 namespace HARMONY
 {
-	void* Construction::invoke()
+	void* Construction::invoke()const
 	{
 		for (auto fn : _constructor)
 		{

@@ -43,7 +43,7 @@ namespace HARMONY
     template<typename T>
     inline HMArray<T>::value_type& HMArray<T>::Back()const
     {
-        return data[size];
+        return data[size -1];
     }
 
     template<typename T>

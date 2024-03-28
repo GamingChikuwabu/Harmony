@@ -13,7 +13,6 @@ namespace HARMONY
 	/// @brief モジュールを管理するクラス
 	class MODULEMANAGER_API ModuleManager
 	{
-		HM_CLASS_BODY(ModuleManager)
 	public:
 		/// @brief 初期化関数
 		/// @return 結果 

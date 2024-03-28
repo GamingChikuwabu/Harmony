@@ -17,8 +17,11 @@ int main(int argc, char** argv)
 	using namespace HARMONY;
 
 	HMObject obj;
-	obj._guid = TEXT("guid");
-	obj._array.Add(2);
+
+	Class* pclass = ClassBuilder::GetClassByname(TEXT("HMObject"));
+
+	auto name = pclass->GetName();
+	auto proper = pclass->GetProperties()[0]->GetName();
 
 	//ModuleManager::CommandLineAnalyze(argc, (void**)argv);
 	//LogManager::InitLogManager();

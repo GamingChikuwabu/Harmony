@@ -10,7 +10,7 @@ namespace HARMONY
 {
     class IModule : public HMObject
     {
-        HM_CLASS_BODY(HMObject)
+        
     public:
         IModule() {}  ///< コンストラクタ
         virtual ~IModule() {}  ///< デストラクタ

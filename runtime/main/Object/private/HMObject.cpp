@@ -11,4 +11,9 @@ namespace HARMONY
 	{
 
 	}
+
+	bool HMObject::isValid() const noexcept
+	{
+		return _isValid;
+	}
 }

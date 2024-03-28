@@ -3,6 +3,7 @@
 // UNICODE マクロの定義に基づく TCHAR の定義
 #ifdef UNICODE
 #include<cwchar>
+#include<string>
 #define TEXT(str) L##str
 using TCHAR = wchar_t;
 #define TSTRCPY std::wcscpy

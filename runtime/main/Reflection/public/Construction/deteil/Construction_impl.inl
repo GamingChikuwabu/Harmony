@@ -4,7 +4,7 @@
 namespace HARMONY
 {
 	template<typename ...Args>
-	inline void* Construction::invoke(Args ...arg)
+	inline void* Construction::invoke(Args ...arg) const
 	{
 		for (auto fn : _constructor)
 		{
@@ -18,7 +18,7 @@ namespace HARMONY
 	}
 
 	template<class C, typename ...Args>
-	inline void Construction::add()
+	inline void Construction::add()const
 	{
 		std::function<void* (Args...)> cons = [](Args... arg)->void*			
 		{

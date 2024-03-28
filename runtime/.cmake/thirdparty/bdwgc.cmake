@@ -1,5 +1,5 @@
 function(link_lib_gc targetname)
-    target_include_directories(${targetname} PRIVATE "${CMAKE_SOURCE_DIR}/thirdparty/include/bdwgc")
+    target_include_directories(${targetname} PUBLIC "${CMAKE_SOURCE_DIR}/thirdparty/include/bdwgc")
 	# プラットフォーム名を設定
     if(WIN32)
         set(platformname "windows")

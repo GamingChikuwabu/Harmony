@@ -6,4 +6,5 @@
 #include"Property/PropertyArray.h"
 #include"Property/PropertyClass.h"
 #include"Class/Class.h"
+#include"Class/ClassBuilder.h"
 #include"Construction/Construction.h"

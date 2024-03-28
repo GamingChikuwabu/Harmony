@@ -8,11 +8,11 @@ namespace HARMONY
 	class Construction
 	{
 	public:
-		void* invoke();
+		void* invoke()const;
 		template<typename ...Args>
-		void* invoke(Args... arg);
+		void* invoke(Args... arg)const;
 		template<class C, typename ...Args>
-		void add();
+		void add()const;
 	private:
 		HMArray<std::any> _constructor;
 	};

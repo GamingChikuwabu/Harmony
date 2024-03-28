@@ -35,21 +35,32 @@ def register_class_name(index:int,tokens:list,class_config:ClassConfig):
             print(f"クラス名: {class_name}")
             class_config.class_name = class_name
 
-def register_class_property(index:int,tokens:list,class_config:ClassConfig):
-    #Metadataの収集
+def register_class_property(index:int, tokens:list, class_config:ClassConfig):
+    # Metadataの収集
     meta_data = []
     meta_data_index = 0
-    while tokens[index + meta_data_index].spelling != ")":
+    tokens_length = len(tokens) # tokensリストの長さを取得
+    while index + meta_data_index < tokens_length and tokens[index + meta_data_index].spelling != ")":
         if tokens[index + meta_data_index].spelling == "COMMENT":
-            meta_data.append(Metadata("COMMENT",tokens[index + meta_data_index + 2].spelling))#2の理由はCOMMENT:”コメントです”になっている場合meta_data_indexはCOMMENTのことを指しているので2進めている
+            # COMMENTの後ろには少なくとも2つのトークンが必要なので、範囲チェックを追加
+            if index + meta_data_index + 2 < tokens_length:
+                meta_data.append(Metadata("COMMENT", tokens[index + meta_data_index + 2].spelling))
         meta_data_index += 1
-    #Property情報の取得
-    while tokens[index + meta_data_index].spelling != ";" and tokens[index + meta_data_index].spelling != "=":
+
+    # Property情報の取得
+    while index + meta_data_index < tokens_length and tokens[index + meta_data_index].spelling != ";" and tokens[index + meta_data_index].spelling != "=":
         meta_data_index += 1
+
+    if index + meta_data_index - 2 < index:
+        # ループの終了条件に達したが、有効なプロパティ名と型が見つからなかった場合
+        # 適切なエラーハンドリングかデバッグメッセージを出力する
+        print("Error: Property name or type not found.")
+        return
+
     name = tokens[index + meta_data_index - 1].spelling
     proptype = tokens[index + meta_data_index - 2].spelling
-    pro = Property(name,proptype)
-    class_config.add_property(pro,meta_data)
+    pro = Property(name, proptype)
+    class_config.add_property(pro, meta_data)
 
 def register_namespace(index:int,tokens:list,class_config:ClassConfig):
     if tokens[index + 2].spelling == "{":
@@ -58,7 +69,9 @@ def register_namespace(index:int,tokens:list,class_config:ClassConfig):
 def build_class_configuration_with_tokens(translation_unit,class_config:ClassConfig):
     tokens = list(translation_unit.get_tokens(extent=translation_unit.cursor.extent))
     for i, token in enumerate(tokens):
-        if token.spelling == "class":
+        if token.spelling == "HMCLASS":
+            class_config.isVaild = True
+        elif token.spelling == "class":
             register_class_name(i,tokens,class_config)
         elif token.spelling == "namespace":
             register_namespace(i,tokens,class_config)

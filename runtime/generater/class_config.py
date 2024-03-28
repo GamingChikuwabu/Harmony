@@ -10,6 +10,7 @@ class Property:
 
 class ClassConfig:
     def __init__(self):
+        self.isVaild = False
         self.class_name = ""
         # クラスのプロパティ名とそのメタ情報の辞書
         self.class_properties = {}

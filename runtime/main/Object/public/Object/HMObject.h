@@ -1,9 +1,10 @@
 #pragma once
 #include<string>
-#include"ObjectMacro.h"
+#include"Macro/ObjectMacro.h"
 #include"HMString.h"
 #include"gc/gc_cpp.h"
 #include"Refrection.hpp"
+#include"Utility.hpp"
 #include"HMObject.generate.h"
 
 namespace HARMONY
@@ -17,9 +18,9 @@ namespace HARMONY
 		virtual ~HMObject();
 		inline bool isValid()const noexcept;
 	protected:
-		HMPROPERTY();
+		HMPROPERTY()
 		HMString _guid;
-		HMPROPERTY();
+		HMPROPERTY()
 		bool _isValid;
 	};
 }

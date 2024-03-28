@@ -3,11 +3,11 @@
 
 namespace HARMONY
 {
-	class PropertyBool : public BasicProperty<bool>
+	class REFLECTION_API PropertyBool : public BasicProperty<bool>
 	{
 	public:
 		template<typename C>
-		PropertyBool(const TCHAR* name, float C::* memberptr);
+		PropertyBool(const TCHAR* name, bool C::* memberptr);
 		inline PropertyKind GetKind()override;
 	};
 }

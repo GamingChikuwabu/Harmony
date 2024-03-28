@@ -5,7 +5,7 @@
 namespace HARMONY
 {
 	template<typename C>
-	inline PropertyBool::PropertyBool(const TCHAR* name, float C::* memberptr)
+	inline PropertyBool::PropertyBool(const TCHAR* name, bool C::* memberptr)
 	:PropertyBool::BasicProperty(name, memberptr)
 	{
 

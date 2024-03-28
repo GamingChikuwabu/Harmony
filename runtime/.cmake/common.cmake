@@ -45,7 +45,7 @@ macro(defo_module_setting targetname)
     target_include_directories(${targetname} PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/generate")
     
     lib_path_setting(${targetname})
-    #custom_header_generator(${targetname})
+    custom_header_generator(${targetname})
 endmacro()
 
 macro(init_main_module_setting targetname)
@@ -200,9 +200,9 @@ endfunction()
 
 macro(custom_header_generator targetname)
     # libclangのパス
-    set(LIB_CLANG_PATH ${CMAKE_SOURCE_DIR}/.cmake/libclang.dll)
+    set(LIB_CLANG_PATH ${CMAKE_SOURCE_DIR}/generater/libclang.dll)
     # generatemain.exeのパス
-    set(GENERATE_MAIN_PATH ${CMAKE_SOURCE_DIR}/.cmake/generate.exe)
+    set(GENERATE_MAIN_PATH ${CMAKE_SOURCE_DIR}/generater/generatermain.py)
     # .hファイルを探す
     file(GLOB_RECURSE HEADER_FILES "${CMAKE_CURRENT_SOURCE_DIR}/**/*.h")
 
@@ -220,7 +220,7 @@ macro(custom_header_generator targetname)
         # カスタムコマンドをカスタムターゲットに追加
         add_custom_command(
             TARGET ${custom_target_name}
-            COMMAND ${GENERATE_MAIN_PATH} ${LIB_CLANG_PATH} ${HEADER_FILE} ${CMAKE_SOURCE_DIR}/generate/"${HEADER_NAME}.generate.inc"
+            COMMAND python3.exe ${GENERATE_MAIN_PATH} ${LIB_CLANG_PATH} ${HEADER_FILE} ${CMAKE_CURRENT_SOURCE_DIR}/generate ${HEADER_NAME}
             COMMENT "Generating custom header file for ${HEADER_NAME}"
         )
     endforeach()

@@ -30,4 +30,10 @@ namespace HARMONY
 	{
 		return setter(instance,value);
 	}
+
+	template<typename T, typename C>
+	T* PropertyClass::Convert(C* instance)
+	{
+		return static_cast<T*>(getter(instance));
+	}
 }

@@ -69,9 +69,9 @@ def register_namespace(index:int,tokens:list,class_config:ClassConfig):
 def build_class_configuration_with_tokens(translation_unit,class_config:ClassConfig):
     tokens = list(translation_unit.get_tokens(extent=translation_unit.cursor.extent))
     for i, token in enumerate(tokens):
-        if token.spelling == "HMCLASS":
+        if token.spelling == "HMCLASS" and tokens[i-1].spelling != "define":
             class_config.isVaild = True
-        elif token.spelling == "class":
+        elif token.spelling == "class" or token.spelling == "struct":
             register_class_name(i,tokens,class_config)
         elif token.spelling == "namespace":
             register_namespace(i,tokens,class_config)

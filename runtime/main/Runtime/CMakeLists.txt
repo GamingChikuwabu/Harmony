@@ -5,7 +5,7 @@ else()
     add_executable(runtimexe "private/main.cpp" "public/main.h")
 endif()
 
-target_link_libraries(runtimexe "ModuleManager" "GameLoopManager" "LogManager" "Utility" "Reflection" "Object")
+target_link_libraries(runtimexe "ModuleManager" "GameLoopManager" "LogManager" "Utility" "Reflection" "Object" "Serializer")
 set_target_properties(runtimexe PROPERTIES
         
         RUNTIME_OUTPUT_DIRECTORY_DEBUG "${OUTPUT_DIR}/main"

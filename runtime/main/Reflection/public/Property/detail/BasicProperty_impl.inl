@@ -16,22 +16,21 @@ namespace HARMONY
 		sizeof(T)
 	)
 	{
+		getter = [memberPtr](void* instance)->T {
+			C* classPtr = reinterpret_cast<C*>(instance);
+			return classPtr->*memberPtr;
+		};
 
+		setter = [memberPtr](void* instance, T value)->bool {
+			C* classPtr = reinterpret_cast<C*>(instance);
+			classPtr->*memberPtr = value;
+			return true;
+		};
 	}
 
 	template<typename T>
-	template<typename C>
-	inline T BasicProperty<T>::GetValue(C* instance)
+	T BasicProperty<T>::GetValue(void* instane)
 	{
-		PropertyAccessor<C, T>* propaccess = GetAccessorPtr<PropertyAccessor<C, T>*>();
-		return propaccess->GetValue(instance);
-	}
-
-	template<typename T>
-	template<typename C>
-	inline bool BasicProperty<T>::SetValue(C* instance, T value)
-	{
-		PropertyAccessor<C, T>* propaccess = GetAccessorPtr<PropertyAccessor<C, T>*>();
-		return propaccess->SetValue(instance, value);
+		return getter(instane);
 	}
 }

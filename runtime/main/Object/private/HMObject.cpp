@@ -3,8 +3,9 @@
 namespace HARMONY
 {
 	HMObject::HMObject()
+	:_guid(TEXT("guid")),
+	_isValid(true)
 	{
-		_guid = TEXT("");
 	}
 
 	HMObject::~HMObject()

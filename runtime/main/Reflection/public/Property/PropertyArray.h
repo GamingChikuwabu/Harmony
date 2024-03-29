@@ -12,6 +12,7 @@ namespace HARMONY
 		PropertyArray(const TCHAR* name, HARMONY::HMArray<T> C::* memberptr);
 		ScriptArray GetScriptArray(void* classInstance);
 		inline PropertyKind GetKind()override;
+		void operator()(const TCHAR* name,size_t);//インナータイプを登録するための
 	private:
 		std::function<HARMONY::ScriptArray(void*)> GetScriptArrayFunc;
 		Property* inner;

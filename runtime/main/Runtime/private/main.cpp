@@ -18,8 +18,8 @@ int main(int argc, char** argv)
 
 	HMObject obj;
 	SERIALIZER::OJsonSerializer oj;
-	const TCHAR* data =  oj & obj;
-	OutputDebugString(data);
+	HMString str =  oj & obj;
+	const TCHAR* data = str.GetRaw();
 
 	//ModuleManager::CommandLineAnalyze(argc, (void**)argv);
 	//LogManager::InitLogManager();

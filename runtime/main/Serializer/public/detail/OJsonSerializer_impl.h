@@ -45,7 +45,7 @@ namespace HARMONY
 		}
 
 		template<typename T>
-		const TCHAR* OJsonSerializer::operator&(T& obj)
+		HMString OJsonSerializer::operator&(T& obj)
 		{
 			StringBuffer sb;
 			Writer writer(sb);
@@ -96,7 +96,7 @@ namespace HARMONY
 				}
 				writer.EndObject();
 			}
-			return sb.GetString();
+			return HMString(sb.GetString());
 		}
 	}
 }

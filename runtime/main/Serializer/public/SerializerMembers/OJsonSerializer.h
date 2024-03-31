@@ -12,7 +12,7 @@ namespace HARMONY
 			OJsonSerializer();
 			~OJsonSerializer();
 			template<typename T>
-			const TCHAR* operator&(T& obj);
+			HMString operator&(T& obj);
 		};
 	}
 }

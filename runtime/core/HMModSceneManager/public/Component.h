@@ -1,12 +1,16 @@
-﻿#pragma once
+#pragma once
+#include"HMObject.h"
+#include"Component.generate.h"
 
 namespace HARMONY
 {
 	namespace CORE
 	{
 		class GameObject;
-		class Component
+		HMCLASS() 
+		class HMMODSCENEMANAGER_API Component : public HMObject
 		{
+			HM_CLASS_BODY()
 		public:
 			Component() {};
 			virtual ~Component() {};

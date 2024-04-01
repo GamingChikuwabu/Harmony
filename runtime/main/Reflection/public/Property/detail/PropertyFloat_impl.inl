@@ -11,4 +11,11 @@ namespace HARMONY
 		
 	}
 
+	template<typename C>
+	inline PropertyDouble::PropertyDouble(const TCHAR* name, float C::* memberptr)
+	:PropertyDouble::BasicProperty(name, memberptr)
+	{
+
+	}
+
 }

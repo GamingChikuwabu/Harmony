@@ -1,5 +1,4 @@
 #include"main.h"
-
 #ifdef WIN32
 #ifdef UNICODE
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR argv, int argc)
@@ -16,23 +15,18 @@ int main(int argc, char** argv)
 	GC_disable();
 	using namespace HARMONY;
 
-	HMObject obj;
-	SERIALIZER::OJsonSerializer oj;
-	HMString str =  oj & obj;
-	const TCHAR* data = str.GetRaw();
-
-	//ModuleManager::CommandLineAnalyze(argc, (void**)argv);
-	//LogManager::InitLogManager();
-	////EventManager::GetEvent<const char*, const char*, int>("Assert").Add(GameLoopManager::AssertLoop);
-	//if (!ModuleManager::Initialize())
-	//{
-	//	LogManager::WriteToFile(std::filesystem::path(ModuleManager::GetProjectAssetsPath()).append("Logs").string());
-	//	return -1;
-	//}
-	//HM_DEBUG_LOG("white","成功");
-	//GameLoopManager::Run();
-	//ModuleManager::Terminate();
-	//LogManager::WriteToFile(std::filesystem::path(ModuleManager::GetProjectAssetsPath()).append("Logs").string());
+	ModuleManager::CommandLineAnalyze(argc, (void**)argv);
+	LogManager::InitLogManager();
+	//EventManager::GetEvent<const char*, const char*, int>("Assert").Add(GameLoopManager::AssertLoop);
+	if (!ModuleManager::Initialize())
+	{
+		LogManager::WriteToFile(std::filesystem::path(ModuleManager::GetProjectAssetsPath()).append("Logs").c_str());
+		return -1;
+	}
+	HM_DEBUG_LOG("white",TEXT("成功"));
+	GameLoopManager::Run();
+	ModuleManager::Terminate();
+	LogManager::WriteToFile(std::filesystem::path(ModuleManager::GetProjectAssetsPath()).append("Logs").c_str());
 	// 手動でガーベージコレクションを実行
 	GC_gcollect();
 	GC_dump();

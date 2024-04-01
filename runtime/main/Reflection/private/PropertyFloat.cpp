@@ -6,4 +6,9 @@ namespace HARMONY
 	{
 		return PropertyKind::Float;
 	}
+
+	inline PropertyKind PropertyDouble::GetKind()
+	{
+		return PropertyKind::Double;
+	}
 }

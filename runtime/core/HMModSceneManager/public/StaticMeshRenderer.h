@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include"Renderer.h"
 #include"VertexType.h"
 
@@ -9,7 +9,7 @@ namespace HARMONY
 	{
 		struct World
 		{
-			Eigen::Matrix4f _worldMatrix;
+			//Eigen::Matrix4f _worldMatrix;
 		};
 
 		class StaticMeshRenderer : public Renderer

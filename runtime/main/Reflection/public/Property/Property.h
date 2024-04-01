@@ -1,22 +1,9 @@
 #pragma once
 #include"HMString.h"
+#include"PropertyKind.h"
 
 namespace HARMONY
 {
-	enum class PropertyKind
-	{
-		Bool,
-		Int32,
-		Int64,
-		Float,
-		Double,
-		String,
-		Array,
-		Map,
-		Class,
-		Object
-	};
-
 	class REFLECTION_API Property
 	{
 	public:

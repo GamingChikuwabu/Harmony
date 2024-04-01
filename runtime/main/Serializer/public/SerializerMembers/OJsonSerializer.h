@@ -11,8 +11,8 @@ namespace HARMONY
 		public:
 			OJsonSerializer();
 			~OJsonSerializer();
-			template<typename T>
-			HMString operator&(T& obj);
+			template<typename T, typename Tp = std::remove_cvref_t<T>>
+			HMString operator&(T&& obj);
 		};
 	}
 }

@@ -26,14 +26,17 @@ def find_namespace(cursor, namespace_name):
 def register_class_name(index:int,tokens:list,class_config:ClassConfig):
     if "_API" in tokens[index+1].spelling:#dllの宣言が入っている場合
         class_name = tokens[index+2].spelling
-        print(f"クラス名: {class_name}")
         class_config.class_name = class_name
+        if tokens[index+3].spelling == ":":
+            class_config.base_class_name = tokens[index+5].spelling
     else:
-        #前方宣言ではないことを調べる
-        if ";" != tokens[index+2].spelling and ">" != tokens[index+2].spelling:
-            class_name = tokens[index+1].spelling
-            print(f"クラス名: {class_name}")
-            class_config.class_name = class_name
+        if class_config.class_name == "":
+            #前方宣言ではないことを調べる
+            if ";" != tokens[index+2].spelling and ">" != tokens[index+2].spelling:
+                class_name = tokens[index+1].spelling
+                class_config.class_name = class_name
+            if tokens[index+2].spelling == ":":
+                class_config.base_class_name = tokens[index+4].spelling
 
 def register_class_property(index:int, tokens:list, class_config:ClassConfig):
     # Metadataの収集
@@ -47,18 +50,26 @@ def register_class_property(index:int, tokens:list, class_config:ClassConfig):
                 meta_data.append(Metadata("COMMENT", tokens[index + meta_data_index + 2].spelling))
         meta_data_index += 1
 
-    # Property情報の取得
-    while index + meta_data_index < tokens_length and tokens[index + meta_data_index].spelling != ";" and tokens[index + meta_data_index].spelling != "=":
+    name = ""
+    proptype = ""
+    while index + meta_data_index < tokens_length:
+        if tokens[index + meta_data_index].spelling == ";":#変数宣言の端まで来た
+            if proptype == "":
+                proptype = tokens[index + meta_data_index - 2].spelling
+            name = tokens[index + meta_data_index - 1].spelling
+            break
+        elif  tokens[index + meta_data_index].spelling == "=":#変数を初期化している場合
+            if proptype == "":
+                proptype = tokens[index + meta_data_index - 2].spelling
+            name = tokens[index + meta_data_index - 1].spelling
+            break
+        elif  tokens[index + meta_data_index].spelling == "<":#テンプレートを使用する型の場合
+            proptype = tokens[index + meta_data_index - 1].spelling
         meta_data_index += 1
-
-    if index + meta_data_index - 2 < index:
-        # ループの終了条件に達したが、有効なプロパティ名と型が見つからなかった場合
-        # 適切なエラーハンドリングかデバッグメッセージを出力する
-        print("Error: Property name or type not found.")
-        return
-
-    name = tokens[index + meta_data_index - 1].spelling
-    proptype = tokens[index + meta_data_index - 2].spelling
+        if index + meta_data_index - 2 < index:
+            print("ループの終了条件に達したが、有効なプロパティ名と型が見つからなかった")
+            return
+        
     pro = Property(name, proptype)
     class_config.add_property(pro, meta_data)
 
@@ -77,4 +88,3 @@ def build_class_configuration_with_tokens(translation_unit,class_config:ClassCon
             register_namespace(i,tokens,class_config)
         elif token.spelling == "HMPROPERTY":
             register_class_property(i,tokens,class_config)
-        

@@ -4,9 +4,13 @@ private:\
 friend struct G_Class_Declaration_Field_HMObject;\
 static HARMONY::Class* G_GetClassDataHMObject();\
 public:\
-static inline HARMONY::Class* GetClass()\
+static inline HARMONY::Class* StaticGetClass()\
 {\
 return G_GetClassDataHMObject();\
+}\
+inline virtual HARMONY::Class* GetClass()\
+{\
+return HMObject::StaticGetClass();\
 }
 #undef _GENARATED
 #define _GENARATED  HM_GENARATE_BODY_HMObject

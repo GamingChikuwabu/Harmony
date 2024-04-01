@@ -30,4 +30,13 @@ namespace HARMONY
 	{
 		return _data->_construction->invoke();
 	}
+
+	Class* Class::GetBaseClass()
+	{
+		if (_data->_baseClass)
+		{
+			return _data->_baseClass();
+		}
+		return nullptr;
+	}
 }

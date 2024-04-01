@@ -1,14 +1,17 @@
-﻿#pragma once
+#pragma once
 #include<string>
 #include<list>
 #include"Transform.h"
+#include"GameObject.generate.h"
 
 namespace HARMONY
 {
 	namespace CORE
 	{
-		class GameObject
+		HMCLASS()
+		class HMMODSCENEMANAGER_API GameObject :public HMObject
 		{
+			HM_CLASS_BODY()
 		public:
 			GameObject();
 			~GameObject();
@@ -17,16 +20,16 @@ namespace HARMONY
 			inline Transform* getTransform() const { return _transform; }
 
 			// Nameのゲッターとセッター
-			inline void setName(const std::string& name) { _name = name; }
-			inline std::string getName() const { return _name; }
+			inline void setName(const HMString& name) { _name = name; }
+			inline HMString getName() const { return _name; }
 
 			// Tagのゲッターとセッター
-			inline void setTag(const std::string& tag) { _tag = tag; }
-			inline std::string getTag() const { return _tag; }
+			inline void setTag(const HMString& tag) { _tag = tag; }
+			inline HMString getTag() const { return _tag; }
 
 			// Layerのゲッターとセッター
-			inline void setLayer(const std::string& layer) { _layer = layer; }
-			inline std::string getLayer() const { return _layer; }
+			inline void setLayer(const HMString& layer) { _layer = layer; }
+			inline HMString getLayer() const { return _layer; }
 
 			template<class T>
 			T* GetComponent();
@@ -35,10 +38,14 @@ namespace HARMONY
 			T* AddComponent();
 		protected:
 			Transform* _transform;
-			std::string _name;
-			std::string _tag;
-			std::string _layer;
-			std::list<Component*> m_componentList;
+			HMPROPERTY()
+			HMString _name;
+			HMPROPERTY()
+			HMString _tag;
+			HMPROPERTY()
+			HMString _layer;
+			HMPROPERTY()
+			HMArray<Component*> m_componentList;
 		};
 
 		template<class T>
@@ -58,8 +65,8 @@ namespace HARMONY
 		template<class T>
 		inline T* GameObject::AddComponent()
 		{
-			m_componentList.push_back(new T());
-			Component* comp = static_cast<Component*>(m_componentList.back());
+			m_componentList.Add(new T());
+			Component* comp = static_cast<Component*>(m_componentList.Back());
 			comp->_gameObject = this;
 			return (T*)comp;
 		}

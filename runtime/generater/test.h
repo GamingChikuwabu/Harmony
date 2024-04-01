@@ -9,18 +9,26 @@
 
 namespace HARMONY
 {
-	HMCLASS()
-	class OBJECT_API HMObject : public  gc
+	namespace MATH
 	{
-		HM_CLASS_BODY()
-	public:
-		HMObject();
-		virtual ~HMObject();
-		inline bool isValid()const noexcept;
-	protected:
-		HMPROPERTY()
-		HMString _guid;
-		HMPROPERTY()
-		bool _isValid;
-	};
+		HMCLASS()
+		struct UTILITY_API Vector3f
+		{
+			HM_CLASS_BODY()
+			union 
+			{
+				struct 
+				{
+					HMPROPERTY()
+					float x;
+					HMPROPERTY()
+					float y;
+					HMPROPERTY()
+					float z;
+				};
+				__m128 simd;
+			};
+			Vector3f(float _x,float _y,float z):x(_x), y(_y), z(_z){};
+		};
+	}
 }

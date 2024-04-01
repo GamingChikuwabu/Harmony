@@ -11,8 +11,8 @@ namespace HARMONY
 	{
 		LoadPlatformModule();
 		LoadCoreModule();
-		LoadCorePluginModule();
-		LoadEditorModule();
+		//LoadCorePluginModule();
+		//LoadEditorModule();
 		for (int i = 0; i < m_pModuleArray.size(); i++)
 		{
 			if (!m_pModuleArray[i]->AwakeInitialize())
@@ -34,8 +34,8 @@ namespace HARMONY
 				return false;
 			}
 		}
-		HARMONY::EventManager::GetEvent<>("OnReady").Add(ModuleManager::Ready);
-		HARMONY::EventManager::GetEvent<>("OnUpdate").Add(ModuleManager::Update); 
+		HARMONY::EventManager::GetEvent<>(TEXT("OnReady")).Add(ModuleManager::Ready);
+		HARMONY::EventManager::GetEvent<>(TEXT("OnUpdate")).Add(ModuleManager::Update); 
 		return true;
 	}
 
@@ -95,7 +95,7 @@ namespace HARMONY
 		}
 		else//Runtimeとして起動
 		{
-			m_projectAssetsPath = "C:/work/myworkspace/engine/v3_50_00/develop/editor";
+			m_projectAssetsPath = "C:/work/myworkspace/engine/v3_60_00/develop/editor";
 			m_assetsPath = "C:/work/myworkspace/ProjectsRoot/Sample/assets";
 		}
 	}

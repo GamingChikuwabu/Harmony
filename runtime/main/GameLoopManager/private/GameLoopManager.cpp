@@ -1,4 +1,4 @@
-﻿#include"EventManager.h"
+#include"EventManager.h"
 #include "GameLoopManager.h"
 
 namespace HARMONY
@@ -11,14 +11,14 @@ namespace HARMONY
         
 
        
-        HARMONY::EventManager::GetEvent<>("OnReady").Broadcast();
+        HARMONY::EventManager::GetEvent<>(TEXT("OnReady")).Broadcast();
         while (running) {
             auto currentTime = Clock::now();
             deltaTime = std::chrono::duration<float, std::chrono::seconds::period>(currentTime - lastTime).count();
             lastTime = currentTime;
             // イベントを発火
-            HARMONY::EventManager::GetEvent<>("OnUpdate").Broadcast(); 
-            HARMONY::EventManager::GetEvent<>("OnRender").Broadcast(); 
+            HARMONY::EventManager::GetEvent<>(TEXT("OnUpdate")).Broadcast(); 
+            HARMONY::EventManager::GetEvent<>(TEXT("OnRender")).Broadcast(); 
             frameCount++;
             totalTime += deltaTime;
             // シンプルなフレームレート計算

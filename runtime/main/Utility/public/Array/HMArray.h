@@ -41,4 +41,17 @@ namespace HARMONY
     
 }
 
+// デフォルトのメタ関数定義。特定の型にはマッチしない。
+template<typename T>
+struct is_innertype {
+    
+};
+
+// HMArrayに対する特殊化。
+template<typename T>
+struct is_innertype<HARMONY::HMArray<T>> {
+    // HMArrayから内部型Tを抜き出す。
+    using type = T;
+};
+
 #include"detail/HMArray_impl.inl"

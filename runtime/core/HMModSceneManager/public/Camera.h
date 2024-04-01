@@ -1,6 +1,6 @@
-﻿#pragma once
+#pragma once
 #include"Behavior.h"
-#include"Eigen/Dense"
+//#include"Eigen/Dense"
 
 namespace HARMONY
 {
@@ -23,8 +23,8 @@ namespace HARMONY
 			inline float getFarClip() const { return _farClip; }
 
 			//行列関連
-			Eigen::Matrix4f getViewMatrix();
-			Eigen::Matrix4f getProjectionMatrix();
+			/*Eigen::Matrix4f getViewMatrix();
+			Eigen::Matrix4f getProjectionMatrix();*/
 
 			//mainカメラを取得
 			static Camera* getMainCamera() { return _mainCamera; };
@@ -34,8 +34,8 @@ namespace HARMONY
 			float _aspectRatio;
 			float _nearClip;
 			float _farClip;
-			Eigen::Matrix4f _viewMatrix;
-			Eigen::Matrix4f _projectionMatrix;
+			/*Eigen::Matrix4f _viewMatrix;
+			Eigen::Matrix4f _projectionMatrix;*/
 			static inline Camera* _mainCamera;
 		};
 	}

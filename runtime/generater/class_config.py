@@ -10,8 +10,12 @@ class Property:
 
 class ClassConfig:
     def __init__(self):
+        #クラスが有効かどうか
         self.isVaild = False
+        #クラスの名前
         self.class_name = ""
+        #Baseクラスの名前
+        self.base_class_name = ""
         # クラスのプロパティ名とそのメタ情報の辞書
         self.class_properties = {}
         # クラスのメソッド名とそのメタ情報の辞書

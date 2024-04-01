@@ -25,7 +25,7 @@ add_public_include_directory()
 
 # サブディレクトリの追加
 add_subdirectory("main")
-#add_subdirectory("core")
+add_subdirectory("core")
 #add_subdirectory("coreplugin")
-#add_subdirectory("platform")
+add_subdirectory("platform")
 #add_subdirectory("editor")

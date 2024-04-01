@@ -1,7 +1,7 @@
-﻿#include "LogManager.h"
+#include "LogManager.h"
 #include <fstream>
 #include <filesystem>
-
+#include"Utility.hpp"
 
 
 
@@ -9,41 +9,36 @@ namespace HARMONY
 {
 	void LogManager::InitLogManager()
 	{
-		EventManager::GetEvent<const char*,const char*>("DebugLog").Add(LogManager::AddLog);
-		EventManager::GetEvent<const char*, const char*,int>("Assert").Add(LogManager::AssertLog);
+		EventManager::GetEvent<const TCHAR*,const TCHAR*>(TEXT("DebugLog")).Add(LogManager::AddLog);
+		EventManager::GetEvent<const TCHAR*, const TCHAR*,int32_t>(TEXT("Assert")).Add(LogManager::AssertLog);
 	}
 
-	void LogManager::AddLog(const char* message,const char* color)
+	void LogManager::AddLog(const TCHAR* message,const TCHAR* color)
 	{
 		std::lock_guard<std::mutex> lock(_mutex);
 		EnqueueLog(message, color);
-		_logs.push_back(message);
+		_logs.Add(message);
 	}
 
 
-	void LogManager::WriteToFile(const std::string& LogDir)
+	void LogManager::WriteToFile(const HMString& LogDir)
 	{
-		std::ofstream file(std::filesystem::path(LogDir).append("DebugLog.txt"), std::ios::app);
+		std::ofstream file(std::filesystem::path(LogDir.GetRaw()).append("DebugLog.txt"), std::ios::app);
 		if (!file.is_open()) {
 			// ファイルが開けなかった場合のエラー処理
 			return;
 		}
 		{
 			
-			std::lock_guard<std::mutex> lock(_mutex);
-			for (const auto& log : _logs) {
-				file << ToUtf8(FromUtf8(log)) << std::endl;
-			}
-			_logs.clear(); // ログをクリア
 		}
 	}
 
-	void LogManager::AssertLog(const char* message, const char* file, int line)
+	void LogManager::AssertLog(const TCHAR* message, const TCHAR* file, int32_t line)
 	{
-		std::string fullMessage = "Assertion failed: " + std::string(message) + ", in file " + file + ", line " + std::to_string(line);
+		/*HMString fullMessage = "Assertion failed: " + HMString(message) + ", in file " + file + ", line ";*/
 	}
 
-	void LogManager::EnqueueLog(const std::string& log,const char* color) {
+	void LogManager::EnqueueLog(const HMString& log,const TCHAR* color) {
 		//std::lock_guard<std::mutex> lock(_mutex); // ミューテックスでスレッドセーフを保証
 		LogMessage map{ log ,color};
 		_logQueue.push(map);

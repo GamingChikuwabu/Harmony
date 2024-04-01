@@ -6,6 +6,8 @@ namespace HARMONY
 	:_guid(TEXT("guid")),
 	_isValid(true)
 	{
+		damy.Add(10);
+		damy.Add(20);
 	}
 
 	HMObject::~HMObject()

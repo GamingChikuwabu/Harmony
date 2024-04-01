@@ -1,10 +1,9 @@
-﻿#pragma once
+#pragma once
 #include <iostream>
 #include <string>
 #include <vector>
 #include<memory>
 #include<list>
-#include"serialize.h"
 #include"GameObject.h"
 #include"ICommandBuffer.h"
 

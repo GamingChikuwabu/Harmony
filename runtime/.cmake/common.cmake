@@ -25,6 +25,8 @@ macro(lib_path_setting targetname)
     link_lib(${targetname})
     include("${CMAKE_SOURCE_DIR}/.cmake/thirdparty/bdwgc.cmake")
     LINK_LIB_GC(${targetname})
+    include("${CMAKE_SOURCE_DIR}/.cmake/thirdparty/eigen.cmake")
+    LINK_LIB_EIGEN(${targetname})    
 endmacro()
 
 macro(genarate_hedder_dir_setting targetname)
@@ -74,7 +76,7 @@ macro(init_core_module_setting targetname)
         ARCHIVE_OUTPUT_DIRECTORY_DEVELOP "${OUTPUT_DIR}/lib/core"
     )
     
-    target_link_libraries(${targetname} ModuleManager EventManager GameLoopManager JobSystem Utility)
+    target_link_libraries(${targetname} ModuleManager EventManager GameLoopManager JobSystem Utility Serializer)
 endmacro()
 
 macro(init_coreplugin_module_setting targetname)

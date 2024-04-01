@@ -9,14 +9,22 @@ namespace HARMONY
 	class Class;
 	struct ClassData
 	{
-		ClassData(const TCHAR* name, size_t size, const HMArray<Property*>& prop) :_name(name),_size(size),_property(prop) {
+		using BaseClassGetterFunc = Class * (*)();
+		ClassData(
+			const TCHAR* name,
+			size_t size,
+			const HMArray<Property*>& prop,
+			BaseClassGetterFunc baseClassGetter = nullptr
+		) :_name(name),
+			_size(size),
+			_property(prop),
+			_baseClass(baseClassGetter){}
 
-		}
 		const TCHAR* _name;
 		const size_t _size;
 		const HMArray<Property*> _property;
 		const HMArray<Class*> _derivedClass;
-		const Class* _baseClass;
+		const BaseClassGetterFunc _baseClass;
 		const Construction* _construction;
 	};
 }

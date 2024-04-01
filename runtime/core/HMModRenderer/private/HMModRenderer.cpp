@@ -1,4 +1,4 @@
-﻿#include"HMModRenderer.h"
+#include"HMModRenderer.h"
 #include"IWindow.h"
 #include"EventManager.h"
 #include"LogManager.h"
@@ -24,7 +24,7 @@ namespace HARMONY
 				return false;
 			}
 
-			EventManager::GetEvent<>("OnRender").Add(std::bind(&HMModRenderer::OnRender, this)); 
+			EventManager::GetEvent<>(TEXT("OnRender")).Add(std::bind(&HMModRenderer::OnRender, this)); 
 			return true;
 		}
 
@@ -32,13 +32,13 @@ namespace HARMONY
 		{
 			//ウィンドウを取得
 			IWindow* window= ModuleManager::GetModule<IWindow>();
-			auto handle = window->GetWindowHandle(L"Harmony");
+			auto handle = window->GetWindowHandle(TEXT("Harmony"));
 			if (!window)
 			{
 				return false;
 			}
-			uint32_t w = window->GetWindowWidth(L"Harmony");
-			uint32_t h = window->GetWindowHeight(L"Harmony");
+			uint32_t w = window->GetWindowWidth(TEXT("Harmony"));
+			uint32_t h = window->GetWindowHeight(TEXT("Harmony"));
 
 			//スワップチェインを作成
 			_swapchain = std::reinterpret_pointer_cast<ISwapchain>(_renderapi->CreateResource(ResourceType::SwapChain));

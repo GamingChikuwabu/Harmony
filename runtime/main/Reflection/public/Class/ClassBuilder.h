@@ -11,8 +11,10 @@ namespace HARMONY
 	{
 	public:
 		static void Registration(const TCHAR* name, Class* (*classCreateFunc)());
+		static void RegistrationBaseClass(const TCHAR* name, Class* (*myClassFunc)());
 		static Class* GetClassByname(const TCHAR* name);
 	private:
 		static inline HMUnorderedMap<HMString, Class* (*)()> _classCreatorFunction;
+		static inline HMUnorderedMap<HMString, HMArray<Class* (*)()>> _derivedClass;
 	};
 }

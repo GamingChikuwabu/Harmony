@@ -10,7 +10,7 @@
 namespace HARMONY
 {
 	HMCLASS()
-	class OBJECT_API HMObject : public  gc
+	class OBJECT_API HMObject : public  gc 
 	{
 		HM_CLASS_BODY()
 	public:
@@ -22,5 +22,7 @@ namespace HARMONY
 		HMString _guid;
 		HMPROPERTY()
 		bool _isValid;
+		HMPROPERTY()
+		HMArray<int32_t> damy;
 	};
 }

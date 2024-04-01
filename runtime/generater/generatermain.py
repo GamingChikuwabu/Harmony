@@ -34,9 +34,13 @@ def main():
             file.write(f"friend struct G_Class_Declaration_Field_{class_config.class_name};\\\n")
             file.write(f"static HARMONY::Class* G_GetClassData{class_config.class_name}();\\\n")
             file.write(f"public:\\\n")
-            file.write(f"static inline HARMONY::Class* GetClass()\\\n")
+            file.write(f"static inline HARMONY::Class* StaticGetClass()\\\n")
             file.write("{\\\n")
             file.write(f"return G_GetClassData{class_config.class_name}();\\\n")
+            file.write("}\\\n")
+            file.write(f"inline virtual HARMONY::Class* GetClass()\\\n")
+            file.write("{\\\n")
+            file.write(f"return {class_config.class_name}::StaticGetClass();\\\n")
             file.write("}\n")
             file.write("#undef _GENARATED\n")
             file.write(f"#define _GENARATED  HM_GENARATE_BODY_{class_config.class_name}")
@@ -52,7 +56,7 @@ def main():
             fullname = ""
             for name in class_config.name_spase:
                 fullname += name + "::"
-            file.write(f'   HARMONY::ClassBuilder::Registration(TEXT("HMObject"), &{fullname}{class_config.class_name}::GetClass);\n')
+            file.write(f'    HARMONY::ClassBuilder::Registration(TEXT("{class_config.class_name}"), &{fullname}{class_config.class_name}::StaticGetClass);\n')
             file.write('}\n')
 
             file.write(f'struct AUTO_REGISTER_STRUCTURE_{class_config.class_name}\n')
@@ -85,13 +89,18 @@ def main():
                     file.write(f'           HM_ADD_PROPERTY_STRING({class_config.class_name},{prop.name}),\n')
                 elif prop.type == "bool":
                     file.write(f'           HM_ADD_PROPERTY_BOOL({class_config.class_name},{prop.name}),\n')
+                elif prop.type == "HMArray":
+                    file.write(f'           HM_ADD_PROPERTY_ARRAY({class_config.class_name},{prop.name}),\n')
 
             file.write('        };\n')
             file.write('    };\n')
 
             file.write(f"   inline Class* {class_config.class_name}::G_GetClassData{class_config.class_name}()\n")
             file.write('    {\n')
-            file.write(f'       HM_CLASS_CREATE({class_config.class_name})\n')
+            if "" != class_config.base_class_name and "gc" != class_config.base_class_name:
+                file.write(f'       HM_CLASS_CREATE({class_config.class_name},&{class_config.base_class_name}::StaticGetClass)\n')
+            else:
+                file.write(f'       HM_CLASS_CREATE({class_config.class_name},nullptr)\n')
             file.write('return _class;\n')
             file.write('\n')
             file.write('    }\n')
@@ -100,5 +109,8 @@ def main():
             for name in class_config.name_spase:
                 file.write('}\n')
 
+            print(f"==============================generate completion {class_config.class_name}===========================================")
+
 if __name__ == "__main__":
     main()
+    

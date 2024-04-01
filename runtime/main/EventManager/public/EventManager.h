@@ -6,6 +6,8 @@
 #include <any>
 #include <string>
 
+#include"Utility.hpp"
+
 namespace HARMONY {
 
     // Delegate と MulticastDelegate のテンプレート宣言
@@ -17,7 +19,7 @@ namespace HARMONY {
     class MulticastDelegate {
     public:
         void Add(Delegate<Args...> delegate) {
-            delegates.push_back(delegate);
+            delegates.Add(delegate);
         }
 
         void Broadcast(Args... args) {
@@ -26,7 +28,7 @@ namespace HARMONY {
             }
         }
     private:
-        std::vector<Delegate<Args...>> delegates;
+        HMArray<Delegate<Args...>> delegates;
     };
 
 
@@ -34,7 +36,7 @@ namespace HARMONY {
     class EVENTMANAGER_API EventManager {
     public:
         template <typename... Args>
-        static MulticastDelegate<Args...>& GetEvent(const std::string& eventType) {
+        static MulticastDelegate<Args...>& GetEvent(const HMString& eventType) {
             auto& event = events[eventType];
             if (!event.has_value()) {
                 event = MulticastDelegate<Args...>();
@@ -43,6 +45,6 @@ namespace HARMONY {
         }
 
     private:
-        static inline std::map<std::string, std::any> events;
+        static inline HMUnorderedMap<HMString, std::any> events;
     };
 } /// namespace HARMONY

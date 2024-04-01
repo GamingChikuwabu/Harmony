@@ -4,7 +4,7 @@
 
 namespace HARMONY
 {
-	
+	class Class;
 	class REFLECTION_API PropertyClass : public Property
 	{
 	public:
@@ -16,9 +16,12 @@ namespace HARMONY
 		bool SetValue(C* instance,void* value);
 		template<typename T, typename C>
 		T* Convert(C* instance);
+		inline Class* GetClass();
+		inline PropertyKind GetKind()override;
 	private:
 		std::function<void* (void*)> getter;
 		std::function<bool(void*, void*)> setter;
+		std::function<Class* ()> classGetter;
 	};
 }
 

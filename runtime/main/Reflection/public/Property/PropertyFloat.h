@@ -10,6 +10,14 @@ namespace HARMONY
 		PropertyFloat(const TCHAR* name, float C::* memberptr);
 		inline PropertyKind GetKind()override;	
 	};
+
+	class PropertyDouble : public BasicProperty<double>
+	{
+	public:
+		template<typename C>
+		PropertyDouble(const TCHAR* name, float C::* memberptr);
+		inline PropertyKind GetKind()override;
+	};
 }
 
 #include"detail/PropertyFloat_impl.inl"

@@ -10,6 +10,7 @@ using TCHAR = wchar_t;
 #define TSTRCAT std::wcscat
 #define TSTRLEN std::wcslen
 #define TSTRCMP std::wcscmp
+#define TSPRINTF swprintf_s
 #else
 #define TEXT(str) str
 using TCHAR = char;
@@ -17,4 +18,5 @@ using TCHAR = char;
 #define TSTRCAT std::strcat
 #define TSTRLEN std::strlen
 #define TSTRCMP std::strcmp
+#define TSPRINTF sprintf
 #endif

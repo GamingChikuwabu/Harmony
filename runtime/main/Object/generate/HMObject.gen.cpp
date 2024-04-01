@@ -4,7 +4,7 @@
 #include"Macro/GenerateMacro.h"
 static void G_AUTO_REGISTER_FUNCTION_HMObject()
 {
-   HARMONY::ClassBuilder::Registration(TEXT("HMObject"), &HARMONY::HMObject::GetClass);
+    HARMONY::ClassBuilder::Registration(TEXT("HMObject"), &HARMONY::HMObject::StaticGetClass);
 }
 struct AUTO_REGISTER_STRUCTURE_HMObject
 {
@@ -21,11 +21,12 @@ namespace HARMONY{
         {
            HM_ADD_PROPERTY_STRING(HMObject,_guid),
            HM_ADD_PROPERTY_BOOL(HMObject,_isValid),
+           HM_ADD_PROPERTY_ARRAY(HMObject,damy),
         };
     };
    inline Class* HMObject::G_GetClassDataHMObject()
     {
-       HM_CLASS_CREATE(HMObject)
+       HM_CLASS_CREATE(HMObject,nullptr)
 return _class;
 
     }

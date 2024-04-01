@@ -16,6 +16,7 @@ namespace HARMONY
 		void* Create();
 		template<typename ...Args>
 		void* Create(Args... arg);
+		Class* GetBaseClass();
 	private:
 		ClassData* _data;
 	};

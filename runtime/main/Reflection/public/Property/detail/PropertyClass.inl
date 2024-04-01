@@ -17,6 +17,9 @@ namespace HARMONY
 			classPtr->*memberptr = *valuePtr;
 			return true;
 			};
+		classGetter = []()->Class* {
+			return AC::GetStaticClass();
+			};
 	}
 
 	template<typename C>

@@ -1,6 +1,16 @@
 #pragma once
-#define HM_CLASS_CREATE(className)\
-static Class* _class = new (GC_NEW(Class)) Class(new (GC_NEW(ClassData)) ClassData(TEXT(#className), sizeof(className), G_Class_Declaration_Field_##className::_propertyField)	);
+// メンバ変数の型を抜き出すメタ関数
+template<typename T>
+struct member_type;
+
+// メンバ変数の型を特殊化して抜き出すためのメタ関数の実装
+template<typename C, typename M>
+struct member_type<M C::*> {
+    using type = M;
+};
+
+#define HM_CLASS_CREATE(className,func)\
+static Class* _class = new (GC_NEW(Class)) Class(new (GC_NEW(ClassData)) ClassData(TEXT(#className), sizeof(className), G_Class_Declaration_Field_##className::_propertyField,func)	);
 
 #define HM_ADD_PROPERTY_STRING(classType,Member)\
 new (GC_NEW(PropertyString)) PropertyString(TEXT(#Member),&classType::Member)

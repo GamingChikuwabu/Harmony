@@ -5,8 +5,6 @@ include("${CMAKE_SOURCE_DIR}/.cmake/common.cmake")
 include("${CMAKE_SOURCE_DIR}/.cmake/windows_setting.cmake")
 include("${CMAKE_SOURCE_DIR}/.cmake/compiler.cmake")
 
-
-
 project("runtime" LANGUAGES CXX)
 
 # C++の標準設定
@@ -27,7 +25,7 @@ add_public_include_directory()
 
 # サブディレクトリの追加
 add_subdirectory("main")
-add_subdirectory("core")
-add_subdirectory("coreplugin")
-add_subdirectory("platform")
-add_subdirectory("editor")
+#add_subdirectory("core")
+#add_subdirectory("coreplugin")
+#add_subdirectory("platform")
+#add_subdirectory("editor")

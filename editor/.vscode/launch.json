@@ -1,0 +1,16 @@
+{
+    // IntelliSense を使用して利用可能な属性を学べます。
+    // 既存の属性の説明をホバーして表示します。
+    // 詳細情報は次を確認してください: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: モジュール",
+            "type": "python",
+            "request": "launch",
+            "module": "main",
+            "justMyCode": true,
+            "args": ["katsuhitosudare","ssl:43.206.254.40:1666","kolosiya5656","5c0068c9-d2ee-c2f9-a085-e033df53a678","Sample","C:\\work\\myworkspace"]
+        }
+    ]
+}

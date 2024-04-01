@@ -1,9 +1,10 @@
-﻿#pragma once
+#pragma once
 #include"IModule.h"
 #include<iostream>
 
-class IWindow : public IModule
+class IWindow : public HARMONY::IModule
 {
+    HM_CLASS_BODY(IModule)
 public:
     //コンストラクタ
     IWindow()

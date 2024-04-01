@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include <map>
 #include <vector>
@@ -28,6 +28,7 @@ namespace HARMONY {
     private:
         std::vector<Delegate<Args...>> delegates;
     };
+
 
     // EventManager クラスの宣言
     class EVENTMANAGER_API EventManager {

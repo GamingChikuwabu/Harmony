@@ -12,34 +12,40 @@
     # ビルドするライブラリ自体にはEXPORT_DLLを使用
     target_compile_definitions(${targetname} PRIVATE ${target_upper}_API=${EXPORT_DLL})
     target_compile_definitions(${targetname} INTERFACE ${target_upper}_API=${IMPORT_DLL})
+    target_compile_definitions(${targetname} PRIVATE NOMINMAX)
+
     add_compile_definitions(_SILENCE_CXX20_CISO646_REMOVED_WARNING)
     message(${target_upper}_API)
     target_compile_definitions(${targetname} PRIVATE ${target_upper}_EXPORTS=1)
+
+endmacro()
+
+macro(lib_path_setting targetname)
+    include("${CMAKE_SOURCE_DIR}/.cmake/thirdparty/rapidjson.cmake")
+    link_lib(${targetname})
+    include("${CMAKE_SOURCE_DIR}/.cmake/thirdparty/bdwgc.cmake")
+    LINK_LIB_GC(${targetname})
+endmacro()
+
+macro(genarate_hedder_dir_setting targetname)
+    
+
 endmacro()
 
 macro(defo_module_setting targetname)
      # ソースファイルを探す
-    file(GLOB KS_MODULE_MANAGER_SOURCES "private/*.cpp" "public/*.h" "generate/*.cpp" "generate/*.h")
+    file(GLOB KS_MODULE_MANAGER_SOURCES "private/*.cpp" "public/*.h" "generate/*.cpp")
     # ターゲットの追加
     add_library(${targetname} SHARED ${KS_MODULE_MANAGER_SOURCES})
+    lib_setting(${targetname})
     message(${KS_MODULE_MANAGER_SOURCES})
     #dllやsoのセッティング
-    lib_setting(${targetname})
     #自分のprivateディレクトリのインクルードパスを通す
-    target_include_directories(${targetname} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/${targetname}/private")
-    #Utirytyともつなぐ
-    target_include_directories(${targetname} PRIVATE "${CMAKE_SOURCE_DIR}/utility")
-    #Eigenのパス
-    target_include_directories(${targetname} PRIVATE "${CMAKE_SOURCE_DIR}/thirdparty/Eigen")
-    target_include_directories(${targetname} PRIVATE "${CMAKE_SOURCE_DIR}/thirdparty/platform/windows/rttr/include")
-    #GCのパスを通す
-    target_include_directories(${targetname} PRIVATE "${CMAKE_SOURCE_DIR}/thirdparty/platform/windows/bdwgc/include")
-    target_link_directories(${targetname} PRIVATE  "${CMAKE_SOURCE_DIR}/thirdparty/platform/windows/bdwgc/lib/debug")
-    target_link_libraries(${targetname} "${CMAKE_SOURCE_DIR}/thirdparty/platform/windows/bdwgc/lib/debug/gc.lib")
-    target_link_libraries(${targetname} "${CMAKE_SOURCE_DIR}/thirdparty/platform/windows/bdwgc/lib/debug/gccpp.lib")
-    target_link_libraries(${targetname} "${CMAKE_SOURCE_DIR}/thirdparty/platform/windows/bdwgc/lib/debug/gctba.lib")
-    target_link_libraries(${targetname} "${CMAKE_SOURCE_DIR}/thirdparty/platform/windows/rttr/lib/Debug/rttr_core_d.lib")
-    #CUSTOM_HEADER_GENERATER(${targetname})
+    target_include_directories(${targetname} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/private")
+    target_include_directories(${targetname} PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/generate")
+    
+    lib_path_setting(${targetname})
+    custom_header_generator(${targetname})
 endmacro()
 
 macro(init_main_module_setting targetname)
@@ -68,7 +74,7 @@ macro(init_core_module_setting targetname)
         ARCHIVE_OUTPUT_DIRECTORY_DEVELOP "${OUTPUT_DIR}/lib/core"
     )
     
-    target_link_libraries(${targetname} ModuleManager EventManager GameLoopManager JobSystem)
+    target_link_libraries(${targetname} ModuleManager EventManager GameLoopManager JobSystem Utility)
 endmacro()
 
 macro(init_coreplugin_module_setting targetname)
@@ -84,7 +90,7 @@ macro(init_coreplugin_module_setting targetname)
         ARCHIVE_OUTPUT_DIRECTORY_DEVELOP "${OUTPUT_DIR}/lib/coreplugin"
     )
     
-    target_link_libraries(${targetname} ModuleManager EventManager GameLoopManager JobSystem)
+    target_link_libraries(${targetname} ModuleManager EventManager GameLoopManager JobSystem Utility)
 endmacro()
 
 macro(init_platform_module_setting targetname)
@@ -115,7 +121,7 @@ macro(init_platform_module_setting targetname)
         ARCHIVE_OUTPUT_DIRECTORY_DEVELOP "${OUTPUT_DIR}/lib/platform/${platformname}"
     )
     #ModuleManagerとリンクする
-    target_link_libraries(${targetname} ModuleManager EventManager GameLoopManager JobSystem)
+    target_link_libraries(${targetname} ModuleManager EventManager GameLoopManager JobSystem Utility)
 endmacro()
 
 macro(init_editor_module_setting targetname)
@@ -131,7 +137,7 @@ macro(init_editor_module_setting targetname)
         ARCHIVE_OUTPUT_DIRECTORY_DEVELOP "${OUTPUT_DIR}/lib/editor"
     )
     #ModuleManagerとリンクする
-    target_link_libraries(${targetname} ModuleManager EventManager GameLoopManager JobSystem)
+    target_link_libraries(${targetname} ModuleManager EventManager GameLoopManager JobSystem Utility)
 endmacro()
 
 macro(init_project_module_setting targetname)
@@ -147,7 +153,7 @@ macro(init_project_module_setting targetname)
         ARCHIVE_OUTPUT_DIRECTORY_DEVELOP "${OUTPUT_DIR}/lib/editor"
     )
     #ModuleManagerとリンクする
-    target_link_libraries(${targetname} ModuleManager EventManager GameLoopManager JobSystem)
+    target_link_libraries(${targetname} ModuleManager EventManager GameLoopManager JobSystem Utility)
 endmacro()
 
 function(add_sub_modules)
@@ -192,22 +198,33 @@ function(add_public_include_directory )
     endforeach()
 endfunction()
 
-macro(custom_header_generater targetname)
-    #libclangのパス
-    set(LIB_CLANG_PATH ${CMAKE_SOURCE_DIR}/.cmake/libclang.dll)
-    #pythonfileのパス
-    set(HEADER_GENERATER_PATH ${CMAKE_SOURCE_DIR}/.cmake/header_generater.py)
-    #.hファイルを探す
+macro(custom_header_generator targetname)
+    # libclangのパス
+    set(LIB_CLANG_PATH ${CMAKE_SOURCE_DIR}/generater/libclang.dll)
+    # generatemain.exeのパス
+    set(GENERATE_MAIN_PATH ${CMAKE_SOURCE_DIR}/generater/generatermain.py)
+    # .hファイルを探す
     file(GLOB_RECURSE HEADER_FILES "${CMAKE_CURRENT_SOURCE_DIR}/**/*.h")
-    # ファイルのリストを出力する
+
+    # カスタムターゲット名
+    set(custom_target_name "${targetname}_header_generator")
+
+    # カスタムターゲットを追加
+    add_custom_target(${custom_target_name} ALL)
+
+    # ファイルのリストを出力し、各ファイルに対してカスタムコマンドを追加
     foreach(HEADER_FILE ${HEADER_FILES})
-        get_filename_component(HEADER_NAME ${HEADER_FILE} NAME)
+        get_filename_component(HEADER_NAME ${HEADER_FILE} NAME_WE)
         message(STATUS "Found header file: ${HEADER_NAME}")
+        
+        # カスタムコマンドをカスタムターゲットに追加
         add_custom_command(
-            TARGET ${targetname}
-            PRE_LINK
-            COMMAND python3 ${HEADER_GENERATER_PATH} ${LIB_CLANG_PATH} ${HEADER_FILE} ${CMAKE_SOURCE_DIR}/generate/"${HEADER_NAME}generate.h"
-            COMMENT "Generating custom header file"
+            TARGET ${custom_target_name}
+            COMMAND python3.exe ${GENERATE_MAIN_PATH} ${LIB_CLANG_PATH} ${HEADER_FILE} ${CMAKE_CURRENT_SOURCE_DIR}/generate ${HEADER_NAME}
+            COMMENT "Generating custom header file for ${HEADER_NAME}"
         )
     endforeach()
+
+    # メインのターゲットがこのカスタムターゲットに依存するように設定
+    add_dependencies(${targetname} ${custom_target_name})
 endmacro()

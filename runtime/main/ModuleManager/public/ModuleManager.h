@@ -1,17 +1,11 @@
-﻿#pragma once
+#pragma once
 #pragma warning(disable:4251)
 
 #include"IModule.h"
 #include<memory>
 #include<unordered_map>
 #include<string>
-
-#ifdef _WIN32
-#ifndef NOMINMAX
-#define NOMINMAX
-#endif 
 #include<Windows.h>
-#endif // _WIN32
 
 
 namespace HARMONY 
@@ -75,14 +69,19 @@ namespace HARMONY
 	private:
 		//========================================================================
 		//メンバ変数
+		HMPROPERTY()
 		static inline std::unordered_map<std::string, std::string> m_moduleKind;
+		HMPROPERTY()
 		static inline std::vector<IModule*> m_pModuleArray;
 #ifdef _WIN32
 		static inline std::unordered_map<std::string, HMODULE> m_modulehandole;
 #endif // _WIN32
+		HMPROPERTY()
 		static inline std::string m_projectAssetsPath = "";
+		HMPROPERTY()
 		static inline std::string m_assetsPath = "";
-		static inline std::string m_EnginePath = "C:/work/myworkspace/engine/v3_50_00/develop/editor";
+		HMPROPERTY()
+		static inline std::string m_EnginePath = "C:/work/myworkspace/engine/v3_60_00/develop/editor";
 		static bool LoadCoreModule();
 		static bool LoadCorePluginModule();
 		static bool LoadPlatformModule();

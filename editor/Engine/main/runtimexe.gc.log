@@ -1,0 +1,57 @@
+
+***GC Dump collection #1
+Time since GC init: 359 ms
+
+***Static roots:
+From 00007FF6D9041000 to 00007FF6D9042000 (temporary)
+From 00007FFE039A9000 to 00007FFE039AC000 (temporary)
+From 00007FFE07880000 to 00007FFE07884000 (temporary)
+From 00007FFE0EA4B000 to 00007FFE0EA8A000 (temporary)
+From 00007FFE0EA8F000 to 00007FFE0EA90000 (temporary)
+From 00007FFF18F35000 to 00007FFF18F36000 (temporary)
+From 00007FFF192EE000 to 00007FFF192EF000 (temporary)
+From 00007FFF1A284000 to 00007FFF1A286000 (temporary)
+From 00007FFF1A28A000 to 00007FFF1A28B000 (temporary)
+From 00007FFF1A48F000 to 00007FFF1A490000 (temporary)
+From 00007FFF1A87C000 to 00007FFF1A87D000 (temporary)
+From 00007FFF1CCB4000 to 00007FFF1CCB5000 (temporary)
+From 00007FFF1DF3B000 to 00007FFF1DF3C000 (temporary)
+From 00007FFF35F26000 to 00007FFF35F27000 (temporary)
+From 00007FFF53C57000 to 00007FFF53C5C000 (temporary)
+From 00007FFF53DCE000 to 00007FFF53DCF000 (temporary)
+From 00007FFF54136000 to 00007FFF5413B000 (temporary)
+From 00007FFF5429E000 to 00007FFF542A2000 (temporary)
+From 00007FFF543AF000 to 00007FFF543B2000 (temporary)
+From 00007FFF544B9000 to 00007FFF544BB000 (temporary)
+From 00007FFF546D7000 to 00007FFF546D8000 (temporary)
+From 00007FFF552D8000 to 00007FFF552DA000 (temporary)
+From 00007FFF553F3000 to 00007FFF553F4000 (temporary)
+From 00007FFF5682F000 to 00007FFF5683B000 (temporary)
+GC_root_size= 483328
+
+***Heap sections:
+Total heap size: 65536 (0 unmapped)
+Section 0 from 000002534AFE0000 to 000002534AFF0000 0/16 blacklisted
+
+***Free blocks:
+Free list 8 (total size 32768):
+	000002534AFE8000 size 32768 not black listed
+GC_large_free_bytes: 32768
+
+***Blocks in use:
+kind(0=ptrfree/1=normal/2=unc.),obj_sz,#marks_set,#objs_in_block
+1,96,0,42
+2,48,85,85
+1,16,0,256
+1,176,0,23
+2,32,128,128
+2,16,256,256
+1,32,0,128
+1,2432,0,1
+blocks= 8, total_bytes= 32768
+
+***Disappearing (short) links:
+
+***Disappearing long links:
+
+***Finalizers:

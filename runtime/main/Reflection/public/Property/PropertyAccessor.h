@@ -18,10 +18,10 @@ namespace HARMONY
     }
 
     template<typename ACCESSTYP, typename GETPLICY, typename A>
-    class  PropertyAccessor {};
+    class  PropertyAccessor:public A {};
 
-    template<typename C,typename A>
-    class  PropertyAccessor<DETAIL::member_object_pointer,DETAIL::as_pointer,A C::*>
+    template<typename C,typename A,class PropertyBaseType>
+    class  PropertyAccessor<DETAIL::member_object_pointer,DETAIL::as_pointer,PropertyBaseType> : public PropertyBaseType
     {
     private:
         A C::* memberPtr; // Pointer to member of class C
@@ -77,4 +77,6 @@ namespace HARMONY
     private:
         access _acc; // メンバ変数へのポインタ
     };
+
+    PropertyAccessor<DETAIL::member_object_pointer, DETAIL::as_copy,int>
 }

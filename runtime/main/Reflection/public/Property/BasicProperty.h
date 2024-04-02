@@ -16,17 +16,29 @@ namespace HARMONY
 		BasicProperty(const TCHAR* name,size_t offset);
 
 		template<typename C>
-		BasicProperty(const TCHAR* name, size_t offset);
+		BasicProperty(const TCHAR* name);
+
 		/// @brief プロパティの値を取得する関数
-		/// @param instane メンバ変数の場合はクラスのインスタンスが必要
+		/// @param instane メンバ変数の場合はクラスのインスタンス,innertypeなどは変数のインスタンス
 		/// @return Tの値
-		T GetValue(void* instane = nullptr);
+		T GetPropertyValue(void* instane = nullptr);
+
+		/// @brief プロパティの値を取得する関数
+		/// @param instane メンバ変数の場合はクラスのインスタンス,innertypeなどは変数のインスタンス
+		/// @return Tの値のぽいんた
+		T* GetPropertyValuePtr(void* instane = nullptr);
+
+		/// @brief コンストバージョン
+		/// @param instance 
+		/// @return const T* 
+		const T* GetPropertyValuePtr(const void* instance = nullptr);
+
 
 		/// @brief プロパティの値をセットする関数
 		/// @param instance メンバ変数の場合はクラスのインスタンスが必要
 		/// @param value 
 		/// @return 
-		bool SetValue(T value,void* instance = nullptr);
+		bool SetPropertyValue(T value,void* instance = nullptr);
 	};
 }
 

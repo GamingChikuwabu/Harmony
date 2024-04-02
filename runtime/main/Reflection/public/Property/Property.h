@@ -22,13 +22,19 @@ namespace HARMONY
 		virtual PropertyKind GetKind() { return PropertyKind(); }
 		/// @brief 名前を取得する
 		/// @return メンバのプロパティのみ名前が得られます
-		const TCHAR* GetName();
+		const TCHAR* GetPropertyName();
+		/// @brief このプロパティの型の名前を取得する
+		/// @return 型名
+		const TCHAR* GetElementName();
 		/// @brief プロパティのサイズ
 		/// @return プロパティのサイズ
-		size_t GetSize() { return _size; };
+		size_t GetElementSize() { return _size; }
+		size_t GetElementAlign() { return _align; }
 	private:
 		const TCHAR* _name;
+		const TCHAR* _elementName;
 		size_t _size;
+		size_t _align;
 	};
 }
 

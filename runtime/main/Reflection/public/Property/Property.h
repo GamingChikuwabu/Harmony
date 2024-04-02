@@ -2,9 +2,12 @@
 #include"HMString.h"
 #include"PropertyKind.h"
 
+// メンバーのオフセットを計算するマクロ
+#define OFFSET_OF(ClassType, Member) \
+    (reinterpret_cast<std::size_t>(&reinterpret_cast<ClassType*>(0)->Member))
+
 namespace HARMONY
 {
-	
 	class REFLECTION_API Property
 	{
 	public:

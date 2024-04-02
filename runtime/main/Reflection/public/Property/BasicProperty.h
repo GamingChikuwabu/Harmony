@@ -8,13 +8,25 @@ namespace HARMONY
 	class BasicProperty: public Property
 	{
 	public:
+		/// @brief メンバポインタを使用したアクセス方法用のコンストラクタ
+		/// @tparam C クラスの型
+		/// @param name クラスの名前
+		/// @param memberPtr メンバのオフセット
 		template<typename C>
-		BasicProperty(const TCHAR* name,T C::* memberPtr);
-		T GetValue(void* instane);
-		bool SetValue(void* instance, T value);
-	private:
-		std::function<T (void*)> getter;
-		std::function<bool(void*, T)> setter;
+		BasicProperty(const TCHAR* name,size_t offset);
+
+		template<typename C>
+		BasicProperty(const TCHAR* name, size_t offset);
+		/// @brief プロパティの値を取得する関数
+		/// @param instane メンバ変数の場合はクラスのインスタンスが必要
+		/// @return Tの値
+		T GetValue(void* instane = nullptr);
+
+		/// @brief プロパティの値をセットする関数
+		/// @param instance メンバ変数の場合はクラスのインスタンスが必要
+		/// @param value 
+		/// @return 
+		bool SetValue(T value,void* instance = nullptr);
 	};
 }
 

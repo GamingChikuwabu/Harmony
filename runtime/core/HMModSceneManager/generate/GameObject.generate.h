@@ -1,4 +1,5 @@
 #pragma once
+namespace HARMONY{class Class;}
 #define HM_GENARATE_BODY_GameObject \
 private:\
 friend struct G_Class_Declaration_Field_GameObject;\

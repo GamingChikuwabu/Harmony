@@ -2,6 +2,7 @@
 #include"Class/ClassBuilder.h"
 #include"Class/deteil/ClassData.h"
 #include"Macro/GenerateMacro.h"
+#include"Refrection.hpp"
 static void G_AUTO_REGISTER_FUNCTION_Component()
 {
     HARMONY::ClassBuilder::Registration(TEXT("Component"), &HARMONY::CORE::Component::StaticGetClass);

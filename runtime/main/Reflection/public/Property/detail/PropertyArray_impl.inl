@@ -16,11 +16,23 @@ namespace HARMONY
 		sizeof(HARMONY::HMArray<T>)
 	),
 	_innerSize(sizeof(T)),
-	_innerKind(innerkind<T>::value)
+	_innerKind(innerkind<T>::value),
+	_innerIsPointer(std::is_pointer_v<T>)
 	{
+		Class* _temp = nullptr;
+		if constexpr (std::is_pointer_v<T>)
+		{
+			if ()
+			_temp = ;
+		}
+		else if constexpr (HasGetClassMethod<std::remove_pointer_t<T>>)
+		{
+			_temp = T::StaticGetClass();
+		}
+
 		GetScriptArrayFunc = [memberptr](void* classinstance)->ScriptArray {
 			C* pclass = reinterpret_cast<C*>(classinstance);
-			return ScriptArray(&(pclass->*memberptr));
+			return ScriptArray(&(pclass->*memberptr), );
 		};
 	}
 }

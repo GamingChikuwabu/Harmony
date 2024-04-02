@@ -2,6 +2,7 @@
 #include"Class/ClassBuilder.h"
 #include"Class/deteil/ClassData.h"
 #include"Macro/GenerateMacro.h"
+#include"Refrection.hpp"
 static void G_AUTO_REGISTER_FUNCTION_Vector3f()
 {
     HARMONY::ClassBuilder::Registration(TEXT("Vector3f"), &HARMONY::MATH::Vector3f::StaticGetClass);
@@ -22,7 +23,7 @@ namespace MATH{
         {
            HM_ADD_PROPERTY_FLOAT(Vector3f,x),
            HM_ADD_PROPERTY_FLOAT(Vector3f,y),
-           HM_ADD_PROPERTY_FLOAT(Vector3f,z),
+           HM_ADD_PROPERTY_CLASS(Vector3f,z),
         };
     };
    inline Class* Vector3f::G_GetClassDataVector3f()

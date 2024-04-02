@@ -37,6 +37,7 @@ namespace HARMONY
 			template<class T>
 			T* AddComponent();
 		protected:
+			HMPROPERTY()
 			Transform* _transform;
 			HMPROPERTY()
 			HMString _name;

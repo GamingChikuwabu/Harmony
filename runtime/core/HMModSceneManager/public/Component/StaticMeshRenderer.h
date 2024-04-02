@@ -1,7 +1,7 @@
 #pragma once
 #include"Renderer.h"
 #include"VertexType.h"
-
+#include"Utility.hpp"
 
 namespace HARMONY
 {
@@ -9,7 +9,7 @@ namespace HARMONY
 	{
 		struct World
 		{
-			//Eigen::Matrix4f _worldMatrix;
+			 MATH::Matrix4x4 _worldMatrix;
 		};
 
 		class StaticMeshRenderer : public Renderer

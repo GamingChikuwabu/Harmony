@@ -3,7 +3,7 @@
 
 namespace HARMONY
 {
-	class PropertyFloat : public BasicProperty<float>
+	class REFLECTION_API PropertyFloat : public BasicProperty<float>
 	{
 	public:
 		template<typename C>
@@ -11,7 +11,7 @@ namespace HARMONY
 		inline PropertyKind GetKind()override;	
 	};
 
-	class PropertyDouble : public BasicProperty<double>
+	class REFLECTION_API PropertyDouble : public BasicProperty<double>
 	{
 	public:
 		template<typename C>

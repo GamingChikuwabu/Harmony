@@ -2,6 +2,7 @@
 #include"Class/ClassBuilder.h"
 #include"Class/deteil/ClassData.h"
 #include"Macro/GenerateMacro.h"
+#include"Refrection.hpp"
 static void G_AUTO_REGISTER_FUNCTION_HMObject()
 {
     HARMONY::ClassBuilder::Registration(TEXT("HMObject"), &HARMONY::HMObject::StaticGetClass);
@@ -21,7 +22,7 @@ namespace HARMONY{
         {
            HM_ADD_PROPERTY_STRING(HMObject,_guid),
            HM_ADD_PROPERTY_BOOL(HMObject,_isValid),
-           HM_ADD_PROPERTY_ARRAY(HMObject,damy),
+           HM_ADD_PROPERTY_ARRAY(HMObject,dummy),
         };
     };
    inline Class* HMObject::G_GetClassDataHMObject()

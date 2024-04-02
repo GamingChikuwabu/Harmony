@@ -1,6 +1,5 @@
 #pragma once
-#include"String/HMString.h"
-#include"Array/HMArray.h"
-#include"Map/HMMap.h"
-#include"Map/HMUnorderedMap.h"
-#include"Pair/HMPair.h"
+#include"Object/HMObject.h"
+#include"Math/Vector/Vector3f.h"
+#include"Math/Matrix/Matrix4x4.h"
+#include"Math/Vector/Quaternion.h"

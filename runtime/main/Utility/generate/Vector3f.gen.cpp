@@ -1,7 +1,8 @@
-#include"Vector.h"
+#include"Vector3f.h"
 #include"Class/ClassBuilder.h"
 #include"Class/deteil/ClassData.h"
 #include"Macro/GenerateMacro.h"
+#include"Refrection.hpp"
 static void G_AUTO_REGISTER_FUNCTION_Vector3f()
 {
     HARMONY::ClassBuilder::Registration(TEXT("Vector3f"), &HARMONY::MATH::Vector3f::StaticGetClass);

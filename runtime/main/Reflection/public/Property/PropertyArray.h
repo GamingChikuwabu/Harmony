@@ -5,6 +5,7 @@
 
 namespace HARMONY
 {
+	class Class;
 	class REFLECTION_API PropertyArray : public Property
 	{
 	public:
@@ -14,10 +15,12 @@ namespace HARMONY
 		inline PropertyKind GetKind()override;
 		PropertyKind GetInnerKind() { return _innerKind; }
 		size_t GetInnerElementSize() { return _innerSize; }
+		bool GetInnerIsPointer() { return _innerIsPointer; }
 	private:
 		std::function<HARMONY::ScriptArray(void*)> GetScriptArrayFunc;
 		PropertyKind _innerKind;
 		size_t _innerSize;
+		const bool _innerIsPointer;//innerがポインタかどうか
 	};
 }
 

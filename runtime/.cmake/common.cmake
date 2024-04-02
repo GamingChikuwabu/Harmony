@@ -1,4 +1,5 @@
-﻿macro(lib_setting targetname)
+﻿
+macro(lib_setting targetname)
     string(TOUPPER ${targetname} target_upper)
     # Windows以外の場合は空の定義を使用
     if(NOT WIN32)
@@ -29,10 +30,6 @@ macro(lib_path_setting targetname)
     LINK_LIB_EIGEN(${targetname})    
 endmacro()
 
-macro(genarate_hedder_dir_setting targetname)
-    
-
-endmacro()
 
 macro(defo_module_setting targetname)
      # ソースファイルを探す
@@ -76,7 +73,7 @@ macro(init_core_module_setting targetname)
         ARCHIVE_OUTPUT_DIRECTORY_DEVELOP "${OUTPUT_DIR}/lib/core"
     )
     
-    target_link_libraries(${targetname} ModuleManager EventManager GameLoopManager JobSystem Utility Serializer)
+    target_link_libraries(${targetname} "Utility" "UtilityCore" "EventManager" "LogManager" "ModuleManager" "Serializer")
 endmacro()
 
 macro(init_coreplugin_module_setting targetname)
@@ -92,7 +89,7 @@ macro(init_coreplugin_module_setting targetname)
         ARCHIVE_OUTPUT_DIRECTORY_DEVELOP "${OUTPUT_DIR}/lib/coreplugin"
     )
     
-    target_link_libraries(${targetname} ModuleManager EventManager GameLoopManager JobSystem Utility)
+    target_link_libraries(${targetname} ModuleManager ${Engine_Main_Module_List})
 endmacro()
 
 macro(init_platform_module_setting targetname)
@@ -123,7 +120,7 @@ macro(init_platform_module_setting targetname)
         ARCHIVE_OUTPUT_DIRECTORY_DEVELOP "${OUTPUT_DIR}/lib/platform/${platformname}"
     )
     #ModuleManagerとリンクする
-    target_link_libraries(${targetname} ModuleManager EventManager GameLoopManager JobSystem Utility)
+    target_link_libraries(${targetname} ${Engine_Main_Module_List})
 endmacro()
 
 macro(init_editor_module_setting targetname)
@@ -139,7 +136,7 @@ macro(init_editor_module_setting targetname)
         ARCHIVE_OUTPUT_DIRECTORY_DEVELOP "${OUTPUT_DIR}/lib/editor"
     )
     #ModuleManagerとリンクする
-    target_link_libraries(${targetname} ModuleManager EventManager GameLoopManager JobSystem Utility)
+    target_link_libraries(${targetname} ${Engine_Main_Module_List})
 endmacro()
 
 macro(init_project_module_setting targetname)
@@ -155,7 +152,7 @@ macro(init_project_module_setting targetname)
         ARCHIVE_OUTPUT_DIRECTORY_DEVELOP "${OUTPUT_DIR}/lib/editor"
     )
     #ModuleManagerとリンクする
-    target_link_libraries(${targetname} ModuleManager EventManager GameLoopManager JobSystem Utility)
+    target_link_libraries(${targetname} ${Engine_Main_Module_List})
 endmacro()
 
 function(add_sub_modules)

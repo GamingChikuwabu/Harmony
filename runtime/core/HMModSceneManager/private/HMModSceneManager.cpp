@@ -60,7 +60,7 @@ namespace HARMONY
 		{
 			for (auto root : _rootScenes)
 			{
-				SerializeScene(root.get());
+				SerializeScene(root);
 			}
 		}
 
@@ -69,22 +69,19 @@ namespace HARMONY
 			
 		}
 
-		std::shared_ptr<SceneBase> HMModSceneManager::GetRootSceneFromName(const char* name)
+		SceneBase* HMModSceneManager::GetRootSceneFromName(const char* name)
 		{
-			return std::shared_ptr<SceneBase>();
+			return nullptr;
 		}
 
-		std::shared_ptr<SceneBase> HMModSceneManager::GetRootSceneFromGuid(const char* guid)
+		SceneBase* HMModSceneManager::GetRootSceneFromGuid(const char* guid)
 		{
-			return std::shared_ptr<SceneBase>();
+			return nullptr;
 		}
 
 		void HMModSceneManager::CreateRootScene(const char* name, const char* guid)
 		{
-			_rootScenes.push_back(std::make_shared<RootScene>());
-			static_cast<SceneBase_impl*>(_rootScenes.back().get())->_sceneName = name;
-			static_cast<SceneBase_impl*>(_rootScenes.back().get())->_sceneGuid = guid;
-			//static_cast<SceneBase_impl*>(_rootScenes.back().get())->_sceneType = SCENE_TYPE::Root;
+			
 		}
 
 		void HMModSceneManager::LoadScene(std::filesystem::path scenefilepath, SceneBase* parentscene, uint32_t type)

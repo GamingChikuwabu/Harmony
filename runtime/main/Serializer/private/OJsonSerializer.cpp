@@ -14,6 +14,7 @@ namespace HARMONY
 
 		}
 
+
 		namespace DETAIL
 		{
 			bool SaveBool(Writer& value, Property* prop, void* object)
@@ -35,7 +36,7 @@ namespace HARMONY
 			bool SaveInt64(Writer& value, Property* prop, void* object)
 			{
 				if (!prop || !object) return false;
-				int64_t temp = static_cast<PropertyInt64*>(prop)->GetValue(object); 
+				int64_t temp = static_cast<PropertyInt64*>(prop)->GetValue(object);
 				value.Int64(temp);
 				return true;
 			}
@@ -72,7 +73,8 @@ namespace HARMONY
 				SerializeObject(value, _class, object);
 			}
 
-			bool SaveArray(Writer& writer, Property* prop, void* object) {
+			bool SaveArray(Writer& writer, Property* prop, void* object) 
+			{
 				if (!prop || !object) return false;
 
 				auto propArray = static_cast<PropertyArray*>(prop);
@@ -123,6 +125,12 @@ namespace HARMONY
 						writer.String(strValue->GetRaw());
 						break;
 					}
+					case PropertyKind::Class:
+					{
+						const HMString* strValue = reinterpret_cast<HMString*>(elementPtr);
+						writer.String(strValue->GetRaw());
+						break;
+					}
 					default:
 						writer.Null();
 						break;
@@ -132,6 +140,58 @@ namespace HARMONY
 				writer.EndArray();
 				return true;
 			}
+
+			bool SerializeObject(Writer& writer, Class* classPtr, void* obj)
+			{
+				if (classPtr == nullptr) {
+					return; // クラス情報がなければ何もしない
+				}
+
+				// クラス名をキーとして使用し、オブジェクトを開始
+				writer.Key(classPtr->GetName());
+				writer.StartObject();
+
+				// 基底クラスのプロパティを再帰的にシリアライズ
+				if (classPtr->GetBaseClass() != nullptr) {
+					SerializeObject(writer, classPtr->GetBaseClass(), obj);
+				}
+
+				// 現在のクラスのプロパティをシリアライズ
+				for (auto prop : classPtr->GetProperties()) {
+					writer.Key(prop->GetName());
+					auto kind = prop->GetKind();
+					switch (kind) {
+						// プロパティタイプに基づいて適切なシリアライズ関数を呼び出す
+					case PropertyKind::Bool:
+						DETAIL::SaveBool(writer, prop, obj);
+						break;
+					case PropertyKind::Int32:
+						DETAIL::SaveInt(writer, prop, obj);
+						break;
+					case PropertyKind::Int64:
+						DETAIL::SaveInt64(writer, prop, obj);
+						break;
+					case PropertyKind::Float:
+						DETAIL::SaveFloat(writer, prop, obj);
+						break;
+					case PropertyKind::Double:
+						DETAIL::SaveDouble(writer, prop, obj);
+						break;
+					case PropertyKind::String:
+						DETAIL::SaveString(writer, prop, obj);
+						break;
+					case PropertyKind::Array:
+						SaveArray(writer, prop, obj);
+						break;
+					default:
+						writer.Null();
+						break;
+					}
+				}
+				// クラスのオブジェクトの終了
+				writer.EndObject();
+			}
+
 		}
 	}
 }

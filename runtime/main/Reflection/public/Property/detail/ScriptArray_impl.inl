@@ -2,10 +2,12 @@
 #pragma once
 #include"HMArray.h"
 
+
 namespace HARMONY 
 {
-	template<typename Array>
+	template<typename Array, typename T>
 	inline ScriptArray::ScriptArray(Array* instance)
+	:_innerClass(_innerClass)
 	{
 		// サイズを取得する関数ポインタをセットします。
 		getSizeFunc = [](void* inst) -> size_t {
@@ -19,7 +21,9 @@ namespace HARMONY
 
 		// インスタンスポインタを保存します。
 		this->instance = instance;
+		
 	}
+	
 
 	template<typename Array>
 	class ScriptArrayDerived{};

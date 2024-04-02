@@ -29,6 +29,7 @@ def main():
         #ヘッダを生成
         with open(output_file_path_h, 'w',encoding= "utf-8") as file:
             file.write('#pragma once\n')
+            file.write('namespace HARMONY{class Class;}\n')
             file.write(f'#define HM_GENARATE_BODY_{class_config.class_name} \\\n')
             file.write("private:\\\n")
             file.write(f"friend struct G_Class_Declaration_Field_{class_config.class_name};\\\n")
@@ -51,6 +52,7 @@ def main():
             file.write(f'#include"Class/ClassBuilder.h"\n')
             file.write(f'#include"Class/deteil/ClassData.h"\n')
             file.write(f'#include"Macro/GenerateMacro.h"\n')
+            file.write(f'#include"Refrection.hpp"\n')
             file.write(f'static void G_AUTO_REGISTER_FUNCTION_{class_config.class_name}()\n')
             file.write('{\n')
             fullname = ""
@@ -91,6 +93,8 @@ def main():
                     file.write(f'           HM_ADD_PROPERTY_BOOL({class_config.class_name},{prop.name}),\n')
                 elif prop.type == "HMArray":
                     file.write(f'           HM_ADD_PROPERTY_ARRAY({class_config.class_name},{prop.name}),\n')
+                else:
+                    file.write(f'           HM_ADD_PROPERTY_CLASS({class_config.class_name},{prop.name}),\n')
 
             file.write('        };\n')
             file.write('    };\n')
@@ -101,7 +105,7 @@ def main():
                 file.write(f'       HM_CLASS_CREATE({class_config.class_name},&{class_config.base_class_name}::StaticGetClass)\n')
             else:
                 file.write(f'       HM_CLASS_CREATE({class_config.class_name},nullptr)\n')
-            file.write('return _class;\n')
+            file.write('        return _class;\n')
             file.write('\n')
             file.write('    }\n')
 

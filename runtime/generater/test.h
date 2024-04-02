@@ -24,7 +24,7 @@ namespace HARMONY
 					HMPROPERTY()
 					float y;
 					HMPROPERTY()
-					float z;
+					float* z;
 				};
 				__m128 simd;
 			};

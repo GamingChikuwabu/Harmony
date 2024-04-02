@@ -2,25 +2,52 @@
 #pragma once
 namespace HARMONY
 {
-	template<typename C, typename AC>
-	inline PropertyClass::PropertyClass(const TCHAR* name, AC C::* memberptr)
-		:PropertyClass::Property(name, memberptr, sizeof(AC))
-	{
-		getter = [memberptr](void* instance)->void* {
-			C* classPtr = reinterpret_cast<C*>(instance);
-			return (void*)classPtr->*memberptr;
-			};
+    template<typename C, typename AC>
+    requires IsDerivedFromHMObject<std::remove_pointer_t<AC>>
+    PropertyClass::PropertyClass(const TCHAR* name, AC C::* memberptr)
+    :PropertyClass::Property(name, nullptr, sizeof(std::remove_pointer_t<AC>)),_isPointer(true)
+    {
+        getter = [memberptr](void* instance) -> void* {
+            C* classPtr = reinterpret_cast<C*>(instance);
+            // メンバがポインタなので、そのまま返します。
+            return &(classPtr->*memberptr);
+            };
 
-		setter = [memberptr](void* instance, void* value)->bool {
-			C* classPtr = reinterpret_cast<C*>(instance);
-			AC* valuePtr = reinterpret_cast<AC*>(value);
-			classPtr->*memberptr = *valuePtr;
-			return true;
-			};
-		classGetter = []()->Class* {
-			return AC::GetStaticClass();
-			};
-	}
+        setter = [memberptr](void* instance, void* value) -> bool {
+            C* classPtr = reinterpret_cast<C*>(instance);
+            // valueをAC型のポインタとして解釈し、値を設定します。
+            classPtr->*memberptr = *static_cast<AC*>(value);
+            return true;
+            };
+
+        classGetter = []() -> Class* {
+            return std::remove_pointer_t<AC>::StaticGetClass();
+            };
+    }
+
+    // GetClassメソッドを持つACに対するPropertyClassのコンストラクタ
+    template<typename C, typename AC>
+    requires HasGetClassMethod<AC>
+    PropertyClass::PropertyClass(const TCHAR* name, AC C::* memberptr)
+   :PropertyClass::Property(name, nullptr, sizeof(AC)), _isPointer(false)
+   {
+        getter = [memberptr](void* instance) -> void* {
+            C* classPtr = reinterpret_cast<C*>(instance);
+            // ACがポインタでない場合は、メンバのアドレスを返します。
+            return &(classPtr->*memberptr);
+            };
+
+        setter = [memberptr](void* instance, void* value) -> bool {
+            C* classPtr = reinterpret_cast<C*>(instance);
+            // valueをAC型のポインタとして解釈し、値を設定します。
+            classPtr->*memberptr = *static_cast<AC*>(value);
+            return true;
+            };
+
+        classGetter = []() -> Class* {
+            return AC::StaticGetClass();
+        };
+    }
 
 	template<typename C>
 	inline void* PropertyClass::GetValue(C* instance)

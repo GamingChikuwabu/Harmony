@@ -4,20 +4,22 @@
 
 namespace HARMONY
 {
-	class REFLECTION_API PropertyInt32 : public BasicProperty<int32_t>
+	class REFLECTION_API PropertyInt32 : public Property
 	{
 	public:
-		template<typename C>
-		PropertyInt32(const TCHAR* name,int32_t C::* memberptr);
+		PropertyInt32(const TCHAR* name);
 		inline PropertyKind GetKind()override;
+		virtual int32_t GetValue(void* holderClass = nullptr);
+		virtual bool SetValue(int32_t value, void* holderClass = nullptr);
 	};
 
-	class REFLECTION_API PropertyInt64 : public BasicProperty<int64_t>
+	class REFLECTION_API PropertyInt64 : public Property
 	{
 	public:
-		template<typename C>
-		PropertyInt64(const TCHAR* name, int64_t C::* memberptr);
+		PropertyInt64(const TCHAR* name);
 		inline PropertyKind GetKind()override;
+		virtual int64_t GetValue(void* holderClass = nullptr);
+		virtual bool SetValue(int64_t value, void* holderClass = nullptr);
 	};
 }
 

@@ -3,7 +3,7 @@
 
 namespace HARMONY
 {
-	class UTILITY_API HMString
+	class UTILITYCORE_API HMString
 	{
     public:
         // コンストラクタとデストラクタ

@@ -2,6 +2,7 @@
 #include"Class/ClassBuilder.h"
 #include"Class/deteil/ClassData.h"
 #include"Macro/GenerateMacro.h"
+#include"Refrection.hpp"
 static void G_AUTO_REGISTER_FUNCTION_GameObject()
 {
     HARMONY::ClassBuilder::Registration(TEXT("GameObject"), &HARMONY::CORE::GameObject::StaticGetClass);
@@ -20,6 +21,7 @@ namespace CORE{
     {
        const static inline HMArray<Property*> _propertyField = 
         {
+           HM_ADD_PROPERTY_CLASS(GameObject,_transform),
            HM_ADD_PROPERTY_STRING(GameObject,_name),
            HM_ADD_PROPERTY_STRING(GameObject,_tag),
            HM_ADD_PROPERTY_STRING(GameObject,_layer),

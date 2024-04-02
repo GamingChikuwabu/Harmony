@@ -10,4 +10,9 @@ namespace HARMONY
 	{
 		return getDataFunc(instance);
 	}
+
+	Class* ScriptArray::GetInnerClass()
+	{
+		return _innerClass;
+	}
 }

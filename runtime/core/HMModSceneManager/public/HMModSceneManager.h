@@ -1,8 +1,8 @@
-﻿#pragma once
+#pragma once
+
 #include"ModuleManager.h"
-#include<list>
+#include"Utility.hpp"
 #include<filesystem>
-#include<memory>
 #include<Scene.h>
 
 namespace HARMONY
@@ -32,12 +32,12 @@ namespace HARMONY
 
 			/// @brief 名前検索でrootのシーンを取得する関数
 			/// @return rootのシーン
-			std::shared_ptr<SceneBase> GetRootSceneFromName(const char* name);
+			SceneBase* GetRootSceneFromName(const char* name);
 
 			/// @brief GUID検索でrootシーンを取得する関数
 			/// @param guid 
 			/// @return シーンオブジェクト
-			std::shared_ptr<SceneBase> GetRootSceneFromGuid(const char* guid);
+			SceneBase* GetRootSceneFromGuid(const char* guid);
 
 			/// @brief ルートのシーンを追加する関数
 			/// @param name シーンの名前
@@ -47,10 +47,10 @@ namespace HARMONY
 			/// @brief GUIDからオブジェクトを探す関数
 			/// @param guid guid
 			/// @return 見つかったオブジェクト
-			std::shared_ptr<SceneBase>& FindSceneFromGUID(const char* guid);
+			SceneBase* FindSceneFromGUID(const char* guid);
 		private:
 			void LoadScene(std::filesystem::path scenefilepath,SceneBase* parentscene,uint32_t type);
-			std::vector<std::shared_ptr<SceneBase>> _rootScenes;
+			HMArray<SceneBase*> _rootScenes;
 		};
 	}
 }

@@ -3,11 +3,10 @@
 namespace HARMONY
 {
 	HMObject::HMObject()
-	:_guid(TEXT("guid")),
+	:_guid(TEXT("dummy")),
 	_isValid(true)
 	{
-		damy.Add(10);
-		damy.Add(20);
+
 	}
 
 	HMObject::~HMObject()

@@ -14,7 +14,8 @@ namespace HARMONY
 		Array,
 		Map,
 		Class,
-		Object
+		Object,
+		MAX
 	};
 
 	class HMObject;

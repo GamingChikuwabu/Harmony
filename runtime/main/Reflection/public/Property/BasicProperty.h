@@ -9,13 +9,11 @@ namespace HARMONY
 	{
 	public:
 		/// @brief メンバポインタを使用したアクセス方法用のコンストラクタ
-		/// @tparam C クラスの型
 		/// @param name クラスの名前
 		/// @param memberPtr メンバのオフセット
-		template<typename C>
 		BasicProperty(const TCHAR* name,size_t offset);
 
-		template<typename C>
+
 		BasicProperty(const TCHAR* name);
 
 		/// @brief プロパティの値を取得する関数
@@ -32,7 +30,6 @@ namespace HARMONY
 		/// @param instance 
 		/// @return const T* 
 		const T* GetPropertyValuePtr(const void* instance = nullptr);
-
 
 		/// @brief プロパティの値をセットする関数
 		/// @param instance メンバ変数の場合はクラスのインスタンスが必要

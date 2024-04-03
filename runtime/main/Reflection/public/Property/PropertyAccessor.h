@@ -17,18 +17,21 @@ namespace HARMONY
         {};
     }
 
-    template<typename ACCESSTYP, typename GETPLICY, typename A>
-    class  PropertyAccessor:public A {};
+    template<typename ACCESSTYP, typename GETPLICY, typename BASETYPE,typename ACCESSER>
+    class  PropertyAccessor{};
 
     template<typename C,typename A,class PropertyBaseType>
-    class  PropertyAccessor<DETAIL::member_object_pointer,DETAIL::as_pointer,PropertyBaseType> : public PropertyBaseType
+    class  PropertyAccessor<DETAIL::member_object_pointer,DETAIL::as_pointer,PropertyBaseType,A C::*> : public PropertyBaseType
     {
+        using Accesser = A C::*;
+        using Super = PropertyBaseType;
     private:
-        A C::* memberPtr; // Pointer to member of class C
-
+        Accesser memberPtr; // Pointer to member of class C
     public:
         // Constructor saves the member pointer
-        PropertyAccessor(A C::* ptr) : memberPtr(ptr) {}
+        PropertyAccessor(A C::* ptr)
+        : memberPtr(ptr)
+        ,Super(){}
 
         // Getter - returns a pointer to the member
         A* GetValue(C* obj) const

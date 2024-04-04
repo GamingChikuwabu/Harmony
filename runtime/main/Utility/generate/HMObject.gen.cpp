@@ -20,7 +20,7 @@ namespace HARMONY{
     {
        const static inline HMArray<Property*> _propertyField = 
         {
-           new (((HARMONY::PropertyAccessor<HARMONY::DETAIL::member_object_pointer*)GC_malloc(sizeof(HARMONY::PropertyAccessor<HARMONY::DETAIL::member_object_pointer)))) HARMONY::PropertyAccessor<HARMONY::DETAIL::member_object_pointer, HARMONY::DETAIL::numeric, HARMONY::PropertyString, HARMONY::HMString HMObject::_guid>(&HMObject::_guid, L"_guid"),
+           HM_ADD_PROPERTY_STRING(HMObject,_guid)
            HM_ADD_PROPERTY_BOOL(HMObject,_isValid),
            HM_ADD_PROPERTY_ARRAY(HMObject,dummy),
         };

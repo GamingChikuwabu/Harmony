@@ -7,7 +7,9 @@ namespace HARMONY
 	{
 		Bool,
 		Int32,
+		UInt32,
 		Int64,
+		UInt64,
 		Float,
 		Double,
 		String,

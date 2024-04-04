@@ -47,5 +47,3 @@ namespace HARMONY
 		const bool _isPointer;
 	};
 }
-
-#include"Property/detail/PropertyClass.inl"

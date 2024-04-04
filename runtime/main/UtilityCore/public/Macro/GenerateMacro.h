@@ -1,4 +1,6 @@
 #pragma once
+#include"PropertyAccessor.h"
+
 // メンバ変数の型を抜き出すメタ関数
 template<typename T>
 struct member_type;
@@ -13,7 +15,11 @@ struct member_type<M C::*> {
 static Class* _class = new (GC_NEW(Class)) Class(new (GC_NEW(ClassData)) ClassData(TEXT(#className), sizeof(className), G_Class_Declaration_Field_##className::_propertyField,func)	);
 
 #define HM_ADD_PROPERTY_STRING(classType,Member)\
-new (GC_NEW(PropertyString)) PropertyString(TEXT(#Member),&classType::Member)
+new (GC_NEW(\
+     HARMONY::PropertyAccessor\
+        <HARMONY::DETAIL::member_object_pointer,
+         HARMONY::DETAIL::numeric,\
+         HARMONY::PropertyString,HARMONY::HMString classType::Member>)) HARMONY::PropertyAccessor<HARMONY::DETAIL::member_object_pointer,HARMONY::DETAIL::numeric,HARMONY::PropertyString,HARMONY::HMString classType::Member>(&classType::Member,TEXT(#Member))
 
 #define HM_ADD_PROPERTY_INT32(classType,Member)\
 new (GC_NEW(PropertyInt32)) PropertyInt32(TEXT(#Member),&classType::Member)

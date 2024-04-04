@@ -18,5 +18,3 @@ namespace HARMONY
 		void* (*getDataFunc)(void*); // データの先頭を取得する関数ポインタ
 	};
 }
-
-#include"detail/ScriptArray_impl.inl"

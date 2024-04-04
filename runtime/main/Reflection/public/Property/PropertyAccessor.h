@@ -13,7 +13,7 @@ namespace HARMONY
         struct as_pointer
         {};
 
-        struct as_copy
+        struct numeric
         {};
     }
 
@@ -21,65 +21,29 @@ namespace HARMONY
     class  PropertyAccessor{};
 
     template<typename C,typename A,class PropertyBaseType>
-    class  PropertyAccessor<DETAIL::member_object_pointer,DETAIL::as_pointer,PropertyBaseType,A C::*> : public PropertyBaseType
+    class  PropertyAccessor<DETAIL::member_object_pointer,DETAIL::numeric,PropertyBaseType,A (C::*)> : public PropertyBaseType
     {
-        using Accesser = A C::*;
+        using Accesser = A (C::*);
         using Super = PropertyBaseType;
     private:
-        Accesser memberPtr; // Pointer to member of class C
+        Accesser memberPtr; 
     public:
-        // Constructor saves the member pointer
-        PropertyAccessor(A C::* ptr)
-        : memberPtr(ptr)
-        ,Super(){}
-
-        // Getter - returns a pointer to the member
-        A* GetValue(C* obj) const
-        {
-            return obj->*memberPtr;
-        }
-
-        // Setter - sets the member value via a pointer
-        void SetValue(C* obj, A* value) const
-        {
-            obj->*memberPtr = *value;
-        }
-    };
-
-    template<typename C, typename A>
-    class  PropertyAccessor<DETAIL::member_object_pointer, DETAIL::as_copy, A C::*>
-    {
         
-    };
+        PropertyAccessor(Accesser ptr,const TCHAR* name)
+        : memberPtr(ptr)
+        ,Super(name){}
 
-    template<typename ACCESSTYP, typename GETPLICY, typename A>
-    class  PropertyAccessor {};
-    template<typename ACCESSTYP, typename GETPLICY, typename A>
-    class  PropertyAccessor {};
-
-
-    template<typename C, typename A>
-    class  PropertyAccessor {
-    public:
-        using access = A C::*; // データメンバへのポインタを示す型エイリアス
-
-        PropertyAccessor(access acc) : _acc(acc) {};
-
-        // クラスのインスタンスから値を取得
-        inline A GetValue(void* classInstance)const {
-            C* Instance = reinterpret_cast<C*>(classInstance);
-            return Instance->*_acc;
+        A GetPropertyValue(void* instance)override
+        {
+            C* class_ = reinterpret_cast<C*>(instance);
+            return class_->*memberPtr;
         }
 
-        // クラスのインスタンスに値を設定
-        inline bool SetValue(void* classInstance, A& value) {
-            C* Instance = reinterpret_cast<C*>(classInstance);
-            Instance->*_acc = value;
+        bool SetPropertyValue(void* instance, A value)override
+        {
+            C* class_ = reinterpret_cast<C*>(instance);
+            class_->*memberPtr = value;
+            return true;
         }
-
-    private:
-        access _acc; // メンバ変数へのポインタ
     };
-
-    PropertyAccessor<DETAIL::member_object_pointer, DETAIL::as_copy,int>
 }

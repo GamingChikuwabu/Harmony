@@ -46,7 +46,6 @@ namespace HARMONY
 	{
 		namespace DETAIL
 		{
-
 			bool UTILITY_API SaveBool(Writer& value, Property* prop, void* object);
 			bool UTILITY_API SaveInt(Writer& value, Property* prop, void* object);
 			bool UTILITY_API SaveInt64(Writer& value, Property* prop, void* object);
@@ -56,7 +55,6 @@ namespace HARMONY
 			bool UTILITY_API SaveArray(Writer& value, Property* prop, void* object);
 			bool UTILITY_API SaveClass(Writer& value, Property* prop, void* object);
 			bool UTILITY_API SerializeObject(Writer& writer, Class* classPtr, void* obj);// オブジェクトをシリアライズする関数
-
 		}
 
 		template<typename T, typename Tp>

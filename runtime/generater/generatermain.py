@@ -4,22 +4,26 @@ from config import setup_libclang
 import util
 from class_config import ClassConfig
 import os
+from datetime import datetime, timedelta
 
-def main():
-    # libclangのパスとヘッダーファイルのパスを設定
-    lib_clang_path = sys.argv[1]
-    header_file_path = sys.argv[2]
-    output_file_path = sys.argv[3]
-    filename = sys.argv[4]
+# libclangのパスとヘッダーファイルのパスを設定
+lib_clang_path = sys.argv[1]
+header_file_path = sys.argv[2]
+output_file_path = sys.argv[3]
+filename = sys.argv[4]
+name_h = filename + ".generate.h"
+name_cpp  = filename + ".gen.cpp"
+output_file_path_h = os.path.join(sys.argv[3],name_h)
+output_file_path_cpp = os.path.join(sys.argv[3],name_cpp)
 
-    name_h = filename + ".generate.h"
-    name_cpp  = filename + ".gen.cpp"
-    output_file_path_h = os.path.join(sys.argv[3],name_h)
-    output_file_path_cpp = os.path.join(sys.argv[3],name_cpp)
-
+def generate():
     setup_libclang(lib_clang_path)
     index = Index.create()
-    translation_unit = index.parse(header_file_path, args=["-x", "c++"])
+    try:
+        translation_unit = index.parse(header_file_path, args=["-x", "c++"])
+    except Exception as err:  # すべての例外をキャッチ
+        print(f"Error parsing file: {filename}")
+        print(f"Error message: {err}")
     class_config = ClassConfig()
 
     util.build_class_configuration_with_tokens(translation_unit,class_config)
@@ -39,7 +43,7 @@ def main():
             file.write("{\\\n")
             file.write(f"return G_GetClassData{class_config.class_name}();\\\n")
             file.write("}\\\n")
-            file.write(f"inline virtual HARMONY::Class* GetClass()\\\n")
+            file.write(f"inline virtual HARMONY::Class* GetClass()const\\\n")
             file.write("{\\\n")
             file.write(f"return {class_config.class_name}::StaticGetClass();\\\n")
             file.write("}\n")
@@ -58,7 +62,7 @@ def main():
             fullname = ""
             for name in class_config.name_spase:
                 fullname += name + "::"
-            file.write(f'    HARMONY::ClassBuilder::Registration(TEXT("{class_config.class_name}"), &{fullname}{class_config.class_name}::StaticGetClass);\n')
+            file.write(f'    HARMONY::ClassBuilder::Registration(TSTR("{class_config.class_name}"), &{fullname}{class_config.class_name}::StaticGetClass);\n')
             file.write('}\n')
 
             file.write(f'struct AUTO_REGISTER_STRUCTURE_{class_config.class_name}\n')
@@ -81,10 +85,14 @@ def main():
             file.write(f'       const static inline HMArray<Property*> _propertyField = \n')
             file.write('        {\n')
             for prop in class_config.class_properties.keys():
-                if prop.type == "int32_t" or prop.type == "int" or prop.type == "uint32_t":
+                if prop.type == "int32_t" or prop.type == "int":
                     file.write(f'           HM_ADD_PROPERTY_INT32({class_config.class_name},{prop.name}),\n')
-                elif prop.type == "int64_t" or prop.type == "long long" or prop.type == "uint64_t":
+                elif prop.type == "uint32_t":
+                    file.write(f'           HM_ADD_PROPERTY_UINT32({class_config.class_name},{prop.name}),\n')
+                elif prop.type == "int64_t" or prop.type == "long long":
                     file.write(f'           HM_ADD_PROPERTY_INT64({class_config.class_name},{prop.name}),\n')
+                elif prop.type == "uint64_t":
+                    file.write(f'           HM_ADD_PROPERTY_UINT64({class_config.class_name},{prop.name}),\n')
                 elif prop.type == "float":
                     file.write(f'           HM_ADD_PROPERTY_FLOAT({class_config.class_name},{prop.name}),\n')
                 elif prop.type == "HMString":
@@ -114,6 +122,31 @@ def main():
                 file.write('}\n')
 
             print(f"==============================generate completion {class_config.class_name}===========================================")
+
+
+
+def main():
+    # ヘッダーファイルの最終変更時刻を取得
+    header_mtime = os.path.getmtime(header_file_path)
+
+    # 出力ファイルの最終変更時刻を取得、または出力ファイルが存在しなければ0を代入
+    output_mtime_h = os.path.getmtime(output_file_path_h) if os.path.exists(output_file_path_h) else 0
+    output_mtime_cpp = os.path.getmtime(output_file_path_cpp) if os.path.exists(output_file_path_cpp) else 0
+
+    # 現在時刻を取得
+    now = datetime.now().timestamp()
+
+    # ヘッダーファイルと出力ファイルのタイムスタンプの差を計算
+    diff_h = header_mtime - output_mtime_h
+    diff_cpp = header_mtime - output_mtime_cpp
+
+    # 出力ファイルが存在しない、またはヘッダーファイルの方が5分以上新しい場合に処理を実行
+    if output_mtime_h == 0 or output_mtime_cpp == 0 or diff_h < timedelta(minutes=5).total_seconds() or diff_cpp > timedelta(minutes=5).total_seconds():
+        generate()
+       
+    else:
+        sys.exit()
+  
 
 if __name__ == "__main__":
     main()

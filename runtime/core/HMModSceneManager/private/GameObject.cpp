@@ -1,4 +1,4 @@
-﻿#include"GameObject.h"
+#include"GameObject.h"
 #include<iostream>
 
 namespace HARMONY
@@ -6,14 +6,13 @@ namespace HARMONY
 	namespace CORE
 	{
 		GameObject::GameObject()
-		:_transform(nullptr)
+		:_transform()
 		{
-			_transform = new Transform();
-			static_cast<Component*>(_transform)->_gameObject = this;
+			
 		}
 		GameObject::~GameObject()
 		{
-			delete _transform;
+			
 		}
 	}
 }

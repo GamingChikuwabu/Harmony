@@ -9,7 +9,7 @@ static inline HARMONY::Class* StaticGetClass()\
 {\
 return G_GetClassDataComponent();\
 }\
-inline virtual HARMONY::Class* GetClass()\
+inline virtual HARMONY::Class* GetClass()const\
 {\
 return Component::StaticGetClass();\
 }

@@ -20,10 +20,10 @@ namespace HARMONY
 			m_pNetworkMod = ModuleManager::GetModule<INetWorkModule>();
 			HM_ASSERT(m_pNetworkMod != nullptr,"ネットワークモジュールの取得に失敗");
 			EventManager::GetEvent<const char*,int, DataReceivedCallback,HPROTOCOL&>
-				(TEXT("CreateTCPClient"))
+				(TSTR("CreateTCPClient"))
 				.Add(std::bind(&HMModNetwork::CreateTCPClient,this,std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4));
 			EventManager::GetEvent<HPROTOCOL, std::vector<char>&>
-				(TEXT("SendData"))
+				(TSTR("SendData"))
 				.Add(std::bind(&HMModNetwork::SendData, this, std::placeholders::_1, std::placeholders::_2));
 			return true;
 		}

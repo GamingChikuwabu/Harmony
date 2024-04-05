@@ -1,17 +1,17 @@
 #pragma once
 namespace HARMONY{class Class;}
-#define HM_GENARATE_BODY_Vector3f \
+#define HM_GENARATE_BODY_HMObject \
 private:\
-friend struct G_Class_Declaration_Field_Vector3f;\
-static HARMONY::Class* G_GetClassDataVector3f();\
+friend struct G_Class_Declaration_Field_HMObject;\
+static HARMONY::Class* G_GetClassDataHMObject();\
 public:\
 static inline HARMONY::Class* StaticGetClass()\
 {\
-return G_GetClassDataVector3f();\
+return G_GetClassDataHMObject();\
 }\
 inline virtual HARMONY::Class* GetClass()\
 {\
-return Vector3f::StaticGetClass();\
+return HMObject::StaticGetClass();\
 }
 #undef _GENARATED
-#define _GENARATED  HM_GENARATE_BODY_Vector3f
+#define _GENARATED  HM_GENARATE_BODY_HMObject

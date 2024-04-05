@@ -6,7 +6,7 @@ namespace HARMONY
     {
         Transform::Transform()
         {
-            //reset();
+            
         }
         Transform::~Transform()
         {

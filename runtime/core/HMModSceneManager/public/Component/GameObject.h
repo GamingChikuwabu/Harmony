@@ -16,8 +16,8 @@ namespace HARMONY
 			GameObject();
 			~GameObject();
 			// Transformのゲッターとセッター
-			inline void setTransform(Transform* transform) { _transform = transform; }
-			inline Transform* getTransform() const { return _transform; }
+			inline void setTransform(const Transform& transform) { _transform = transform; }
+			inline Transform& getTransform() { return _transform; }
 
 			// Nameのゲッターとセッター
 			inline void setName(const HMString& name) { _name = name; }
@@ -38,7 +38,7 @@ namespace HARMONY
 			T* AddComponent();
 		protected:
 			HMPROPERTY()
-			Transform* _transform;
+			Transform _transform;
 			HMPROPERTY()
 			HMString _name;
 			HMPROPERTY()

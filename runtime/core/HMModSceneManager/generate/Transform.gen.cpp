@@ -5,7 +5,7 @@
 #include"Refrection.hpp"
 static void G_AUTO_REGISTER_FUNCTION_Transform()
 {
-    HARMONY::ClassBuilder::Registration(TEXT("Transform"), &HARMONY::CORE::Transform::StaticGetClass);
+    HARMONY::ClassBuilder::Registration(TSTR("Transform"), &HARMONY::CORE::Transform::StaticGetClass);
 }
 struct AUTO_REGISTER_STRUCTURE_Transform
 {
@@ -29,7 +29,7 @@ namespace CORE{
    inline Class* Transform::G_GetClassDataTransform()
     {
        HM_CLASS_CREATE(Transform,&Component::StaticGetClass)
-return _class;
+        return _class;
 
     }
 }

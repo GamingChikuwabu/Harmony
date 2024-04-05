@@ -39,7 +39,7 @@ namespace HARMONY
 							uint32_t newHeight = 0; 
 
 							// "WindowResize" イベントを発行
-							EventManager::GetEvent<void*, uint32_t, uint32_t>(TEXT("WindowResize")).Broadcast(hWnd, newWidth, newHeight); 
+							EventManager::GetEvent<void*, uint32_t, uint32_t>(TSTR("WindowResize")).Broadcast(hWnd, newWidth, newHeight); 
 						}
 						else
 						{
@@ -49,7 +49,7 @@ namespace HARMONY
 							uint32_t newHeight = HIWORD(lParam); 
 
 							// "WindowResize" イベントを発行
-							EventManager::GetEvent<void*, uint32_t, uint32_t>(TEXT("WindowResize")).Broadcast(hWnd, newWidth, newHeight); 
+							EventManager::GetEvent<void*, uint32_t, uint32_t>(TSTR("WindowResize")).Broadcast(hWnd, newWidth, newHeight); 
 						}
 						break;
 					default:

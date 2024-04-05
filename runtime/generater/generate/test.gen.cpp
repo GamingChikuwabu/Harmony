@@ -3,34 +3,32 @@
 #include"Class/deteil/ClassData.h"
 #include"Macro/GenerateMacro.h"
 #include"Refrection.hpp"
-static void G_AUTO_REGISTER_FUNCTION_Vector3f()
+static void G_AUTO_REGISTER_FUNCTION_HMObject()
 {
-    HARMONY::ClassBuilder::Registration(TEXT("Vector3f"), &HARMONY::MATH::Vector3f::StaticGetClass);
+    HARMONY::ClassBuilder::Registration(TEXT("HMObject"), &HARMONY::HMObject::StaticGetClass);
 }
-struct AUTO_REGISTER_STRUCTURE_Vector3f
+struct AUTO_REGISTER_STRUCTURE_HMObject
 {
-   AUTO_REGISTER_STRUCTURE_Vector3f()
+   AUTO_REGISTER_STRUCTURE_HMObject()
     {
-       G_AUTO_REGISTER_FUNCTION_Vector3f();
+       G_AUTO_REGISTER_FUNCTION_HMObject();
     }
 };
-struct AUTO_REGISTER_STRUCTURE_Vector3f ARS={};
+struct AUTO_REGISTER_STRUCTURE_HMObject ARS={};
 namespace HARMONY{
-namespace MATH{
-   struct G_Class_Declaration_Field_Vector3f
+   struct G_Class_Declaration_Field_HMObject
     {
        const static inline HMArray<Property*> _propertyField = 
         {
-           HM_ADD_PROPERTY_FLOAT(Vector3f,x),
-           HM_ADD_PROPERTY_FLOAT(Vector3f,y),
-           HM_ADD_PROPERTY_CLASS(Vector3f,z),
+           HM_ADD_PROPERTY_STRING(HMObject,_guid),
+           HM_ADD_PROPERTY_BOOL(HMObject,_isValid),
+           HM_ADD_PROPERTY_CLASS(HMObject,vec),
         };
     };
-   inline Class* Vector3f::G_GetClassDataVector3f()
+   inline Class* HMObject::G_GetClassDataHMObject()
     {
-       HM_CLASS_CREATE(Vector3f,nullptr)
-return _class;
+       HM_CLASS_CREATE(HMObject,nullptr)
+        return _class;
 
     }
-}
 }

@@ -33,22 +33,22 @@ endmacro()
 
 macro(defo_module_setting targetname)
      # ソースファイルを探す
-    file(GLOB KS_MODULE_MANAGER_SOURCES "private/*.cpp" "public/*.h" "generate/*.cpp")
+    file(GLOB KS_MODULE_MANAGER_SOURCES "private/*.cpp" "private/*/*.cpp" "public/*.h" "public/*/*.h" "public/*/*/*.h" "generate/*.cpp")
     # ターゲットの追加
     add_library(${targetname} SHARED ${KS_MODULE_MANAGER_SOURCES})
     lib_setting(${targetname})
-    message(${KS_MODULE_MANAGER_SOURCES})
+    #message(${KS_MODULE_MANAGER_SOURCES})
     #dllやsoのセッティング
     #自分のprivateディレクトリのインクルードパスを通す
     target_include_directories(${targetname} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/private")
     target_include_directories(${targetname} PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/generate")
-    
     lib_path_setting(${targetname})
     custom_header_generator(${targetname})
 endmacro()
 
 macro(init_main_module_setting targetname)
     defo_module_setting(${targetname})
+    include_directories("${CMAKE_CURRENT_SOURCE_DIR}/public")
     set_target_properties(${targetname} PROPERTIES
         
         RUNTIME_OUTPUT_DIRECTORY_DEBUG "${OUTPUT_DIR}/main"
@@ -73,7 +73,7 @@ macro(init_core_module_setting targetname)
         ARCHIVE_OUTPUT_DIRECTORY_DEVELOP "${OUTPUT_DIR}/lib/core"
     )
     
-    target_link_libraries(${targetname} "Utility" "UtilityCore" "EventManager" "LogManager" "ModuleManager" "Serializer")
+    target_link_libraries(${targetname} "Utility")
 endmacro()
 
 macro(init_coreplugin_module_setting targetname)
@@ -120,7 +120,7 @@ macro(init_platform_module_setting targetname)
         ARCHIVE_OUTPUT_DIRECTORY_DEVELOP "${OUTPUT_DIR}/lib/platform/${platformname}"
     )
     #ModuleManagerとリンクする
-    target_link_libraries(${targetname} ${Engine_Main_Module_List})
+    target_link_libraries(${targetname} "Utility")
 endmacro()
 
 macro(init_editor_module_setting targetname)
@@ -183,6 +183,20 @@ function(add_public_include_directory )
         message(STATUS "Including directory: ${DIR_PATH}")
     endforeach()
     file(GLOB_RECURSE ALL_FILES "${CMAKE_SOURCE_DIR}/*/*/*/public/*")
+    set(DIR_PATHS "")
+    foreach(FILE_PATH ${ALL_FILES})
+        get_filename_component(DIR_PATH ${FILE_PATH} DIRECTORY)
+        list(APPEND DIR_PATHS ${DIR_PATH})
+    endforeach()
+
+    list(REMOVE_DUPLICATES DIR_PATHS)
+
+    foreach(DIR_PATH ${DIR_PATHS})
+        include_directories(${DIR_PATH})
+        message(STATUS "Including directory: ${DIR_PATH}")
+    endforeach()
+
+    file(GLOB_RECURSE ALL_FILES "${CMAKE_SOURCE_DIR}/*/public/*")
     set(DIR_PATHS "")
     foreach(FILE_PATH ${ALL_FILES})
         get_filename_component(DIR_PATH ${FILE_PATH} DIRECTORY)

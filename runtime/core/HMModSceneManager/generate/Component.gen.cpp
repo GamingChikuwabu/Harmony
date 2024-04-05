@@ -5,7 +5,7 @@
 #include"Refrection.hpp"
 static void G_AUTO_REGISTER_FUNCTION_Component()
 {
-    HARMONY::ClassBuilder::Registration(TEXT("Component"), &HARMONY::CORE::Component::StaticGetClass);
+    HARMONY::ClassBuilder::Registration(TSTR("Component"), &HARMONY::CORE::Component::StaticGetClass);
 }
 struct AUTO_REGISTER_STRUCTURE_Component
 {
@@ -26,7 +26,7 @@ namespace CORE{
    inline Class* Component::G_GetClassDataComponent()
     {
        HM_CLASS_CREATE(Component,&HMObject::StaticGetClass)
-return _class;
+        return _class;
 
     }
 }

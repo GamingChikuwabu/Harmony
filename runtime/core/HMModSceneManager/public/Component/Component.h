@@ -12,10 +12,11 @@ namespace HARMONY
 		{
 			HM_CLASS_BODY()
 		public:
-			Component() {};
+			Component():
+			_gameObject(nullptr) {};
 			virtual ~Component() {};
 		protected:
-			GameObject* _gameObject;
+			const GameObject* _gameObject;
 			friend class GameObject;
 		};
 	}

@@ -5,7 +5,7 @@
 #include"Refrection.hpp"
 static void G_AUTO_REGISTER_FUNCTION_GameObject()
 {
-    HARMONY::ClassBuilder::Registration(TEXT("GameObject"), &HARMONY::CORE::GameObject::StaticGetClass);
+    HARMONY::ClassBuilder::Registration(TSTR("GameObject"), &HARMONY::CORE::GameObject::StaticGetClass);
 }
 struct AUTO_REGISTER_STRUCTURE_GameObject
 {
@@ -31,7 +31,7 @@ namespace CORE{
    inline Class* GameObject::G_GetClassDataGameObject()
     {
        HM_CLASS_CREATE(GameObject,&HMObject::StaticGetClass)
-return _class;
+        return _class;
 
     }
 }

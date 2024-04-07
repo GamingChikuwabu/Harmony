@@ -4,29 +4,55 @@
 namespace HARMONY
 {
 	template<typename ...Args>
-	inline void* Construction::invoke(Args ...arg) const
+	inline ConstructionBase<Args...>::ConstructionBase(Invoker* invoker)
+	:_invoker(invoker)
 	{
-		for (auto fn : _constructor)
-		{
-			auto temp = std::any_cast<std::function<void* (Args...)>>(fn);
-			if (temp)
+
+	}
+
+	template<typename ...Args>
+	inline void* ConstructionBase<Args...>::invoke() const
+	{
+		return _invoker->invoke();
+	}
+
+	template<typename ...Args>
+	void* ConstructionBase<Args...>::invoke(Args... arg)
+	{
+		return _constructFunction(arg);
+	}
+
+	template<typename C>
+	inline InvokerBase<C>::InvokerBase()
+	{
+		_constructFunction = []()->void*
 			{
-				return temp(arg);
-			}
-		}
-		return nullptr;
+				void* ptr = (void*)GC_malloc(sizeof(C));
+				new (ptr) C();
+				return ptr;
+			};
 	}
 
-	template<class C, typename ...Args>
-	inline void Construction::add()const
+	template<typename C>
+	inline void* InvokerBase<C>::invoke()
 	{
-		std::function<void* (Args...)> cons = [](Args... arg)->void*			
-		{
-			void* ptr = (void*)GC_malloc(sizeof(C));
-			new (ptr) C(arg);
-			return ptr;
-		};
-		_constructor.Add(std::move(cons));
+		return _constructFunction();
 	}
 
+	template<typename C, typename ...Args >
+	inline InvokerWithArgs<C, Args ...>::InvokerWithArgs()
+	{
+		_constructFunction = [](Args ...args)->void*
+			{
+				void* ptr = (void*)GC_malloc(sizeof(C));
+				new (ptr) C(args);
+				return ptr;
+			};
+	}
+
+	template<typename C,typename ...Args>
+	inline void* InvokerWithArgs<C,Args ...>::invoke(Args ...args)
+	{
+		return _constructFunction(args);
+	}
 }

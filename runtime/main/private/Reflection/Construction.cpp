@@ -2,16 +2,8 @@
 
 namespace HARMONY
 {
-	void* Construction::invoke()const
+	Construction::Construction()
 	{
-		for (auto fn : _constructor)
-		{
-			auto temp = std::any_cast<std::function<void* ()>>(fn);
-			if (temp)
-			{
-				return temp();
-			}
-		}
-		return nullptr;
+
 	}
 }

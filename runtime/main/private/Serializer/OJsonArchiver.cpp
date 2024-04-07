@@ -1,15 +1,15 @@
-#include"Serializer/SerializerMembers/OJsonSerializer.h"
+#include"Serializer/SerializerMembers/OjsonArchiver.h"
 
 namespace HARMONY
 {
 	namespace SERIALIZER
 	{
-		OJsonSerializer::OJsonSerializer()
+		OJsonArchiver::OJsonArchiver()
 		{
 
 		}
 
-		OJsonSerializer::~OJsonSerializer()
+		OJsonArchiver::~OJsonArchiver()
 		{
 
 		}
@@ -146,46 +146,68 @@ namespace HARMONY
 					return true;
 				}
 
-				// クラス名をキーとして使用し、オブジェクトを開始
-				writer.Key(classPtr->GetName());
 				writer.StartObject();
-
+				writer.Key(TSTR("type"));
+				writer.String(classPtr->GetName());
+				writer.Key(TSTR("members"));
+				
+				// 現在のクラスのプロパティをシリアライズ
+				size_t propertyNum = classPtr->GetProperties().GetSize();
+				if (propertyNum == 0)
+				{
+					writer.Null();
+				}
+				else
+				{
+					writer.StartObject();
+					for (auto prop : classPtr->GetProperties()) {
+						writer.Key(prop->GetPropertyName());
+						auto kind = prop->GetKind();
+						switch (kind) {
+							// プロパティタイプに基づいて適切なシリアライズ関数を呼び出す
+						case PropertyKind::Bool:
+							DETAIL::SaveBool(writer, prop, obj);
+							break;
+						case PropertyKind::Int32:
+							DETAIL::SaveInt(writer, prop, obj);
+							break;
+						case PropertyKind::Int64:
+							DETAIL::SaveInt64(writer, prop, obj);
+							break;
+						case PropertyKind::Float:
+							DETAIL::SaveFloat(writer, prop, obj);
+							break;
+						case PropertyKind::Double:
+							DETAIL::SaveDouble(writer, prop, obj);
+							break;
+						case PropertyKind::String:
+							DETAIL::SaveString(writer, prop, obj);
+							break;
+						case PropertyKind::Array:
+							SaveArray(writer, prop, obj);
+							break;
+						case PropertyKind::Class:
+							SerializeObject(writer, static_cast<PropertyClass*>(prop)->GetPropertyClass(), static_cast<PropertyClass*>(prop)->GetPropertyValue(obj));
+							break;
+						default:
+							writer.Null();
+							break;
+						}
+					}
+					writer.EndObject();
+				}
+				
+				writer.Key(TSTR("base"));
 				// 基底クラスのプロパティを再帰的にシリアライズ
 				if (classPtr->GetBaseClass() != nullptr) {
+					writer.StartObject();
+					writer.Key(classPtr->GetBaseClass()->GetName());
 					SerializeObject(writer, classPtr->GetBaseClass(), obj);
+					writer.EndObject();
 				}
-
-				// 現在のクラスのプロパティをシリアライズ
-				for (auto prop : classPtr->GetProperties()) {
-					writer.Key(prop->GetPropertyName());
-					auto kind = prop->GetKind();
-					switch (kind) {
-						// プロパティタイプに基づいて適切なシリアライズ関数を呼び出す
-					case PropertyKind::Bool:
-						DETAIL::SaveBool(writer, prop, obj);
-						break;
-					case PropertyKind::Int32:
-						DETAIL::SaveInt(writer, prop, obj);
-						break;
-					case PropertyKind::Int64:
-						DETAIL::SaveInt64(writer, prop, obj);
-						break;
-					case PropertyKind::Float:
-						DETAIL::SaveFloat(writer, prop, obj);
-						break;
-					case PropertyKind::Double:
-						DETAIL::SaveDouble(writer, prop, obj);
-						break;
-					case PropertyKind::String:
-						DETAIL::SaveString(writer, prop, obj);
-						break;
-					case PropertyKind::Array:
-						SaveArray(writer, prop, obj);
-						break;
-					default:
-						writer.Null();
-						break;
-					}
+				else
+				{
+					writer.Null();
 				}
 				// クラスのオブジェクトの終了
 				writer.EndObject();

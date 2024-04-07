@@ -19,12 +19,20 @@ namespace HARMONY{
 namespace MATH{
    struct G_Class_Declaration_Field_Vector3f
     {
-       const static inline HMArray<Property*> _propertyField = 
-        {
+        static HMArray<Property*>& GetPropertyField() {
+            static HMArray<Property*> propertyField = {
            HM_ADD_PROPERTY_FLOAT(Vector3f,x),
            HM_ADD_PROPERTY_FLOAT(Vector3f,y),
            HM_ADD_PROPERTY_FLOAT(Vector3f,z),
         };
+return propertyField;
+    }
+        static HMArray<Construction*>& GetConstraction(){
+        static HMArray<Construction*> constructionField = {
+           HM_ADD_CONSTRUCTION(Vector3f),
+        };
+    return constructionField;
+    }
     };
    inline Class* Vector3f::G_GetClassDataVector3f()
     {

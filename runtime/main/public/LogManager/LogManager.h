@@ -36,11 +36,11 @@ namespace HARMONY
 #endif // _WIN32
 #if defined(_DEVELOP) || defined(_DEBUG)
 #define HM_DEBUG_LOG(color,c_char, ...)\
-	{\
-		TCHAR moji[256];\
-		TSPRINTF(moji, sizeof(moji), c_char, ##__VA_ARGS__);\
-		HARMONY::EventManager::GetEvent<const TCHAR*,const TCHAR*>(TSTR("DebugLog")).Broadcast(moji,TSTR(color));\
-	}
+    {\
+        TCHAR moji[512];\
+        TSPRINTF(moji, _countof(moji), c_char, ##__VA_ARGS__);\
+        HARMONY::EventManager::GetEvent<const TCHAR*,const TCHAR*>(TSTR("DebugLog")).Broadcast(moji,TSTR(color));\
+    }
 #else
 #define HM_DEBUG_LOG(c_char, ...) //
 #endif // _DEBUG

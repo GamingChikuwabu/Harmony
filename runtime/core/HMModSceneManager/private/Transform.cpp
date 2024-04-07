@@ -5,6 +5,9 @@ namespace HARMONY
     namespace CORE
     {
         Transform::Transform()
+        :_position(0.0f,0.0f,0.0f)
+        ,_rotate(MATH::Quaternion::identity())
+        ,_scale(0.0f,0.0f,0.0f)
         {
             
         }

@@ -29,8 +29,7 @@ namespace HARMONY
         size_t memberOffset; 
     public:
         PropertyAccessor(size_t offset,const TCHAR* name)
-        :memberOffset(offset)
-        ,Super(name){}
+        :Super(name),memberOffset(offset){}
 
         void* GetPropertyValue(void* instance) override {
             char* memberAddress = static_cast<char*>(instance) + memberOffset;

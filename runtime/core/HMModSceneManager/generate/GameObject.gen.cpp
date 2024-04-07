@@ -19,14 +19,22 @@ namespace HARMONY{
 namespace CORE{
    struct G_Class_Declaration_Field_GameObject
     {
-       const static inline HMArray<Property*> _propertyField = 
-        {
+        static HMArray<Property*>& GetPropertyField() {
+            static HMArray<Property*> propertyField = {
            HM_ADD_PROPERTY_CLASS(GameObject,_transform),
            HM_ADD_PROPERTY_STRING(GameObject,_name),
            HM_ADD_PROPERTY_STRING(GameObject,_tag),
            HM_ADD_PROPERTY_STRING(GameObject,_layer),
            HM_ADD_PROPERTY_ARRAY(GameObject,m_componentList),
         };
+return propertyField;
+    }
+        static HMArray<Construction*>& GetConstraction(){
+        static HMArray<Construction*> constructionField = {
+           HM_ADD_CONSTRUCTION(GameObject),
+        };
+    return constructionField;
+    }
     };
    inline Class* GameObject::G_GetClassDataGameObject()
     {

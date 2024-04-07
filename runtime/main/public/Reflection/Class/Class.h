@@ -14,6 +14,7 @@ namespace HARMONY
 		const TCHAR* GetName()const;
 		size_t GetElementSize()const;
 		const HMArray<Property*>& GetProperties()const;
+		const Property* GetPropertyByName(const TCHAR* name);
 		void* Create();
 		template<typename ...Args>
 		void* Create(Args... arg);

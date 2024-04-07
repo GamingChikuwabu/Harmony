@@ -26,9 +26,29 @@ namespace HARMONY
 		return _data->_property;
 	}
 
+	const Property* Class::GetPropertyByName(const TCHAR* name)
+	{
+		for (auto pro : _data->_property)
+		{
+			if (pro->GetPropertyName() == name)
+			{
+				return pro;
+			}
+		}
+		return nullptr;
+	}
+
 	void* Class::Create()
 	{
-		return _data->_construction->invoke();
+		for (auto cotr : _data->_construction)
+		{
+			void* instance = cotr->invoke();
+			if (instance)
+			{
+				return instance;
+			}
+		}
+		return nullptr;
 	}
 
 	Class* Class::GetBaseClass()

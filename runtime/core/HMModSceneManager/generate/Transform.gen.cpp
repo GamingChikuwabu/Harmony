@@ -19,12 +19,20 @@ namespace HARMONY{
 namespace CORE{
    struct G_Class_Declaration_Field_Transform
     {
-       const static inline HMArray<Property*> _propertyField = 
-        {
+        static HMArray<Property*>& GetPropertyField() {
+            static HMArray<Property*> propertyField = {
            HM_ADD_PROPERTY_CLASS(Transform,_position),
            HM_ADD_PROPERTY_CLASS(Transform,_scale),
            HM_ADD_PROPERTY_CLASS(Transform,_rotate),
         };
+return propertyField;
+    }
+        static HMArray<Construction*>& GetConstraction(){
+        static HMArray<Construction*> constructionField = {
+           HM_ADD_CONSTRUCTION(Transform),
+        };
+    return constructionField;
+    }
     };
    inline Class* Transform::G_GetClassDataTransform()
     {

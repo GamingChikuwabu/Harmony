@@ -18,14 +18,22 @@ struct AUTO_REGISTER_STRUCTURE_HMObject ARS={};
 namespace HARMONY{
    struct G_Class_Declaration_Field_HMObject
     {
-       const static inline HMArray<Property*> _propertyField = 
-        {
+        static HMArray<Property*>& GetPropertyField() {
+            static HMArray<Property*> propertyField = {
+           HM_ADD_PROPERTY_CLASS(HMObject,vec),
            HM_ADD_PROPERTY_STRING(HMObject,_guid),
            HM_ADD_PROPERTY_BOOL(HMObject,_isValid),
-           HM_ADD_PROPERTY_CLASS(HMObject,vec),
            HM_ADD_PROPERTY_FLOAT(HMObject,ag),
            HM_ADD_PROPERTY_INT32(HMObject,test),
         };
+return propertyField;
+    }
+        static HMArray<Construction*>& GetConstraction(){
+        static HMArray<Construction*> constructionField = {
+           HM_ADD_CONSTRUCTION(HMObject),
+        };
+    return constructionField;
+    }
     };
    inline Class* HMObject::G_GetClassDataHMObject()
     {

@@ -31,9 +31,26 @@ namespace HARMONY
 		bool HMModSceneManager::AwakeInitialize()
 		{
 			HMObject* obj = new Component();
-			SERIALIZER::OJsonSerializer oj;
+			auto prop = HMObject::StaticGetClass()->GetPropertyByName(L"vec");
+
+			SERIALIZER::OJsonArchiver oj;
 			auto dest = oj & obj;
 			auto str = dest.GetRaw();
+			std::wofstream fileStream(L"GameObject.json");
+			if (fileStream.is_open()) {
+				// 文字列をファイルに書き込む
+				fileStream << str;
+				// ファイルストリームを閉じる
+				fileStream.close();
+			}
+			else {
+				// ファイルオープンに失敗した場合の処理
+				std::wcerr << L"ファイルを開けませんでした: " << std::endl;
+			}
+			/*HMObject* obj2 = nullptr;
+			SERIALIZER::IJsonArchiver ij(str);
+			ij & obj2;*/
+
 			printf("");
 
 			/*std::filesystem::path path = ModuleManager::GetProjectAssetsPath();

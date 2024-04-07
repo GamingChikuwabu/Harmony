@@ -1,0 +1,27 @@
+{
+    "HMObject": {
+        "type": "Component",
+        "members": null,
+        "base": {
+            "HMObject": {
+                "type": "HMObject",
+                "members": {
+                    "vec": {
+                        "type": "Float3",
+                        "members": {
+                            "x": 0.029999999329447746,
+                            "y": 2099.0,
+                            "z": 53.5
+                        },
+                        "base": null
+                    },
+                    "_guid": "dummy",
+                    "_isValid": true,
+                    "ag": 0.0,
+                    "test": 0
+                },
+                "base": null
+            }
+        }
+    }
+}

@@ -13,6 +13,7 @@ namespace HARMONY
             HM_CLASS_BODY()
             union
             {
+                __m128 simd; // SIMD型を使用
                 struct
                 {
                     HMPROPERTY()
@@ -22,7 +23,6 @@ namespace HARMONY
                     HMPROPERTY()
                     float z;
                 };
-                __m128 simd; // SIMD型を使用
             };
 
             // コンストラクタ

@@ -19,13 +19,21 @@ namespace HARMONY{
 namespace MATH{
    struct G_Class_Declaration_Field_Quaternion
     {
-       const static inline HMArray<Property*> _propertyField = 
-        {
+        static HMArray<Property*>& GetPropertyField() {
+            static HMArray<Property*> propertyField = {
            HM_ADD_PROPERTY_FLOAT(Quaternion,x),
            HM_ADD_PROPERTY_FLOAT(Quaternion,y),
            HM_ADD_PROPERTY_FLOAT(Quaternion,z),
            HM_ADD_PROPERTY_FLOAT(Quaternion,w),
         };
+return propertyField;
+    }
+        static HMArray<Construction*>& GetConstraction(){
+        static HMArray<Construction*> constructionField = {
+           HM_ADD_CONSTRUCTION(Quaternion),
+        };
+    return constructionField;
+    }
     };
    inline Class* Quaternion::G_GetClassDataQuaternion()
     {

@@ -5,16 +5,51 @@
 
 namespace HARMONY
 {
-	class Construction
+	
+	class Invoker
 	{
 	public:
-		void* invoke()const;
-		template<typename ...Args>
-		void* invoke(Args... arg)const;
-		template<class C, typename ...Args>
-		void add()const;
+		/// @brief デフォルトコンストラクタを実行する
+		/// @return クラスインスタンス
+		virtual void* invoke() { return nullptr; }
+	};
+
+	template<typename C>
+	class InvokerBase : public Invoker
+	{
+	public:
+		InvokerBase();
+		void* invoke()override;
 	private:
-		HMArray<std::any> _constructor;
+		void* (*_constructFunction)();
+	};
+
+	template<typename C,typename ...Args>
+	class InvokerWithArgs : public Invoker
+	{
+	public:
+		InvokerWithArgs();
+		void* invoke(Args... args);
+	private:
+		void* (*_constructFunction)(Args...);
+	};
+
+	class UTILITY_API Construction
+	{
+	public:
+		Construction();
+		virtual void* invoke()const = 0;
+	};
+
+	template<typename ...Args>
+	class ConstructionBase : public Construction
+	{
+	public:
+		ConstructionBase(Invoker* invorker);
+		void* invoke()const override;
+		void* invoke(Args... arg);
+	private:
+		Invoker* _invoker;
 	};
 }
 

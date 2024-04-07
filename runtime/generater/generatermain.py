@@ -82,8 +82,8 @@ def generate():
             #メンバ情報の記述
             file.write(f"   struct G_Class_Declaration_Field_{class_config.class_name}\n")
             file.write('    {\n')
-            file.write(f'       const static inline HMArray<Property*> _propertyField = \n')
-            file.write('        {\n')
+            file.write('        static HMArray<Property*>& GetPropertyField() {\n')
+            file.write('            static HMArray<Property*> propertyField = {\n')
             for prop in class_config.class_properties.keys():
                 if prop.type == "int32_t" or prop.type == "int":
                     file.write(f'           HM_ADD_PROPERTY_INT32({class_config.class_name},{prop.name}),\n')
@@ -105,6 +105,15 @@ def generate():
                     file.write(f'           HM_ADD_PROPERTY_CLASS({class_config.class_name},{prop.name}),\n')
 
             file.write('        };\n')
+            file.write('return propertyField;\n')
+            file.write('    }\n')
+            file.write('        static HMArray<Construction*>& GetConstraction(){\n')
+            file.write('        static HMArray<Construction*> constructionField = {\n')
+            file.write(f'           HM_ADD_CONSTRUCTION({class_config.class_name}),\n')
+            file.write('        };\n')
+            file.write('    return constructionField;\n')
+            file.write('    }\n')
+
             file.write('    };\n')
 
             file.write(f"   inline Class* {class_config.class_name}::G_GetClassData{class_config.class_name}()\n")

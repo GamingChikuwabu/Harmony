@@ -30,7 +30,6 @@ namespace HARMONY
 			, size_t size
 			, size_t align
 			, PropertyKind kind) :_name(name), _elementName(elementName), _size(size), _align(align), _kind(kind) {};
-		Property() {};
 		/// @brief デストラクタ
 		~Property() = default;
 		/// @brief プロパティの種類を返す関数
@@ -48,9 +47,14 @@ namespace HARMONY
 		/// @brief プロパティのアライメント
 		/// @return アライメントのサイズ
 		size_t GetElementAlign()const { return _align; }
-	protected:
+	
 		virtual void* GetPropertyValue(void* instance) { return nullptr; }
 		virtual bool SetPropertyValue(void* instance, void* value) { return false; }
+		template<typename T>
+		void SetPropertyValue(void* instance, T value)
+		{
+			SetPropertyValue(instance, static_cast<void*>(&value));
+		}
 	private:
 		const TCHAR* _name;
 		const TCHAR* _elementName;
@@ -59,7 +63,7 @@ namespace HARMONY
 		PropertyKind _kind;
 	};
 
-	class UTILITY_API PropertyClass : public virtual Property
+	class UTILITY_API PropertyClass : public Property
 	{
 		using Super = Property;
 	public:
@@ -69,6 +73,15 @@ namespace HARMONY
 			size_t size,
 			size_t align
 		) :Super(name, elementName, size, align, PropertyKind::Class) {}
+
+		PropertyClass(
+			const TCHAR* name,
+			const TCHAR* elementName,
+			size_t size,
+			size_t align,
+			PropertyKind kind
+		) :Super(name, elementName, size, align, kind) {}
+
 		virtual	Class* GetPropertyClass() { return nullptr; };
 	};
 
@@ -85,21 +98,33 @@ namespace HARMONY
 	};
 
 	class HMObject;
-	class PropertyObject :public virtual Property
+	class PropertyObject :public PropertyClass
 	{
+		using Super = PropertyClass;
 	public:
+		PropertyObject(
+			const TCHAR* name,
+			const TCHAR* elementName,
+			size_t size,
+			size_t align
+		):Super(name,elementName,size,align,PropertyKind::Object){}
 		virtual Class* GetPropertyClassPolymorphic(const HMObject* instance) { return nullptr; }
 	};
 
 	template<typename T, typename Tp = std::remove_pointer_t<T>>
-	class PropertyObjectBase : public PropertyClassBase<Tp>, public PropertyObject
+	class PropertyObjectBase : public PropertyObject
 	{
-		using Super = PropertyClassBase<Tp>;
+		using Super = PropertyObject;
 	public:
-		PropertyObjectBase(const TCHAR* name) :Super(name) {};
+		PropertyObjectBase(const TCHAR* name)
+		:Super(name,Tp::StaticGetClass()->GetName(), sizeof(T), alignof(T)) {};
 		Class* GetPropertyClassPolymorphic(const HMObject* instance)override
 		{
 			return instance->GetClass();
+		}
+		Class* GetPropertyClass()override
+		{
+			return Tp::StaticGetClass();
 		}
 	};
 
@@ -202,7 +227,7 @@ namespace HARMONY
 
 		size_t GetArraySize(void* Instance)
 		{
-			Array* arrayData = GetPropertyValue(Instance);
+			Array* arrayData = reinterpret_cast<Array*>(GetPropertyValue(Instance));
 			return arrayData->GetSize();
 		}
 	};

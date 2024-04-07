@@ -19,9 +19,17 @@ namespace HARMONY{
 namespace CORE{
    struct G_Class_Declaration_Field_Renderer
     {
-       const static inline HMArray<Property*> _propertyField = 
-        {
+        static HMArray<Property*>& GetPropertyField() {
+            static HMArray<Property*> propertyField = {
         };
+return propertyField;
+    }
+        static HMArray<Construction*>& GetConstraction(){
+        static HMArray<Construction*> constructionField = {
+           HM_ADD_CONSTRUCTION(Renderer),
+        };
+    return constructionField;
+    }
     };
    inline Class* Renderer::G_GetClassDataRenderer()
     {

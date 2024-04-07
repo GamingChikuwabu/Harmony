@@ -19,7 +19,7 @@ HARMONY::PropertyAccessor\
 >
 
 #define HM_CLASS_CREATE(className,func)\
-static Class* _class = new (GC_NEW(Class)) Class(new (GC_NEW(ClassData)) ClassData(TSTR(#className), sizeof(className), G_Class_Declaration_Field_##className::_propertyField,func)	);
+static Class* _class = new (GC_NEW(Class)) Class(new (GC_NEW(ClassData)) ClassData(TSTR(#className), sizeof(className), G_Class_Declaration_Field_##className::GetPropertyField(),G_Class_Declaration_Field_##className::GetConstraction(),func));
 
 #define HM_ADD_PROPERTY_STRING(classType,Member)\
 new (GC_NEW(HM_PROPERTY_ACCESSER_MEMBER_NUM(HARMONY::PropertyString)))\
@@ -62,3 +62,13 @@ HM_PROPERTY_ACCESSER_MEMBER_NUM(HARMONY::PropertyClassBase<member_type<decltype(
 #define HM_ADD_PROPERTY_ARRAY(classType,Member)\
 new (GC_NEW(HM_PROPERTY_ACCESSER_MEMBER_NUM(HARMONY::PropertyArrayBase<member_type<decltype(&classType::Member)>::type::value_type>)))\
 HM_PROPERTY_ACCESSER_MEMBER_NUM(HARMONY::PropertyArrayBase<member_type<decltype(&classType::Member)>::type::value_type>)(OFFSET_OF(classType, Member), TSTR(#Member))
+
+#define CONSTRUCTER_BASE(classType,...)\
+HARMONY::ConstructionBase<classType,__VA_ARGS__ >
+
+#define INVOKER_BASE(classType,...)\
+HARMONY::InvokerBase<classType,__VA_ARGS__>
+
+#define HM_ADD_CONSTRUCTION(classType,...)\
+new (GC_NEW(CONSTRUCTER_BASE(classType,__VA_ARGS__))) CONSTRUCTER_BASE(classType,__VA_ARGS__)\
+(new (GC_NEW(INVOKER_BASE(classType,__VA_ARGS__))) INVOKER_BASE(classType,__VA_ARGS__)())

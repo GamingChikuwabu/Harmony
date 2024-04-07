@@ -49,9 +49,9 @@ namespace HARMONY
 		size_t GetElementAlign()const { return _align; }
 	
 		virtual void* GetPropertyValue(void* instance) { return nullptr; }
-		virtual bool SetPropertyValue(void* instance, void* value) { return false; }
+		virtual bool SetPropertyValue(void*& instance, void* value) { return false; }
 		template<typename T>
-		void SetPropertyValue(void* instance, T value)
+		void SetPropertyValue(void*& instance, T value)
 		{
 			SetPropertyValue(instance, static_cast<void*>(&value));
 		}

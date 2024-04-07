@@ -5,9 +5,13 @@ namespace HARMONY
 	namespace SERIALIZER
 	{
 		IJsonArchiver::IJsonArchiver(const TCHAR* jsonStr)
-		:_inputstring(jsonStr)
 		{
-
+			doc.Parse(jsonStr);
+		}
+		IJsonArchiver::IJsonArchiver(Ifstream& ifs)
+		{
+			StreamWrapper isw(ifs);
+			doc.ParseStream(isw);
 		}
 		IJsonArchiver::~IJsonArchiver()
 		{
@@ -16,7 +20,7 @@ namespace HARMONY
 
 		namespace DETAIL
 		{
-			bool LoadNumeric(const Value& value, Property* prop, void** object)
+			bool LoadNumeric(const Value& value, Property* prop, void*& object)
 			{
 				// 各数値型のプロパティ設定に正しいメソッドを使用
 				switch (prop->GetKind()) {
@@ -72,8 +76,9 @@ namespace HARMONY
 						if (member->GetKind() == PropertyKind::Class)
 						{
 							auto prop = static_cast<PropertyClass*>(member);
-							void** propAddress = reinterpret_cast<void**>(prop->GetPropertyValue(obj));
-							LoadObject(jsonMember->value, prop->GetPropertyClass(), propAddress);
+							auto temp = prop->GetPropertyValue(obj);
+							LoadObject(jsonMember->value, prop->GetPropertyClass(),&temp);
+							prop->SetPropertyValue(*obj,temp);
 						}
 						else if (member->GetKind() == PropertyKind::Array)
 						{
@@ -81,8 +86,9 @@ namespace HARMONY
 						}
 						else
 						{
-							void** propAddress = reinterpret_cast<void**>(member->GetPropertyValue(obj));
-							LoadNumeric(jsonMember->value, member, propAddress);
+							void* tempNum = nullptr;
+							member->GetPropertyValue(obj);
+							LoadNumeric(jsonMember->value, member, tempNum);
 						}
 					}
 				}

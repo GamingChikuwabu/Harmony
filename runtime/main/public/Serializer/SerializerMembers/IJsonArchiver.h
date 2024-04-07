@@ -4,7 +4,8 @@
 #include "rapidjson/stringbuffer.h"
 #include "rapidjson/writer.h"
 #include <rapidjson/prettywriter.h> // prettywriterをインクルード
-#include<iostream>
+#include<rapidjson/istreamwrapper.h>
+#include<fstream>
 #include "Reflection/Refrection.hpp"
 #undef LoadString
 #undef GetObject
@@ -14,6 +15,8 @@ using Document = rapidjson::GenericDocument<rapidjson::UTF16<>>;
 using Value = rapidjson::GenericValue<rapidjson::UTF16<>>;
 // UTF-16版のReaderを定義
 using Reader = rapidjson::GenericReader<rapidjson::UTF16<>, rapidjson::UTF16<>>;
+using Ifstream = std::wifstream;
+using StreamWrapper = rapidjson::WIStreamWrapper;
 #else // UTF32 for Unix-like systems
 using Document = rapidjson::GenericDocument<rapidjson::UTF32<>>;
 using Value = rapidjson::GenericValue<rapidjson::UTF32<>>;
@@ -27,6 +30,8 @@ using Value = rapidjson::Value;
 using Reader = rapidjson::Reader;
 #endif
 
+
+
 namespace HARMONY
 {
 	namespace SERIALIZER
@@ -35,15 +40,16 @@ namespace HARMONY
 		{
 		public:
 			IJsonArchiver(const TCHAR* jsonStr);
+			IJsonArchiver(Ifstream& ifs);
 			~IJsonArchiver();
 			template<typename T, typename Tp = std::remove_cvref_t<T>>
 			bool operator&(T&& obj);
 		private:
-			const TCHAR* _inputstring;
+			Document doc;
 		};
 		namespace DETAIL
 		{
-			bool UTILITY_API LoadNumeric(const Value& value, Property* prop, void** object);
+			bool UTILITY_API LoadNumeric(const Value& value, Property* prop, void*& object);
 			bool UTILITY_API LoadArray(const Value& value, Property* prop, void** object);
 			bool UTILITY_API LoadObject(const Value& reader, Class* classPtr, void** obj); // オブジェクトをシリアライズする関数
 		}
@@ -51,34 +57,21 @@ namespace HARMONY
 		template<typename T, typename Tp>
 		bool IJsonArchiver::operator&(T&& obj)
 		{
-			Document doc;
-			if (doc.Parse(_inputstring).HasParseError())
-			{
-				return false;
-			}
-
-			if constexpr (std::is_pointer_v<Tp>)
-			{
-				Class* class_ = std::remove_pointer_t<Tp>::StaticGetClass();
-				Value& source = doc[class_->GetName()];
-				if (source.IsObject()) {
-					auto memberIt = source.FindMember(TSTR("type"));
-					if (memberIt != source.MemberEnd()) {
-						auto& firstMemberName = memberIt->value;
-						// firstMemberName を GetClassByName の引数として使用
-						Class* specificClass = ClassBuilder::GetClassByname(firstMemberName.GetString());
-						void* temp = static_cast<void*>(obj); // 具体的なオブジェクトのプロパティのポインタを取得
-						DETAIL::LoadObject(source, specificClass, &temp);
-						auto t = reinterpret_cast<T>(temp);
-						printf("");
+			Class* class_ = std::remove_pointer_t<Tp>::StaticGetClass();
+			Value& source = doc[class_->GetName()];
+			if (source.IsObject()) {
+				auto memberIt = source.FindMember(TSTR("type"));
+				if (memberIt != source.MemberEnd()) {
+					auto& firstMemberName = memberIt->value;
+					// firstMemberName を GetClassByName の引数として使用
+					Class* specificClass = ClassBuilder::GetClassByname(firstMemberName.GetString());
+					void* temp = obj;
+					DETAIL::LoadObject(source, specificClass, &temp);
+					if (temp != nullptr) {
+						obj = static_cast<Tp>(temp); // ここでtempの変更をobjに反映
 					}
+					printf("");
 				}
-			}
-			else if constexpr (std::is_class_v<Tp>)
-			{
-				Class* class_ = std::remove_pointer_t<Tp>::StaticGetClass();
-				Value& source = doc[class_->GetName()];
-				DETAIL::LoadObject(source, class_, obj);
 			}
 			return true;
 		}

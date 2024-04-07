@@ -36,7 +36,7 @@ namespace HARMONY
             return memberAddress;
         }
 
-        bool SetPropertyValue(void* instance, void* value)override
+        bool SetPropertyValue(void*& instance, void* value)override
         {
             // プロパティのサイズを取得
             size_t propertySize = this->GetElementSize();
@@ -60,7 +60,7 @@ namespace HARMONY
             return instance;
         }
 
-        bool SetPropertyValue(void* instance, void* value)override
+        bool SetPropertyValue(void*& instance, void* value)override
         {
             std::memcpy(instance, value, this->GetElementSize());
             return true;

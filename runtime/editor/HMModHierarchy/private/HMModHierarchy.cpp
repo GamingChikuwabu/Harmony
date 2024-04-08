@@ -33,7 +33,7 @@ namespace HARMONY
 			SceneData receive_data;
 			// 最初に全体のデータをコピー
 			memcpy(&receive_data, data.data(), sizeof(SceneData));
-			HM_DEBUG_LOG("white", "名前:%s,GUID:%s", receive_data._name,receive_data._guid);
+			HM_DEBUG_LOG("white", TSTR("名前:%s,GUID:%s"), receive_data._name,receive_data._guid);
 			_sceneManager->CreateRootScene(receive_data._name, receive_data._guid); 
 			SendAddedSceneData(receive_data._name, "root");
 		}

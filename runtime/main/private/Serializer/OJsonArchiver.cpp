@@ -65,11 +65,91 @@ namespace HARMONY
 				return true;
 			}
 
+			bool SaveNumeric(Writer& value, Property* prop, void* object)
+			{
+				switch (prop->GetKind()) {
+				case PropertyKind::Bool: {
+					SaveBool(value, prop, object);
+					break;
+				}
+				case PropertyKind::Int32: {
+					SaveInt(value, prop, object);
+					break;
+				}
+				case PropertyKind::UInt32: {
+					SaveInt(value, prop, object);
+					break;
+				}
+				case PropertyKind::Int64: {
+					SaveInt64(value, prop, object);
+					break;
+				}
+				case PropertyKind::Float: {
+					SaveFloat(value, prop, object);
+					break;
+				}
+				case PropertyKind::Double: {
+					SaveDouble(value, prop, object);
+					break;
+				}
+				case PropertyKind::String: {
+					SaveString(value, prop, object);
+					break;
+				}
+				default:
+					value.Null();
+					break;
+				}
+				return true;
+			}
+
 			bool SaveClass(Writer& value, Property* prop, void* object)
 			{
 				if (!prop || !object) return false;
 				auto* _class = dynamic_cast<PropertyClass*>(prop)->GetPropertyClass();
 				SerializeObject(value, _class, object);
+			}
+
+			bool SaveMap(Writer& value, Property* prop, void* object)
+			{
+				if (!prop || !object) return false;
+				auto* Mapper = dynamic_cast<PropertyUMap*>(prop);
+				void* innerMap = Mapper->GetPropertyValue(object);
+				auto pairs = Mapper->GetPair(innerMap);
+				value.StartArray();
+				for (auto pair : pairs)
+				{
+					value.StartObject();
+					value.Key(TSTR("Key"));
+					if (Mapper->_pKey->GetKind() == PropertyKind::Class)
+					{
+						SaveClass(value, Mapper->_pKey, Mapper->GetKey(pair));
+					}
+					else if (Mapper->_pKey->GetKind() == PropertyKind::Array)
+					{
+						SaveArray(value, Mapper->_pKey, Mapper->GetKey(pair));
+					}
+					else
+					{
+						SaveNumeric(value, Mapper->_pKey, Mapper->GetKey(pair));
+					}
+					value.Key(TSTR("Value"));
+					if (Mapper->_pValue->GetKind() == PropertyKind::Class)
+					{
+						SaveClass(value, Mapper->_pValue, Mapper->GetValue(pair));
+					}
+					else if (Mapper->_pValue->GetKind() == PropertyKind::Array)
+					{
+						SaveArray(value, Mapper->_pValue, Mapper->GetValue(pair));
+					}
+					else
+					{
+						SaveNumeric(value, Mapper->_pValue, Mapper->GetValue(pair));
+					}
+					value.EndObject();
+				}
+				value.EndArray();
+				return true;
 			}
 
 			bool SaveArray(Writer& writer, Property* prop, void* object)
@@ -126,8 +206,8 @@ namespace HARMONY
 					}
 					case PropertyKind::Class:
 					{
-						const HMString* strValue = reinterpret_cast<HMString*>(elementPtr);
-						writer.String(strValue->GetRaw());
+						auto prop = static_cast<PropertyClass*>(innerProperty);
+						SerializeObject(writer, prop->GetPropertyClass(), prop->GetPropertyValue(reinterpret_cast<void*>(elementPtr)));
 						break;
 					}
 					default:
@@ -188,6 +268,9 @@ namespace HARMONY
 							break;
 						case PropertyKind::Class:
 							SerializeObject(writer, static_cast<PropertyClass*>(prop)->GetPropertyClass(), static_cast<PropertyClass*>(prop)->GetPropertyValue(obj));
+							break;
+						case PropertyKind::UMap:
+							SaveMap(writer, prop, obj);
 							break;
 						default:
 							writer.Null();

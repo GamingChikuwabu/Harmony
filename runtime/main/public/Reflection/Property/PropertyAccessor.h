@@ -42,6 +42,7 @@ namespace HARMONY
             size_t propertySize = this->GetElementSize();
             // インスタンスの指定されたメンバ位置を取得
             char* memberAddress = static_cast<char*>(instance) + memberOffset;
+
             // valueからメンバの位置へデータをコピー
             std::memcpy(memberAddress, value, propertySize);
             return true;

@@ -25,6 +25,9 @@ namespace HARMONY
 	class HMUnorderedMap
 	{
     public:
+        using KEY = KeyType;
+        using VALUE = ValueType;
+
         HMUnorderedMap(size_t size = 101);
         void insert(const KeyType& key, const ValueType& value);
         ValueType* search(const KeyType& key);
@@ -103,13 +106,17 @@ namespace HARMONY
             return iterator(this, bucketCount, {}); // 終端イテレータ
         }
 
+        size_t size() const {
+            return count;
+        }
+
     private:
         struct Bucket {
             HMArray<HMPair<KeyType, ValueType>> entries;
         };
         HMArray<Bucket> buckets;
-        size_t bucketCount;
-        size_t count;
+        size_t bucketCount = 0;
+        size_t count = 0;
         size_t hashFunction(const KeyType& key) const {
             return std::hash<KeyType>{}(key) % bucketCount;
         }

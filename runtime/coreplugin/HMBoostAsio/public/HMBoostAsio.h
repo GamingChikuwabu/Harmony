@@ -11,7 +11,6 @@ namespace HARMONY
 	{
 		class HMBoostAsio : public INetWorkModule
 		{
-			HM_CLASS_BODY(INetWorkModule)
 		public:
 			HPROTOCOL CreateTCPClient(const char* serverIP, int port, DataReceivedCallback callbackfunc)override;
 			void StartReceive(HPROTOCOL handle)override;

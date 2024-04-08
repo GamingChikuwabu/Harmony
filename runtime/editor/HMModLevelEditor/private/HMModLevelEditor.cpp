@@ -1,4 +1,4 @@
-﻿#include"HMModLevelEditor.h"
+#include"HMModLevelEditor.h"
 #include"LogManager.h"
 #include"HMModIPCManager.h"
 
@@ -62,18 +62,18 @@ namespace HARMONY
             RECT rec;
             HWND myWindow = (HWND)_window->GetWindowHandle(L"Harmony");
             if (data.size() < sizeof(receive_data.levelEditorHWNDData.parentWindow)) {
-                HM_DEBUG_LOG("red","受信データが不足しています。必要: %zu, 実際: %zu\n", (long long)receive_data.levelEditorHWNDData.parentWindow, data.size());
+                HM_DEBUG_LOG("red",TSTR("受信データが不足しています。必要: %zu, 実際: %zu\n"), (long long)receive_data.levelEditorHWNDData.parentWindow, data.size());
                 return;
             }
 
             if (!receive_data.levelEditorHWNDData.parentWindow || !IsWindow(receive_data.levelEditorHWNDData.parentWindow)) {
-                HM_DEBUG_LOG("red","無効なウィンドウハンドルです");
+                HM_DEBUG_LOG("red", TSTR("無効なウィンドウハンドルです"));
                 return;
             }
 
             if (!GetWindowRect(receive_data.levelEditorHWNDData.parentWindow, &rec)) {
                 // GetWindowRectのエラーハンドリング
-                HM_DEBUG_LOG("red","GetWindowRectに失敗しました");
+                HM_DEBUG_LOG("red", TSTR("GetWindowRectに失敗しました"));
                 return;
             }
 
@@ -81,7 +81,7 @@ namespace HARMONY
             LONG style = GetWindowLong(myWindow, GWL_STYLE);
             if (style == 0) {
                 // GetWindowLongのエラーハンドリング
-                HM_DEBUG_LOG("red", "GetWindowLongに失敗しました");
+                HM_DEBUG_LOG("red", TSTR("GetWindowLongに失敗しました"));
                 return;
             }
 
@@ -92,24 +92,24 @@ namespace HARMONY
                 // ウィンドウスタイルを更新
                 if (SetWindowLong(myWindow, GWL_STYLE, style) == 0) {
                     // SetWindowLongのエラーハンドリング
-                    HM_DEBUG_LOG("red", "SetWindowLongに失敗しました");
+                    HM_DEBUG_LOG("red", TSTR("SetWindowLongに失敗しました"));
                     return;
                 }
 
                 // hwndChildをhwndParentの子ウィンドウに設定
                 if (SetParent(myWindow, receive_data.levelEditorHWNDData.parentWindow) == NULL) {
                     // SetParentのエラーハンドリング
-                    HM_DEBUG_LOG("red", "SetParentに失敗しました");
+                    HM_DEBUG_LOG("red", TSTR("SetParentに失敗しました"));
                     return;
                 }
             }
 
-            HM_DEBUG_LOG("white","ウィンドウのリサイズ:幅:%d,高さ:%d", static_cast<int>(rec.right - rec.left), static_cast<int>(rec.bottom - rec.top))
+            HM_DEBUG_LOG("white", TSTR("ウィンドウのリサイズ:幅:%d,高さ:%d"), static_cast<int>(rec.right - rec.left), static_cast<int>(rec.bottom - rec.top))
 
             // ウィンドウの移動とサイズ変更
             if (!MoveWindow(myWindow, 0, 0, rec.right - rec.left, rec.bottom - rec.top, TRUE)) {
                 // MoveWindowのエラーハンドリング
-                HM_DEBUG_LOG("red", "MoveWindowに失敗しました");
+                HM_DEBUG_LOG("red", TSTR("MoveWindowに失敗しました"));
                 return;
             }
 		}

@@ -63,6 +63,12 @@ namespace HARMONY
     }
 
     template<typename T>
+    inline void HMArray<T>::ReSize(size_t size)
+    {
+        ensureCapacity(size);
+    }
+
+    template<typename T>
     HMArray<T>::iterator HMArray<T>::begin()
     {
         return data;

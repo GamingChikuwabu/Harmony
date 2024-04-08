@@ -17,6 +17,7 @@ namespace HARMONY
 		String,
 		Array,
 		Map,
+		UMap,
 		Class,
 		Object,
 		MAX

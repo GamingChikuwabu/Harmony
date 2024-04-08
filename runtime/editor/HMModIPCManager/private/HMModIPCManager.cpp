@@ -1,4 +1,4 @@
-﻿#include "HMModIPCManager.h"
+#include "HMModIPCManager.h"
 #include"EventManager.h"
 #include"INetWorkModule.h"
 #include"LogManager.h"
@@ -10,7 +10,6 @@ namespace HARMONY
 {
 	namespace EDITOR
 	{
-		
 		RegisterModuleClass(HMModIPCManager)
 		HMModIPCManager::HMModIPCManager()
 		{
@@ -113,8 +112,11 @@ namespace HARMONY
 				offset += header.dataSize; // データサイズ分だけオフセットを進める
 			}
 		}
-		void HMModIPCManager::LoadCommands(const std::string& filename)
+		void HMModIPCManager::LoadCommands(const HMString& filename)
 		{
+
+
+
 			rapidjson::Document doc = LoadJson(filename.c_str());
 			const rapidjson::Value& commands = doc["commands"];
 			for (auto& command : commands.GetArray()) {

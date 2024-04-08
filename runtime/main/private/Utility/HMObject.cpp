@@ -2,14 +2,12 @@
 
 namespace HARMONY
 {
-	HMObject::HMObject()
-	:_guid(TSTR("dummy")),
-	_isValid(true),
-	vec(0.03f,2099.0f,53.5f),
-	ag(0),
-	test(0)
+	HMObject::HMObject():
+	_guid(TSTR("syokiti"))
 	{
-
+		_gg.Add(MATH::Float3(0.0f,2.0f,0.0f));
+		_gg.Add(MATH::Float3(6.0f, 2.0f, 9.0f));
+		_mapper[10] = TSTR("mamamama");
 	}
 
 	HMObject::~HMObject()
@@ -19,6 +17,6 @@ namespace HARMONY
 
 	bool HMObject::isValid() const noexcept
 	{
-		return _isValid;
+		return false;
 	}
 }

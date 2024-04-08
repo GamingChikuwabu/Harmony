@@ -30,11 +30,32 @@ namespace HARMONY
 
 		bool HMModSceneManager::AwakeInitialize()
 		{
-			//HMObject* obj = new Component();
-			//auto prop = HMObject::StaticGetClass()->GetPropertyByName(L"vec");
+			HMObject* obj = new Component();
+			auto prop = HMObject::StaticGetClass()->GetPropertyByName(L"vec");
 
+			SERIALIZER::OJsonArchiver oj;
+			auto dest = oj & obj;
+			auto str = dest.GetRaw();
+			std::wofstream fileStream(L"GameObject.json");
+			if (fileStream.is_open()) {
+				// 文字列をファイルに書き込む
+				fileStream << str;
+				// ファイルストリームを閉じる
+				fileStream.close();
+			}
+			else {
+				// ファイルオープンに失敗した場合の処理
+				std::wcerr << L"ファイルを開けませんでした: " << std::endl;
+			}
+
+			//HMObject* obj2 = nullptr;
+			//{
+			//	std::wifstream ifs(L"GameObject.json");
+			//	SERIALIZER::IJsonArchiver ij(ifs);
+			//	ij& obj2;
+			//}
 			//SERIALIZER::OJsonArchiver oj;
-			//auto dest = oj & obj;
+			//auto dest = oj & obj2;
 			//auto str = dest.GetRaw();
 			//std::wofstream fileStream(L"GameObject.json");
 			//if (fileStream.is_open()) {
@@ -48,13 +69,7 @@ namespace HARMONY
 			//	std::wcerr << L"ファイルを開けませんでした: " << std::endl;
 			//}
 
-			std::wifstream ifs(L"GameObject.json");
-
-			HMObject* obj2 = nullptr;
-			SERIALIZER::IJsonArchiver ij(ifs);
-			ij & obj2;
-
-			printf("");
+			printf("e");
 
 			/*std::filesystem::path path = ModuleManager::GetProjectAssetsPath();
 			path.append("config").append("sceneroot.json");

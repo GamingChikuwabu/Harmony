@@ -16,8 +16,6 @@ namespace HARMONY
         HMString& operator=(const HMString& other);
         HMString operator+(const HMString& other) const;// +オペレータでの文字列の連結
 
-        HMString& operator=(const TCHAR* other);
-
         // ==オペレータでの等価比較
         bool operator==(const HMString& other) const;
 

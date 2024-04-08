@@ -1,8 +1,10 @@
 #pragma once
 #include"gc/gc_cpp.h"
 #include"HMString.h"
+#include"HMArray.h"
 #include"ObjectMacro.h"
 #include"Float3.h"
+#include"HMUnorderedMap.h"
 #include"HMObject.generate.h"
 
 namespace HARMONY
@@ -17,14 +19,10 @@ namespace HARMONY
 		inline bool isValid()const noexcept;
 	protected:
 		HMPROPERTY()
-		MATH::Float3 vec;
-		HMPROPERTY()
 		HMString _guid;
 		HMPROPERTY()
-		bool _isValid;
+		HMArray<MATH::Float3> _gg;
 		HMPROPERTY()
-		float ag;
-		HMPROPERTY()
-		int32_t test;
+		HMUnorderedMap<uint32_t, HMString> _mapper;
 	};
 }

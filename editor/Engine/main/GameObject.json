@@ -6,19 +6,33 @@
             "HMObject": {
                 "type": "HMObject",
                 "members": {
-                    "vec": {
-                        "type": "Float3",
-                        "members": {
-                            "x": 0.029999999329447746,
-                            "y": 209333339.0,
-                            "z": 53.5
+                    "_guid": "syokiti",
+                    "_gg": [
+                        {
+                            "type": "Float3",
+                            "members": {
+                                "x": 0.0,
+                                "y": 2.0,
+                                "z": 0.0
+                            },
+                            "base": null
                         },
-                        "base": null
-                    },
-                    "_guid": "dummy",
-                    "_isValid": true,
-                    "ag": 0.0,
-                    "test": 0
+                        {
+                            "type": "Float3",
+                            "members": {
+                                "x": 6.0,
+                                "y": 2.0,
+                                "z": 9.0
+                            },
+                            "base": null
+                        }
+                    ],
+                    "_mapper": [
+                        {
+                            "Key": 10,
+                            "Value": "mamamama"
+                        }
+                    ]
                 },
                 "base": null
             }

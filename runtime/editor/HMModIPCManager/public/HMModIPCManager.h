@@ -12,6 +12,8 @@
 #include"ModuleManager.h"
 #include"EventManager.h"
 #include<functional>
+#include"ModuleManager/IModule.h"
+#include"Utility.hpp"
 
 namespace HARMONY
 {
@@ -22,14 +24,21 @@ namespace HARMONY
 			int id;
 			std::string description;
 		};
+
+		HMCLASS()
+		struct MyStruct
+		{
+			HM_CLASS_BODY()
+
+		};
+
 		struct DataHeader
 		{
 			size_t dataSize;
 			unsigned int command;
 		};
-		class HMMODIPCMANAGER_API HMModIPCManager : public IModule
+		class HMMODIPCMANAGER_API HMModIPCManager : public IModule 
 		{
-			HM_CLASS_BODY(IModule)
 		public:
 			HMModIPCManager();
 			~HMModIPCManager();
@@ -67,7 +76,7 @@ namespace HARMONY
 			void Tarminate(const std::vector<char>& data);
 			void debugLog(const char* log);
 			void getDataCallBack(const std::vector<char>& data);
-			void LoadCommands(const std::string& filename);
+			void LoadCommands(const HMString& filename);
 			int									_hProtocol;
 			std::unordered_map<int, std::vector<std::function<void(const std::vector<char>& data)>>> _callBackFuncArray;
 			std::unordered_map<std::string, CommandInfo> commandMap;

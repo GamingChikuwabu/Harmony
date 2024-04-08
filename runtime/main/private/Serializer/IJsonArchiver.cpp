@@ -28,7 +28,7 @@ namespace HARMONY
 					prop->SetPropertyValue<bool>(object, value.GetBool());
 					break;
 				case PropertyKind::String:
-					prop->SetPropertyValue<HMString>(object, value.GetString());
+					prop->SetPropertyValue<HMString>(object, HMString(value.GetString()));
 					break;
 				case PropertyKind::Int32:
 					prop->SetPropertyValue<int32_t>(object, value.GetInt());
@@ -54,49 +54,127 @@ namespace HARMONY
 				return true;
 			}
 
-			bool LoadArray(const Value& value, Property* prop, void** object)
+			bool LoadArray(const Value& value, Property* prop, void*& object)
 			{
+				auto propArray = static_cast<PropertyArray*>(prop);
+				//size_t size = propArray->GetArraySize(object);
+				void* data = propArray->GetData(object);
+
+				if (value.IsArray())
+				{
+					auto arrayJson =  value.GetArray();
+					propArray->SetSize(arrayJson.Size(),object);
+					for (int i = 0;i< arrayJson.Size();i++)
+					{
+						void* elementPtr = static_cast<char*>(data) + i * propArray->inner->GetElementSize(); // オフセット計算
+						if (propArray->inner->GetKind() == PropertyKind::Class)
+						{
+							LoadClass(arrayJson[i], static_cast<PropertyClass*>(propArray->inner)->GetPropertyClass(), elementPtr);
+						}
+						else if (propArray->inner->GetKind() == PropertyKind::Object)
+						{
+				
+							LoadObject(arrayJson[i], elementPtr);
+						}
+					}
+				}
 				return true;
 			}
 
-			bool LoadObject(const Value& reader, Class* classPtr, void** obj)
+			bool LoadObject(const Value& reader, void*& obj)
 			{
-				if (*obj == nullptr)
+				//=============================================================================================
+				// 初期化
+				//=============================================================================================
+				Class* DerivedClass = nullptr;
+				if (!obj)//ポリモーフィズム用の対象がnullptrの場合
 				{
-					*obj = classPtr->Create();//ここでnewする
+					auto objectPtr = reinterpret_cast<HMObject*>(obj);
+					auto PolymorphicType = reader.FindMember(TSTR("type"));
+					DerivedClass = ClassBuilder::GetClassByname(PolymorphicType->value.GetString());
+					obj = DerivedClass->Create();
+				}
+				else//既にポリモーフィズムのデータが出来上がっている時
+				{
+					DerivedClass = reinterpret_cast<HMObject*>(obj)->GetClass();
 				}
 
+				//=============================================================================================
+				// メンバデータの更新
+				//=============================================================================================
 				auto memberJsonObject = reader.FindMember(TSTR("members"));
-				if (!memberJsonObject->value.IsNull() && reader.MemberEnd() != memberJsonObject)
+				if (!memberJsonObject->value.IsNull() && reader.MemberEnd() != memberJsonObject)//メンバの数や状況を確認
 				{
-					const auto& value = memberJsonObject->value.GetObject(); 
-					for (auto member : classPtr->GetProperties())
+					const auto& value = memberJsonObject->value.GetObject();
+					for (auto& member : DerivedClass->GetProperties())
 					{
 						auto jsonMember = value.FindMember(member->GetPropertyName());
 						if (member->GetKind() == PropertyKind::Class)
 						{
 							auto prop = static_cast<PropertyClass*>(member);
-							auto temp = prop->GetPropertyValue(obj);
-							LoadObject(jsonMember->value, prop->GetPropertyClass(),&temp);
-							prop->SetPropertyValue(*obj,temp);
+							LoadClass(jsonMember->value, prop->GetPropertyClass(), obj);
+						}
+						else if (member->GetKind() == PropertyKind::Object)
+						{
+							void* temp = member->GetPropertyValue(obj);
+							LoadObject(jsonMember->value,temp);
 						}
 						else if (member->GetKind() == PropertyKind::Array)
 						{
-
+							LoadArray(jsonMember->value, member, obj);
 						}
 						else
 						{
-							void* tempNum = nullptr;
-							member->GetPropertyValue(obj);
-							LoadNumeric(jsonMember->value, member, tempNum);
+							LoadNumeric(jsonMember->value, member, obj);
 						}
 					}
 				}
 				auto baseIt = reader.FindMember(TSTR("base"));
 				if (baseIt != reader.MemberEnd() && !baseIt->value.IsNull()) 
 				{
+					auto baseObjectJsonStr = baseIt->value.FindMember(DerivedClass->GetBaseClass()->GetName());
+					LoadClass(baseObjectJsonStr->value, DerivedClass->GetBaseClass(), obj);
+				}
+				return true;
+			}
+
+			bool LoadClass(const Value& reader, Class* classPtr, void*& obj)
+			{
+				//=============================================================================================
+				// メンバデータの更新
+				//=============================================================================================
+				auto memberJsonObject = reader.FindMember(TSTR("members"));
+				if (!memberJsonObject->value.IsNull() && reader.MemberEnd() != memberJsonObject)//メンバの数や状況を確認
+				{
+					const auto& value = memberJsonObject->value.GetObject();
+					for (auto& member : classPtr->GetProperties())
+					{
+						auto jsonMember = value.FindMember(member->GetPropertyName());
+						if (member->GetKind() == PropertyKind::Class)
+						{
+							auto prop = static_cast<PropertyClass*>(member);
+							LoadClass(jsonMember->value, prop->GetPropertyClass(), obj);
+						}
+						else if (member->GetKind() == PropertyKind::Object)
+						{
+							void* temp = member->GetPropertyValue(obj);
+							LoadObject(jsonMember->value, temp);
+						}
+						else if (member->GetKind() == PropertyKind::Array)
+						{
+							LoadArray(jsonMember->value, member, obj);
+						}
+						else
+						{
+							LoadNumeric(jsonMember->value, member, obj);
+						}
+					}
+				}
+				auto baseIt = reader.FindMember(TSTR("base"));
+				if (baseIt != reader.MemberEnd() && !baseIt->value.IsNull())
+				{
 					auto baseObjectJsonStr = baseIt->value.FindMember(classPtr->GetBaseClass()->GetName());
-					LoadObject(baseObjectJsonStr->value, classPtr->GetBaseClass(), obj);
+					LoadClass(baseObjectJsonStr->value, classPtr->GetBaseClass(), obj);
 				}
 				return true;
 			}

@@ -53,8 +53,10 @@ namespace HARMONY
 			bool UTILITY_API SaveFloat(Writer& value, Property* prop, void* object);
 			bool UTILITY_API SaveDouble(Writer& value, Property* prop, void* object);
 			bool UTILITY_API SaveString(Writer& value, Property* prop, void* object);
+			bool UTILITY_API SaveNumeric(Writer& value, Property* prop, void* object);
 			bool UTILITY_API SaveArray(Writer& value, Property* prop, void* object);
 			bool UTILITY_API SaveClass(Writer& value, Property* prop, void* object);
+			bool UTILITY_API SaveMap(Writer& value, Property* prop, void* object);
 			bool UTILITY_API SerializeObject(Writer& writer, Class* classPtr, void* obj);// オブジェクトをシリアライズする関数
 		}
 

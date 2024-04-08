@@ -50,8 +50,9 @@ namespace HARMONY
 		namespace DETAIL
 		{
 			bool UTILITY_API LoadNumeric(const Value& value, Property* prop, void*& object);
-			bool UTILITY_API LoadArray(const Value& value, Property* prop, void** object);
-			bool UTILITY_API LoadObject(const Value& reader, Class* classPtr, void** obj); // オブジェクトをシリアライズする関数
+			bool UTILITY_API LoadArray(const Value& value, Property* prop, void*& object);
+			bool UTILITY_API LoadObject(const Value& reader, void*& obj);
+			bool UTILITY_API LoadClass(const Value& reader, Class* classPtr, void*& obj);
 		}
 		 
 		template<typename T, typename Tp>
@@ -60,19 +61,38 @@ namespace HARMONY
 			Class* class_ = std::remove_pointer_t<Tp>::StaticGetClass();
 			Value& source = doc[class_->GetName()];
 			if (source.IsObject()) {
-				auto memberIt = source.FindMember(TSTR("type"));
-				if (memberIt != source.MemberEnd()) {
-					auto& firstMemberName = memberIt->value;
-					// firstMemberName を GetClassByName の引数として使用
-					Class* specificClass = ClassBuilder::GetClassByname(firstMemberName.GetString());
-					void* temp = obj;
-					DETAIL::LoadObject(source, specificClass, &temp);
-					if (temp != nullptr) {
-						obj = static_cast<Tp>(temp); // ここでtempの変更をobjに反映
+				void* tempObj = obj;
+				if constexpr (std::is_pointer_v<Tp>)
+				{
+					if (DETAIL::LoadObject(source, tempObj))
+					{
+						obj = static_cast<Tp>(tempObj);
 					}
-					printf("");
+				}
+				else
+				{
+					DETAIL::LoadClass(source, class_, tempObj);
 				}
 			}
+
+			
+
+			//Class* class_ = std::remove_pointer_t<Tp>::StaticGetClass();
+			//
+			//if (source.IsObject()) {
+			//	auto memberIt = source.FindMember(TSTR("type"));
+			//	if (memberIt != source.MemberEnd()) {
+			//		auto& firstMemberName = memberIt->value;
+			//		// firstMemberName を GetClassByName の引数として使用
+			//		Class* specificClass = ClassBuilder::GetClassByname(firstMemberName.GetString());
+			//		void* temp = obj;
+			//		DETAIL::LoadObject(source, specificClass, &temp);
+			//		if (temp != nullptr) {
+			//			obj = static_cast<Tp>(temp); // ここでtempの変更をobjに反映
+			//		}
+			//		printf("");
+			//	}
+			//}
 			return true;
 		}
 	}

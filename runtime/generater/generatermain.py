@@ -101,6 +101,8 @@ def generate():
                     file.write(f'           HM_ADD_PROPERTY_BOOL({class_config.class_name},{prop.name}),\n')
                 elif prop.type == "HMArray":
                     file.write(f'           HM_ADD_PROPERTY_ARRAY({class_config.class_name},{prop.name}),\n')
+                elif prop.type == "HMUnorderedMap":
+                    file.write(f'           HM_ADD_PROPERTY_UMAP({class_config.class_name},{prop.name}),\n')
                 else:
                     file.write(f'           HM_ADD_PROPERTY_CLASS({class_config.class_name},{prop.name}),\n')
 

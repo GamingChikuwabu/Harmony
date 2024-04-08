@@ -89,7 +89,7 @@ macro(init_coreplugin_module_setting targetname)
         ARCHIVE_OUTPUT_DIRECTORY_DEVELOP "${OUTPUT_DIR}/lib/coreplugin"
     )
     
-    target_link_libraries(${targetname} ModuleManager ${Engine_Main_Module_List})
+    target_link_libraries(${targetname} "Utility")
 endmacro()
 
 macro(init_platform_module_setting targetname)
@@ -136,7 +136,7 @@ macro(init_editor_module_setting targetname)
         ARCHIVE_OUTPUT_DIRECTORY_DEVELOP "${OUTPUT_DIR}/lib/editor"
     )
     #ModuleManagerとリンクする
-    target_link_libraries(${targetname} ${Engine_Main_Module_List})
+    target_link_libraries(${targetname} "Utility")
 endmacro()
 
 macro(init_project_module_setting targetname)
@@ -152,7 +152,7 @@ macro(init_project_module_setting targetname)
         ARCHIVE_OUTPUT_DIRECTORY_DEVELOP "${OUTPUT_DIR}/lib/editor"
     )
     #ModuleManagerとリンクする
-    target_link_libraries(${targetname} ${Engine_Main_Module_List})
+    target_link_libraries(${targetname} "Utility")
 endmacro()
 
 function(add_sub_modules)

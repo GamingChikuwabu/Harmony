@@ -63,6 +63,15 @@ HM_PROPERTY_ACCESSER_MEMBER_NUM(HARMONY::PropertyClassBase<member_type<decltype(
 new (GC_NEW(HM_PROPERTY_ACCESSER_MEMBER_NUM(HARMONY::PropertyArrayBase<member_type<decltype(&classType::Member)>::type::value_type>)))\
 HM_PROPERTY_ACCESSER_MEMBER_NUM(HARMONY::PropertyArrayBase<member_type<decltype(&classType::Member)>::type::value_type>)(OFFSET_OF(classType, Member), TSTR(#Member))
 
+#define UMAP_BASE(classType,Member)\
+HARMONY::PropertyUMapBase\
+<member_type<decltype(&classType::Member)>::type::KEY,\
+member_type<decltype(&classType::Member)>::type::VALUE>
+
+#define HM_ADD_PROPERTY_UMAP(classType,Member)\
+new (GC_NEW(HM_PROPERTY_ACCESSER_MEMBER_NUM(UMAP_BASE(classType,Member))))\
+HM_PROPERTY_ACCESSER_MEMBER_NUM(UMAP_BASE(classType,Member))(OFFSET_OF(classType, Member), TSTR(#Member))
+
 #define CONSTRUCTER_BASE(classType,...)\
 HARMONY::ConstructionBase<classType,__VA_ARGS__ >
 

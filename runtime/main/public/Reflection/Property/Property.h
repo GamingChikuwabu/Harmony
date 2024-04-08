@@ -53,7 +53,9 @@ namespace HARMONY
 		template<typename T>
 		void SetPropertyValue(void*& instance, T value)
 		{
-			SetPropertyValue(instance, static_cast<void*>(&value));
+			T temp = value;
+			void* memberPtr = GetPropertyValue(instance);
+			std::memcpy(memberPtr,&temp, _size);
 		}
 	private:
 		const TCHAR* _name;
@@ -108,7 +110,7 @@ namespace HARMONY
 			size_t size,
 			size_t align
 		):Super(name,elementName,size,align,PropertyKind::Object){}
-		virtual Class* GetPropertyClassPolymorphic(const HMObject* instance) { return nullptr; }
+		virtual Class* GetPropertyClassPolymorphic(HMObject* instance) { return nullptr; }
 	};
 
 	template<typename T, typename Tp = std::remove_pointer_t<T>>
@@ -118,7 +120,7 @@ namespace HARMONY
 	public:
 		PropertyObjectBase(const TCHAR* name)
 		:Super(name,Tp::StaticGetClass()->GetName(), sizeof(T), alignof(T)) {};
-		Class* GetPropertyClassPolymorphic(const HMObject* instance)override
+		Class* GetPropertyClassPolymorphic(HMObject* instance)override
 		{
 			return instance->GetClass();
 		}
@@ -196,7 +198,8 @@ namespace HARMONY
 		using Super = Property;
 	public:
 		Property* inner;
-		PropertyArray(const TCHAR* name,
+		PropertyArray(
+			const TCHAR* name,
 			const TCHAR* elementName,
 			size_t size,
 			size_t align,
@@ -204,6 +207,7 @@ namespace HARMONY
 			Super(name, elementName, size, align, PropertyKind::Array), inner(propertyPtr) {}
 		virtual void* GetData(void* arrayInstance) { return nullptr; }
 		virtual size_t GetArraySize(void* Instance) { return 0; }
+		virtual void SetSize(size_t size, void* instance) {};
 	};
 
 
@@ -229,6 +233,78 @@ namespace HARMONY
 		{
 			Array* arrayData = reinterpret_cast<Array*>(GetPropertyValue(Instance));
 			return arrayData->GetSize();
+		}
+
+		void SetSize(size_t size, void* instance)
+		{
+			Array* array = reinterpret_cast<Array*>(GetPropertyValue(instance));
+			array->ReSize(size);
+		}
+	};
+
+	class PropertyUMap : public Property
+	{
+		using Super = Property;
+	public:
+		Property* _pKey;
+		Property* _pValue;
+		PropertyUMap(
+			const TCHAR* name,
+			const TCHAR* elementName,
+			size_t size,
+			size_t align,
+			Property* propertyKey,
+			Property* propertyValue
+		):Super(name, elementName, size, align, PropertyKind::UMap), _pKey(propertyKey), _pValue(propertyValue){}
+		virtual HMArray<void*> GetPair(void* mapInstance) {	return HMArray<void*>();};
+		virtual void* GetKey(void* pair) { return nullptr; }
+		virtual void* GetValue(void* pair) { return nullptr; }
+		virtual size_t GetSize(void* mapInstance) { return 0; }
+	};
+
+	template<typename Key,typename Value>
+	class PropertyUMapBase : public PropertyUMap
+	{
+		using InnerPropertyTypeKey = innerkind<Key>::type;
+		using InnerPropertyTypeValue = innerkind<Value>::type;
+		using Super = PropertyUMap;
+		using MAP = HMUnorderedMap<Key, Value>;
+		using Itereter = MAP::iterator;
+	public:
+		PropertyUMapBase(const TCHAR* name)
+			:Super(name, TSTR("HMUnorderedMap"), sizeof(MAP), alignof(MAP),
+				static_cast<Property*>(new (GC_NEW(InnerPropertyTypeKey)) InnerPropertyTypeKey()),
+				static_cast<Property*>(new (GC_NEW(InnerPropertyTypeValue)) InnerPropertyTypeValue())) {}
+
+		HMArray<void*> GetPair(void* mapInstance)
+		{
+			HMArray<void*> pair;
+			MAP map = *reinterpret_cast<MAP*>(mapInstance);
+			for (const auto& mapMember : map)
+			{
+				// const修飾を取り除き、void*への変換を行う
+				void* ptr = const_cast<void*>(static_cast<const void*>(&mapMember));
+				pair.Add(static_cast<void*>(ptr));
+			}
+			return pair;
+		}
+
+		void* GetKey(void* pair)
+		{
+			HMPair<Key, Value>* _pair = reinterpret_cast<HMPair<Key, Value>*>(pair);
+			return &_pair->first;
+		}
+
+		void* GetValue(void* pair)
+		{
+			HMPair<Key, Value>* _pair = reinterpret_cast<HMPair<Key, Value>*>(pair);
+			return &_pair->second;
+		}
+
+		size_t GetSize(void* mapInstance)
+		{
+			MAP* map = reinterpret_cast<MAP*>(mapInstance);
+			return map->size();
 		}
 	};
 

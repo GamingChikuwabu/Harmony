@@ -25,7 +25,7 @@ namespace HARMONY
         value_type& Back()const;
         bool isEmpty()const noexcept;
         value_type& operator[](size_t size)const;
-
+        void ReSize(size_t size);
         iterator begin();
         iterator end();
         const_iterator begin() const;

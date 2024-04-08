@@ -21,6 +21,7 @@ namespace HARMONY
             }
         }
         bucket.Add(HMPair<KeyType, ValueType>(key, value));
+        count++;
     }
 
     template<typename KeyType, typename ValueType>

@@ -21,9 +21,9 @@ namespace HARMONY
 
 		bool HMModIPCManager::AwakeInitialize()
 		{
-			LoadCommands(std::filesystem::path(ModuleManager::GetEnginePath()).append("config").append("networkcommandlist.json").string());
+			//LoadCommands(std::filesystem::path(ModuleManager::GetEnginePath()).append("config").append("networkcommandlist.json").string());
 			EventManager::GetEvent<const char*, int, DataReceivedCallback, HPROTOCOL&>
-				("CreateTCPClient")
+				(TSTR("CreateTCPClient"))
 				.Broadcast(
 					"127.0.0.1"
 					, 11111
@@ -35,13 +35,13 @@ namespace HARMONY
 
 		bool HMModIPCManager::LateInitialize()
 		{
-			this->RegisterCallBack(this->GetCommandInfo("ShutdownRuntime").id,std::bind(&HMModIPCManager::Tarminate, this, std::placeholders::_1));
+			this->RegisterCallBack(this->GetCommandInfo(TSTR("ShutdownRuntime")).id,std::bind(&HMModIPCManager::Terminate, this, std::placeholders::_1));
 			return true;
 		}
 
 		void HMModIPCManager::RegisterCallBack(int command, std::function<void(const std::vector<char>& data)> func)
 		{
-			_callBackFuncArray[command].push_back(func);
+			_callBackFuncArray[command].Add(func);
 		}
 
 		void HMModIPCManager::SendIPCData4Editor(unsigned int command, std::vector<char>& data)
@@ -64,12 +64,12 @@ namespace HARMONY
 			combinedData.insert(combinedData.end(), data.begin(), data.end());
 
 			// 更新されたデータを送信
-			EventManager::GetEvent<HPROTOCOL, std::vector<char>&>("SendData").Broadcast(_hProtocol, combinedData);
+			EventManager::GetEvent<HPROTOCOL, std::vector<char>&>(TSTR("SendData")).Broadcast(_hProtocol, combinedData);
 		}
 
-		CommandInfo HMModIPCManager::GetCommandInfo(const char* commandname)
+		CommandInfo HMModIPCManager::GetCommandInfo(const TCHAR* commandname)
 		{
-			return commandMap[commandname];
+			return _command.commandMap[commandname];
 		}
 
 		void HMModIPCManager::debugLog(const char* log)
@@ -77,7 +77,7 @@ namespace HARMONY
 			// 文字列をstd::vector<char>に変換 
 			std::vector<char> logData(log, log + strlen(log));
 			// イベントをブロードキャスト
-			EventManager::GetEvent<HPROTOCOL, std::vector<char>&>("SendData").Broadcast(_hProtocol, logData);
+			EventManager::GetEvent<HPROTOCOL, std::vector<char>&>(TSTR("SendData")).Broadcast(_hProtocol, logData);
 		}
 
 		void HMModIPCManager::getDataCallBack(const std::vector<char>& data)
@@ -85,7 +85,7 @@ namespace HARMONY
 			size_t offset = 0;
 			while (offset < data.size()) {
 				if (offset + sizeof(DataHeader) > data.size()) {
-					HM_DEBUG_LOG("red", "受信データが不足しています。");
+					HM_DEBUG_LOG("red", TSTR("受信データが不足しています。"));
 					break; // ヘッダを読むための十分なデータがない
 				}
 
@@ -95,7 +95,7 @@ namespace HARMONY
 				offset += sizeof(header);
 
 				if (offset + header.dataSize > data.size()) {
-					HM_DEBUG_LOG("red", "データサイズが不一致です。");
+					HM_DEBUG_LOG("red", TSTR("データサイズが不一致です。"));
 					break; // データサイズが不一致
 				}
 
@@ -114,20 +114,17 @@ namespace HARMONY
 		}
 		void HMModIPCManager::LoadCommands(const HMString& filename)
 		{
-
-
-
-			rapidjson::Document doc = LoadJson(filename.c_str());
+			/*rapidjson::Document doc = LoadJson(filename);
 			const rapidjson::Value& commands = doc["commands"];
 			for (auto& command : commands.GetArray()) {
 				CommandInfo info;
 				info.id = command["id"].GetInt();
 				info.description = command["description"].GetString();
 				commandMap[command["name"].GetString()] = info;
-			}
+			}*/
 		}
 
-		void HMModIPCManager::Tarminate(const std::vector<char>& data)
+		void HMModIPCManager::Terminate(const std::vector<char>& data)
 		{
 			HM_ASSERT(false,"終了")
 		}

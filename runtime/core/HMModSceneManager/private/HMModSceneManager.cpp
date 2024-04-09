@@ -30,59 +30,7 @@ namespace HARMONY
 
 		bool HMModSceneManager::AwakeInitialize()
 		{
-			HMObject* obj = new Component();
-			auto prop = HMObject::StaticGetClass()->GetPropertyByName(L"vec");
-
-			SERIALIZER::OJsonArchiver oj;
-			auto dest = oj & obj;
-			auto str = dest.GetRaw();
-			std::wofstream fileStream(L"GameObject.json");
-			if (fileStream.is_open()) {
-				// 文字列をファイルに書き込む
-				fileStream << str;
-				// ファイルストリームを閉じる
-				fileStream.close();
-			}
-			else {
-				// ファイルオープンに失敗した場合の処理
-				std::wcerr << L"ファイルを開けませんでした: " << std::endl;
-			}
-
-			//HMObject* obj2 = nullptr;
-			//{
-			//	std::wifstream ifs(L"GameObject.json");
-			//	SERIALIZER::IJsonArchiver ij(ifs);
-			//	ij& obj2;
-			//}
-			//SERIALIZER::OJsonArchiver oj;
-			//auto dest = oj & obj2;
-			//auto str = dest.GetRaw();
-			//std::wofstream fileStream(L"GameObject.json");
-			//if (fileStream.is_open()) {
-			//	// 文字列をファイルに書き込む
-			//	fileStream << str;
-			//	// ファイルストリームを閉じる
-			//	fileStream.close();
-			//}
-			//else {
-			//	// ファイルオープンに失敗した場合の処理
-			//	std::wcerr << L"ファイルを開けませんでした: " << std::endl;
-			//}
-
-			printf("e");
-
-			/*std::filesystem::path path = ModuleManager::GetProjectAssetsPath();
-			path.append("config").append("sceneroot.json");
-			auto json_string =  LoadJson(path.string().c_str());
-			std::string guid = json_string["guid"].GetString();
-			if (guid != "")
-			{
-				auto scene_file_meta_path = FindMetaFileWithGUID(ModuleManager::GetAllAssetsRootPath(), guid);
-				auto sceneType = LoadJson(scene_file_meta_path.string().c_str())["type"].GetInt();
-				auto scene_file_path = RemoveMetaExtension(scene_file_meta_path);
-				LoadScene(scene_file_path,nullptr, sceneType);
-				return true;
-			}*/
+			
 			return true;
 		}
 

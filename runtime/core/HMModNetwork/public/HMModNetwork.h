@@ -1,6 +1,4 @@
-﻿#pragma once
-#include"ModuleManager.h"
-#include"HMJson.h"
+#pragma once
 #include<functional>
 #include"IProtocol.h"
 #include"INetWorkModule.h"

@@ -53,6 +53,7 @@ namespace HARMONY
 			bool UTILITY_API LoadArray(const Value& value, Property* prop, void*& object);
 			bool UTILITY_API LoadObject(const Value& reader, void*& obj);
 			bool UTILITY_API LoadClass(const Value& reader, Class* classPtr, void*& obj);
+			bool UTILITY_API LoadMap(const Value& value, Property* prop, void*& object);
 		}
 		 
 		template<typename T, typename Tp>

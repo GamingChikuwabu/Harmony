@@ -17,12 +17,22 @@ namespace HARMONY
 		HMObject();
 		virtual ~HMObject();
 		inline bool isValid()const noexcept;
+		HMPROPERTY()
+		HMUnorderedMap<uint32_t, HMString> _mapper;
 	protected:
 		HMPROPERTY()
 		HMString _guid;
 		HMPROPERTY()
 		HMArray<MATH::Float3> _gg;
-		HMPROPERTY()
-		HMUnorderedMap<uint32_t, HMString> _mapper;
 	};
+
+	template<typename T, typename Enable = void>
+	T* CreateObject() { return nullptr; }
+
+	template<typename T,
+		typename = std::enable_if_t<std::is_base_of_v<HMObject, T>,T>
+	,typename ...Args>
+	T* CreateObject(Args... args) {
+		return new T(args); // Tのインスタンスを動的に生成して返す
+	}
 }

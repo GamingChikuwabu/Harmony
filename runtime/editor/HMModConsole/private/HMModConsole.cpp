@@ -44,7 +44,7 @@ namespace HARMONY
 
 			send_data.insert(send_data.end(), dataPtr, dataPtr + dataSize);
 
-			_manager->SendIPCData4Editor(_manager->GetCommandInfo("SendLog").id, send_data);
+			_manager->SendIPCData4Editor(_manager->GetCommandInfo(TSTR("SendLog")).id, send_data);
 		}
 	}
 }

@@ -1,12 +1,15 @@
-﻿#pragma once
+#pragma once
 #include<vector>
 #include<functional>
+#include"HMObject.h"
+
+
 namespace HARMONY
 {
 	//コールバック関数
 	using DataReceivedCallback = std::function<void(const std::vector<char>& data)>;
 	//プロトコルのインターフェース
-	class IProtocol {
+	class IProtocol : public HMObject{
 	public:
 		virtual ~IProtocol() {}
 		// クライアントとしての動作

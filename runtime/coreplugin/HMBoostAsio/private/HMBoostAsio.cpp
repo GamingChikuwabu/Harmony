@@ -1,5 +1,5 @@
-﻿#include"HMBoostAsio.h"
 #include"AsioTCPIP.h"
+#include"HMBoostAsio.h"
 #include"ModuleManager.h"
 
 namespace HARMONY
@@ -10,7 +10,7 @@ namespace HARMONY
 		HPROTOCOL HMBoostAsio::CreateTCPClient(const char* serverIP, int port, DataReceivedCallback callbackfunc)
 		{
 			HPROTOCOL pro = getNextHandle();
-			m_protocols[pro] = std::make_unique<AsioTCPIP>();
+			m_protocols[pro] = CreateObject<AsioTCPIP>();
 			m_protocols[pro]->registerDataReceivedCallback(callbackfunc);
 			m_protocols[pro]->connect(serverIP, port);
 			StartReceive(pro);
@@ -31,6 +31,10 @@ namespace HARMONY
 				protcl.second->disconnect();
 				protcl.second->stop_server();
 			}
+		}
+		HPROTOCOL HMBoostAsio::getNextHandle()
+		{
+			return ++m_nextHandle;
 		}
 	}
 }

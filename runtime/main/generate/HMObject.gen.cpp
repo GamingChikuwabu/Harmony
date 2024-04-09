@@ -20,9 +20,9 @@ namespace HARMONY{
     {
         static HMArray<Property*>& GetPropertyField() {
             static HMArray<Property*> propertyField = {
+           HM_ADD_PROPERTY_UMAP(HMObject,_mapper),
            HM_ADD_PROPERTY_STRING(HMObject,_guid),
            HM_ADD_PROPERTY_ARRAY(HMObject,_gg),
-           HM_ADD_PROPERTY_UMAP(HMObject,_mapper),
         };
 return propertyField;
     }

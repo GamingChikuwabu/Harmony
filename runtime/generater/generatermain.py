@@ -24,12 +24,12 @@ def generate():
     except Exception as err:  # すべての例外をキャッチ
         print(f"Error parsing file: {filename}")
         print(f"Error message: {err}")
-    class_config = ClassConfig()
+    class_config_list = []
 
-    util.build_class_configuration_with_tokens(translation_unit,class_config)
+    util.build_class_configuration_with_tokens(translation_unit,class_config_list)
 
     # ファイルを開いてテキストを書き込む
-    if class_config.isVaild:
+    for class_config in class_config_list:
         #ヘッダを生成
         with open(output_file_path_h, 'w',encoding= "utf-8") as file:
             file.write('#pragma once\n')
@@ -131,10 +131,6 @@ def generate():
             #名前空間の終了
             for name in class_config.name_spase:
                 file.write('}\n')
-
-            print(f"==============================generate completion {class_config.class_name}===========================================")
-
-
 
 def main():
     # ヘッダーファイルの最終変更時刻を取得

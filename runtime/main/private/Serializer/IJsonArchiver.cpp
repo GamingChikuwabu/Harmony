@@ -123,6 +123,10 @@ namespace HARMONY
 						{
 							LoadArray(jsonMember->value, member, obj);
 						}
+						else if(member->GetKind() == PropertyKind::UMap)
+						{
+							LoadMap(jsonMember->value,member,obj);
+						}
 						else
 						{
 							LoadNumeric(jsonMember->value, member, obj);
@@ -177,6 +181,57 @@ namespace HARMONY
 					LoadClass(baseObjectJsonStr->value, classPtr->GetBaseClass(), obj);
 				}
 				return true;
+			}
+
+			bool LoadMap(const Value& value, Property* prop, void*& object)
+			{
+				if (value.IsArray())
+				{
+					void* Map = prop->GetPropertyValue(object);
+					PropertyUMap* umapProperty = dynamic_cast<PropertyUMap*>(prop);
+
+					for (auto& mapmember : value.GetArray())
+					{
+						if (mapmember.IsObject())
+						{
+							auto key = mapmember.FindMember(TSTR("Key"));
+							auto value = mapmember.FindMember(TSTR("Value"));
+							void* pkey = nullptr;
+							void* pValue = nullptr;
+
+							auto KeyKind = umapProperty->_pKey->GetKind();
+							auto ValueKind = umapProperty->_pValue->GetKind();
+							
+							if (KeyKind == PropertyKind::Class)
+							{
+								LoadClass(key->value, static_cast<PropertyClass*>(umapProperty->_pKey)->GetPropertyClass(), pkey);
+							}
+							else if(KeyKind == PropertyKind::Array)
+							{
+								LoadArray(key->value,umapProperty->_pKey,pkey);
+							}
+							else if (KeyKind == PropertyKind::Object)
+							{
+								LoadObject(key->value,pkey);
+							}
+
+							if (ValueKind == PropertyKind::Class)
+							{
+								LoadClass(value->value, static_cast<PropertyClass*>(umapProperty->_pValue)->GetPropertyClass(), pkey);
+							}
+							else if (ValueKind == PropertyKind::Array)
+							{
+								LoadArray(value->value, umapProperty->_pValue, pkey);
+							}
+							else if (ValueKind == PropertyKind::Object)
+							{
+								LoadObject(value->value, pkey);
+							}
+							umapProperty->SetPair(Map, pkey, pValue);
+						}
+					}
+				}
+				return false;
 			}
 		}
 	}

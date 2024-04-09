@@ -1,6 +1,7 @@
 #pragma once
 #include"INetWorkModule.h"
 #include"IProtocol.h"
+#include"Utility.hpp"
 #include<vector>
 #include<memory>
 #include<mutex>
@@ -17,12 +18,12 @@ namespace HARMONY
 			void SendData(HPROTOCOL handle, std::vector<char>& data)override;
 			void Terminate()override;
 		private:
-			std::unordered_map<HPROTOCOL, std::unique_ptr<IProtocol>> m_protocols; // プロトコルオブジェクトを管理
-			HPROTOCOL m_nextHandle{ 0 }; // ユニークなハンドルを生成するためのカウンタ
+			// プロトコルオブジェクトを管理
+			HMUnorderedMap<HPROTOCOL,IProtocol*> m_protocols;
+			//次のユニークなハンドル
+			HPROTOCOL m_nextHandle;
 			// 次のユニークなハンドルを生成するためのヘルパーメソッド
-			HPROTOCOL getNextHandle() {
-				return ++m_nextHandle;
-			}
+			HPROTOCOL getNextHandle();
 		};
 	}
 }

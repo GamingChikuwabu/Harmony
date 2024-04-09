@@ -9,22 +9,15 @@
 
 namespace HARMONY
 {
-	HMCLASS()
-	class UTILITY_API HMObject : public  gc 
-	{
-		HM_CLASS_BODY()
-	public:
-		HMObject();
-		virtual ~HMObject();
-		inline bool isValid()const noexcept;
-	protected:
-		HMPROPERTY()
-		HMString _guid;
-		HMPROPERTY()
-		bool _isValid;
-		HMPROPERTY()
-		MATH::Vector3f vec;
-	};
-
-
+	// コマンド情報を格納する構造体
+struct CommandInfo {
+	int id;
+	std::string description;
+};
+HMCLASS()
+struct NetworkCommandMap
+{
+	HM_CLASS_BODY()
+	HMUnorderedMap<HMString, CommandInfo> commandMap;
+};
 }

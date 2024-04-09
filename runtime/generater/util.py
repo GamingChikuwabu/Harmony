@@ -77,14 +77,16 @@ def register_namespace(index:int,tokens:list,class_config:ClassConfig):
     if tokens[index + 2].spelling == "{":
         class_config.add_namespace(tokens[index + 1].spelling)
 
-def build_class_configuration_with_tokens(translation_unit,class_config:ClassConfig):
+def build_class_configuration_with_tokens(translation_unit,class_config:list):
     tokens = list(translation_unit.get_tokens(extent=translation_unit.cursor.extent))
+    index = -1
+    class_config.append(ClassConfig())
     for i, token in enumerate(tokens):
         if token.spelling == "HMCLASS" and tokens[i-1].spelling != "define":
-            class_config.isVaild = True
+            index += 1
         elif token.spelling == "class" or token.spelling == "struct":
-            register_class_name(i,tokens,class_config)
+            register_class_name(i,tokens,class_config[index])
         elif token.spelling == "namespace":
-            register_namespace(i,tokens,class_config)
+            register_namespace(i,tokens,class_config[index])
         elif token.spelling == "HMPROPERTY":
-            register_class_property(i,tokens,class_config)
+            register_class_property(i,tokens,class_config[index])

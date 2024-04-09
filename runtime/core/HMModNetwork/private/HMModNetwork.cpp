@@ -1,6 +1,5 @@
 #include "HMModNetwork.h"
-#include "EventManager.h"
-#include "LogManager.h"
+#include"Utility.hpp"
 
 namespace HARMONY
 {
@@ -19,6 +18,8 @@ namespace HARMONY
 		{
 			m_pNetworkMod = ModuleManager::GetModule<INetWorkModule>();
 			HM_ASSERT(m_pNetworkMod != nullptr,"ネットワークモジュールの取得に失敗");
+
+
 			EventManager::GetEvent<const char*,int, DataReceivedCallback,HPROTOCOL&>
 				(TSTR("CreateTCPClient"))
 				.Add(std::bind(&HMModNetwork::CreateTCPClient,this,std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4));

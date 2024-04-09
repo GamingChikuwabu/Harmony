@@ -260,6 +260,7 @@ namespace HARMONY
 		virtual void* GetKey(void* pair) { return nullptr; }
 		virtual void* GetValue(void* pair) { return nullptr; }
 		virtual size_t GetSize(void* mapInstance) { return 0; }
+		virtual void SetPair(void* instance, void* Key, void* value) {};
 	};
 
 	template<typename Key,typename Value>
@@ -287,6 +288,14 @@ namespace HARMONY
 				pair.Add(static_cast<void*>(ptr));
 			}
 			return pair;
+		}
+
+		void SetPair(void* instance, void* _Key, void* _value)
+		{
+			MAP* map = reinterpret_cast<MAP*>(instance);
+			Key innerKey = *reinterpret_cast<Key*>(_Key);
+			Value innerValue = *reinterpret_cast<Value*>(_value);
+			map->insert(innerKey,innerValue);
 		}
 
 		void* GetKey(void* pair)

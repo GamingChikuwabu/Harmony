@@ -1,4 +1,5 @@
-﻿#pragma once
+#pragma once
+#include <asio.hpp>
 #include <vector>
 #include<iostream>
 #include <string>
@@ -6,7 +7,6 @@
 #include <functional>
 #include <deque>
 #include"IProtocol.h"
-#include<asio.hpp>
 
 // Boost.Asioを使用したTCPプロトコルの実装
 using asio::ip::tcp;

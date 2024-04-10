@@ -35,13 +35,14 @@ namespace HARMONY
 
 		void AsioTCPIPClient::Send(const HMArray<int8_t>& data)
 		{
-			asio::send()
+			
 		}
 
 		void AsioTCPIPClient::AsyncSend(const HMArray<int8_t>& data)
 		{
-
+			asio::async_write()
 		}
+
 		void AsioTCPIPClient::ReceiveCallBack(AsyncReceiveDataCallBackBinary callback)
 		{
 		}

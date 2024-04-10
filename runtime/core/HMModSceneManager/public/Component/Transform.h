@@ -1,7 +1,7 @@
 #pragma once
 #include"Component.h"
 #include"Utility.hpp"
-#include"Transform.generate.h"
+
 
 namespace HARMONY
 {
@@ -10,7 +10,7 @@ namespace HARMONY
         HMCLASS()
         class Transform : public Component
         {
-            HM_CLASS_BODY()
+            HM_MANUAL_REGISTER_DERIVED_CLASS_BODY(Transform,Component)
         public:
             Transform();
             ~Transform();

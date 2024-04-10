@@ -30,6 +30,14 @@ namespace HARMONY
         iterator end();
         const_iterator begin() const;
         const_iterator end() const;
+        iterator erase(iterator pos) {
+            // 削除される要素以降の要素を一つ前に移動
+            std::move(pos + 1, data + size, pos);
+            // 配列のサイズを更新
+            --size;
+            // 削除した要素の次を指すイテレータを返す
+            return pos;
+        }
 
     private:
         value_type* data;

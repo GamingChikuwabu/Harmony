@@ -15,7 +15,6 @@ namespace HARMONY
 		{
 			class HMModWin32 :public IWindow
 			{
-				HM_CLASS_BODY(IWindow)
 			public:
 				HMModWin32();
 				~HMModWin32();

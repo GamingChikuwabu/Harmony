@@ -3,7 +3,6 @@
 #include"PlatformSimdchacker.h"
 #include"Vector3f.h"
 #include"Macro/ObjectMacro.h"
-#include"Quaternion.generate.h"
 
 namespace HARMONY
 {
@@ -12,7 +11,7 @@ namespace HARMONY
         HMCLASS()
         struct UTILITY_API Quaternion
         {
-            HM_CLASS_BODY()
+            HM_MANUAL_REGISTER_BASE_CLASS_BODY(Quaternion)
             union
             {
                 struct

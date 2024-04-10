@@ -2,16 +2,13 @@
 #include<cmath>
 #include"Macro/ObjectMacro.h"
 #include"PlatformSimdchacker.h"
-#include"Matrix4x4.generate.h"
 
 namespace HARMONY 
 {
     namespace MATH 
     {
-        HMCLASS()
         struct UTILITY_API Matrix4x4 
         {
-            HM_CLASS_BODY()
             union 
             {
                 struct
@@ -26,17 +23,13 @@ namespace HARMONY
             };
 
             // デフォルトコンストラクタ
-            Matrix4x4() : simd{ _mm_setzero_ps(), _mm_setzero_ps(), _mm_setzero_ps(), _mm_setzero_ps() } {}
+            Matrix4x4();
 
             // パラメータ付きコンストラクタ
             Matrix4x4(float m11, float m12, float m13, float m14,
                       float m21, float m22, float m23, float m24,
                       float m31, float m32, float m33, float m34,
-                      float m41, float m42, float m43, float m44)
-                : _m11(m11), _m12(m12), _m13(m13), _m14(m14),
-                _m21(m21), _m22(m22), _m23(m23), _m24(m24),
-                _m31(m31), _m32(m32), _m33(m33), _m34(m34),
-                _m41(m41), _m42(m42), _m43(m43), _m44(m44) {}
+                      float m41, float m42, float m43, float m44);
 
             // 行列の乗算オペレータ
             Matrix4x4 operator*(const Matrix4x4& rhs) const {
@@ -51,6 +44,7 @@ namespace HARMONY
                 }
                 return result;
             }
+
             // 単位行列を生成
             static Matrix4x4 Identity() {
                 return Matrix4x4(

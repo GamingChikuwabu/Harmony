@@ -1,4 +1,4 @@
-﻿#include"AsioTCPIP.h"
+#include"AsioTCPIP.h"
 #include"LogManager.h"
 
 namespace HARMONY
@@ -9,12 +9,12 @@ namespace HARMONY
 	}
 	AsioTCPIP::~AsioTCPIP()
 	{
+
 	}
 	void AsioTCPIP::connect(const char* ipad, int port)
 	{
 		tcp::resolver resolver(io_context_);
 		tcp::resolver::results_type endpoints = resolver.resolve(ipad, std::to_string(port)); 
-		tcp::socket socket(io_context_);
 		try {
 			// 同期接続を試みる
 			auto er = asio::connect(socket, endpoints); 
@@ -24,6 +24,7 @@ namespace HARMONY
 			std::cerr << "Exception: " << e.what() << std::endl;
 			HM_ASSERT(false, "接続エラー: ,%d,%s", port, ec.message().c_str());
 		}
+		_netthred = std::thread(std::bind(&AsioTCPIP::Running, this)); 
 	}
 
 	void AsioTCPIP::send(std::vector<char>& data)
@@ -99,11 +100,9 @@ namespace HARMONY
 	void AsioTCPIP::read_handler(const asio::error_code& ec, std::size_t bytes_transferred)
 	{
 		if (!ec) {
-
 			data_.resize(bytes_transferred); // 実際のデータサイズにリサイズ
 			dataReceivedCallback(data_);
 			this->receive();
-			// ここにデータ処理のコードを書く
 		}
 		else {
 			if (ec.message() == "既存の接続はリモートホストに強制的に切断されました")
@@ -136,6 +135,6 @@ namespace HARMONY
 	}
 	void AsioTCPIP::Running()
 	{
-		io_service.run();
+		io_context_.run();
 	}
 }

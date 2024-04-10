@@ -1,10 +1,7 @@
 #include "HMModIPCManager.h"
-#include"EventManager.h"
 #include"INetWorkModule.h"
-#include"LogManager.h"
-#include<fstream>
-#include"HMJson.h"
 #include<functional>
+#include<filesystem>
 
 namespace HARMONY
 {
@@ -21,6 +18,11 @@ namespace HARMONY
 
 		bool HMModIPCManager::AwakeInitialize()
 		{
+			Ifstream ifs(std::filesystem::path(ModuleManager::GetEnginePath()).append("config").append("IPCSetting.json").string());
+
+
+			//SERIALIZER::IJsonArchiver()
+
 			//LoadCommands(std::filesystem::path(ModuleManager::GetEnginePath()).append("config").append("networkcommandlist.json").string());
 			EventManager::GetEvent<const char*, int, DataReceivedCallback, HPROTOCOL&>
 				(TSTR("CreateTCPClient"))

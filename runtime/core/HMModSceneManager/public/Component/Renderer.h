@@ -4,7 +4,6 @@
 #include"IConstantBuffer.h"
 #include"IIndexBuffer.h"
 #include"IMaterial.h"
-#include"Renderer.generate.h"
 
 namespace HARMONY
 {
@@ -13,7 +12,6 @@ namespace HARMONY
         HMCLASS()
         class HMMODSCENEMANAGER_API Renderer : public Component
         {
-            HM_CLASS_BODY()
         public:
             Renderer();
             ~Renderer();

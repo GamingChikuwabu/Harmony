@@ -5,7 +5,7 @@
 #include "rapidjson/stringbuffer.h"
 #include "rapidjson/writer.h"
 #include <rapidjson/prettywriter.h> // prettywriterをインクルード
-#include "Reflection/Refrection.hpp"
+#include "Reflection/Reflection.hpp"
 
 #ifdef UNICODE
 #ifdef _WIN32 // UTF16 for Windows

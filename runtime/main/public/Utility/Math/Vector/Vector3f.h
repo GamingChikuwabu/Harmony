@@ -1,16 +1,17 @@
 #pragma once
 #include"PlatformSimdchacker.h"
 #include"Macro/ObjectMacro.h"
-#include"Vector3f.generate.h"
+#include"Macro/ManualRegisterMacro.h"
 
 namespace HARMONY
 {
+    class Class;
     namespace MATH
     {
         HMCLASS()
         struct UTILITY_API Vector3f
         {
-            HM_CLASS_BODY()
+            HM_MANUAL_REGISTER_BASE_CLASS_BODY(Vector3f)
             union
             {
                 __m128 simd; // SIMD型を使用

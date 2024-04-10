@@ -55,6 +55,7 @@ class RuntimeMonitorThread(QThread):
         self.process = process
         self.check_interval = check_interval
         self.running = True
+        
 
     def run(self):
         while self.running:
@@ -74,7 +75,8 @@ class IPCManager(QObject):
     def __new__(cls):
         if cls.__instance is None:
             cls.__instance = super(IPCManager, cls).__new__(cls)
-    
+            cls.monitor_thread = None
+            cls.runtime_process = None
             cls.modeltcp = mTcpIp(11111)
             cls.modeltcp.receivedBytes.connect(cls.__instance.ReceveData)
             cls.callbackdict = dict()

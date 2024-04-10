@@ -1,15 +1,11 @@
 #pragma once
 #pragma warning(disable:4251)
-
+#include"ModuleInstanceManagerBase.h"
 #include"IModule.h"
-#include<memory>
-#include<unordered_map>
-#include<string>
-#include<Windows.h>
-
 
 namespace HARMONY 
 {
+	struct ModuleManager_impl;
 	/// @brief モジュールを管理するクラス
 	class UTILITY_API ModuleManager
 	{
@@ -37,26 +33,25 @@ namespace HARMONY
 
 		/// @brief プロジェクトごとの設定ファイルやアセットのルートパス
 		/// @return パス
-		static const char* GetProjectAssetsPath();
+		static const TCHAR* GetProjectAssetsPath();
 
 		/// @brief プロジェクトに依存しないアセットのルートパスTextureやマテリアル、シェーダー、モデルなど
 		/// @return ルートディレクトリのパス
-		static const char* GetAllAssetsRootPath();
+		static const TCHAR* GetAllAssetsRootPath();
 
 		/// @brief Engineのカレントディレクトリ
 		/// @return Engineのカレントディレクトリのフルパス
-		static const char* GetEnginePath();
+		static const TCHAR* GetEnginePath();
 
 		/// @brief コマンドライン引数を解析する関数
 		/// @param argc 引数の数
 		/// @param argv 引数の配列
 		static void CommandLineAnalyze(int argc, void** argv);
 
-
 		template<class T>
 		static T* GetModule()
 		{
-			for (auto& mod : m_pModuleArray)
+			for (auto& mod : _pModuleArray)
 			{
 				T* retmod = dynamic_cast<T*>(mod);
 				if (retmod)
@@ -67,28 +62,19 @@ namespace HARMONY
 			return nullptr;
 		}
 	private:
-		//========================================================================
-		//メンバ変数
-		HMPROPERTY()
-		static inline std::unordered_map<std::string, std::string> m_moduleKind;
-		HMPROPERTY()
-		static inline std::vector<IModule*> m_pModuleArray;
-#ifdef _WIN32
-		static inline std::unordered_map<std::string, HMODULE> m_modulehandole;
-#endif // _WIN32
-		HMPROPERTY()
-		static inline std::string m_projectAssetsPath = "";
-		HMPROPERTY()
-		static inline std::string m_assetsPath = "";
-		HMPROPERTY()
-		static inline std::string m_EnginePath = "C:/work/myworkspace/engine/v3_60_00/develop/editor";
+		static inline DETAIL::ModuleInstanceManagerBase* _impl;
+		static inline HMArray<IModule*> _pModuleArray;
+		static inline const TCHAR* _projectAssetsPath;
+		static inline const TCHAR* _assetsPath;
+		static inline const TCHAR* _EnginePath = L"C:/work/myworkspace/engine/v3_60_00/develop/editor";
+	private:
 		static bool LoadCoreModule();
 		static bool LoadCorePluginModule();
 		static bool LoadPlatformModule();
 		static bool LoadEditorModule();
-		static bool LoadModule(const char* path);
+		static bool LoadModule(const TCHAR* path);
 	};
 }
 
 #define RegisterModuleClass(moduleclass)\
-	namespace {static bool moduleactive = HARMONY::ModuleManager::RegisterModule(new moduleclass());}
+	namespace {static bool moduleactive = HARMONY::ModuleManager::RegisterModule(new (GC_NEW(moduleclass)) moduleclass());}

@@ -2,7 +2,6 @@
 #include<string>
 #include<list>
 #include"Transform.h"
-#include"GameObject.generate.h"
 
 namespace HARMONY
 {
@@ -11,7 +10,7 @@ namespace HARMONY
 		HMCLASS()
 		class HMMODSCENEMANAGER_API GameObject :public HMObject
 		{
-			HM_CLASS_BODY()
+			HM_MANUAL_REGISTER_DERIVED_CLASS_BODY(GameObject,HMObject)
 		public:
 			GameObject();
 			~GameObject();

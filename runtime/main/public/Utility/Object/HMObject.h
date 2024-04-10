@@ -5,20 +5,19 @@
 #include"ObjectMacro.h"
 #include"Float3.h"
 #include"HMUnorderedMap.h"
-#include"HMObject.generate.h"
+#include"Macro/ManualRegisterMacro.h"
+#include<utility>
 
 namespace HARMONY
 {
 	HMCLASS()
 	class UTILITY_API HMObject : public  gc
 	{
-		HM_CLASS_BODY()
+		HM_MANUAL_REGISTER_BASE_CLASS_BODY(HMObject)
 	public:
 		HMObject();
 		virtual ~HMObject();
 		inline bool isValid()const noexcept;
-		HMPROPERTY()
-		HMUnorderedMap<uint32_t, HMString> _mapper;
 	protected:
 		HMPROPERTY()
 		HMString _guid;
@@ -26,11 +25,14 @@ namespace HARMONY
 		HMArray<MATH::Float3> _gg;
 	};
 
-	template<typename T, typename Enable = void>
-	T* CreateObject() { return nullptr; }
+	template<typename T,typename ...Args, typename Enable = void>
+	T* CreateObject(Args&&... args)
+	{
+		return new (GC_NEW(T)) T(std::forward<Args>(args)...);
+	}
 
 	template<typename T,
-		typename = std::enable_if_t<std::is_base_of_v<HMObject, T>,T>
+	typename = std::enable_if_t<std::is_base_of_v<HMObject, T>,T>
 	,typename ...Args>
 	T* CreateObject(Args... args) {
 		return new T(args); // Tのインスタンスを動的に生成して返す

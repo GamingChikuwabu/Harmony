@@ -32,6 +32,9 @@ namespace HARMONY
 
         void registerDataReceivedCallback(DataReceivedCallback callback) override;
 
+        //サービスの開始
+        void Running()override;
+
     private:
         void start_async_write();
 
@@ -44,10 +47,8 @@ namespace HARMONY
         // 非同期接続のハンドラ
         void connect_handler(const asio::error_code& ec);
 
-        //サービスの開始
-        void Running();
         std::vector<char> sendData;
-        std::vector<char> data_; // 適当なサイズでバッファを確保
+        std::vector<char> data_;
         asio::io_context io_service;
         asio::io_context io_context_;
         asio::ip::tcp::acceptor acceptor_;

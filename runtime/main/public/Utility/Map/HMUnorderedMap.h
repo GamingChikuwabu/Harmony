@@ -110,6 +110,22 @@ namespace HARMONY
             return count;
         }
 
+        bool erase(const KeyType& key) {
+            size_t bucketIndex = hashFunction(key); // キーからバケットインデックスを計算
+            HMArray<HMPair<KeyType, ValueType>>& entries = buckets[bucketIndex].entries; 
+
+            for (auto it = entries.begin(); it != entries.end(); ++it) {
+                if (it->first == key) {
+                    // キーが見つかった場合、エントリを削除
+                    entries.erase(it);
+                    --count; // 全体のエントリ数をデクリメント
+                    return true; // 削除成功
+                }
+            }
+            // キーが見つからなかった場合
+            return false;
+        }
+
     private:
         struct Bucket {
             HMArray<HMPair<KeyType, ValueType>> entries;

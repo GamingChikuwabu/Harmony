@@ -1,6 +1,5 @@
 #pragma once
-#include"HMObject.h"
-#include"Component.generate.h"
+#include"Utility.hpp"
 
 namespace HARMONY
 {
@@ -10,11 +9,10 @@ namespace HARMONY
 		HMCLASS() 
 		class HMMODSCENEMANAGER_API Component : public HMObject
 		{
-			HM_CLASS_BODY()
+			HM_MANUAL_REGISTER_DERIVED_CLASS_BODY(Component, HMObject)
 		public:
-			Component():
-			_gameObject(nullptr) {};
-			virtual ~Component() {};
+			Component();
+			virtual ~Component();
 		protected:
 			const GameObject* _gameObject;
 			friend class GameObject;

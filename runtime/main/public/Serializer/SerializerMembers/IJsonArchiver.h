@@ -6,7 +6,7 @@
 #include <rapidjson/prettywriter.h> // prettywriterをインクルード
 #include<rapidjson/istreamwrapper.h>
 #include<fstream>
-#include "Reflection/Refrection.hpp"
+#include "Reflection/Reflection.hpp"
 #undef LoadString
 #undef GetObject
 #ifdef UNICODE

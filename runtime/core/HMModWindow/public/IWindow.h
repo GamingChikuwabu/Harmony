@@ -4,7 +4,6 @@
 
 class IWindow : public HARMONY::IModule
 {
-    HM_CLASS_BODY(IModule)
 public:
     //コンストラクタ
     IWindow()

@@ -43,7 +43,7 @@ macro(defo_module_setting targetname)
     target_include_directories(${targetname} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/private")
     target_include_directories(${targetname} PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/generate")
     lib_path_setting(${targetname})
-    custom_header_generator(${targetname})
+    #custom_header_generator(${targetname})
 endmacro()
 
 macro(init_main_module_setting targetname)

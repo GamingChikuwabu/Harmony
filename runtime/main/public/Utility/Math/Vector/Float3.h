@@ -1,15 +1,17 @@
 #pragma once
 #include"Macro/ObjectMacro.h"
-#include"Float3.generate.h"
+#include"Macro/ManualRegisterMacro.h"
+
 
 namespace HARMONY
 {
+    class Class;
     namespace MATH
     {
         HMCLASS()
         struct UTILITY_API Float3
         {
-            HM_CLASS_BODY()
+            HM_MANUAL_REGISTER_BASE_CLASS_BODY(Float3)
 
             HMPROPERTY()
             float x;

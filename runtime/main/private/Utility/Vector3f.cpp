@@ -1,7 +1,17 @@
 #include"Vector3f.h"
+#include"Reflection.hpp"
+#include"Macro/GenerateMacro.h"
 
-namespace HARMONY {
-    namespace MATH {
+namespace HARMONY 
+{
+    namespace MATH 
+    {
+
+        HM_MANUAL_REGISTER_BASE_CLASS_BODY_PROPERTIES(Vector3f)
+            HM_ADD_PROPERTY_FLOAT(Vector3f, x),
+            HM_ADD_PROPERTY_FLOAT(Vector3f, y),
+            HM_ADD_PROPERTY_FLOAT(Vector3f, z)
+        HM_MANUAL_REGISTER_BASE_CLASS_BODY_PROPERTIES_END(Vector3f)
 
         // コンストラクタの実装
         Vector3f::Vector3f(float _x, float _y, float _z) : simd(_mm_set_ps(0, _z, _y, _x)) {}

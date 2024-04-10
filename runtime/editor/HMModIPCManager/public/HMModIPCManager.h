@@ -9,16 +9,25 @@
 #define HMMODIPCMANAGER_API
 #endif // WIND32
 
-#include"ModuleManager.h"
-#include"EventManager.h"
+#include"Utility.hpp"
 #include<functional>
-#include"ModuleManager/IModule.h"
-#include"NetworkCommandMap.h"
+
 
 namespace HARMONY
 {
 	namespace EDITOR
 	{
+		// コマンド情報を格納する構造体
+		struct CommandInfo {
+			int id;
+			std::string description;
+		};
+
+		struct NetworkCommandMap
+		{
+			HMUnorderedMap<HMString, CommandInfo> commandMap;
+		};
+
 		struct DataHeader
 		{
 			size_t dataSize;

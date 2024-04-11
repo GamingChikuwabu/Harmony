@@ -9,9 +9,13 @@ namespace HARMONY
 {
 	namespace NETWORK
 	{
-		using AsyncReceiveDataCallBackBinary = std::function<void(const std::vector<char>& data)>;
+		struct DataHeader
+		{
+			uint32_t id;//データの識別id
+			uint64_t size;//送られてくるデータのサイズ
+		};
+		using AsyncReceiveDataCallBackBinary = std::function<void(const std::vector<char>& data,const DataHeader )>;
 		using AsyncReceiveDataCallBackStr = std::function<void(const TCHAR* data)>;
-
 		class ITCPClient
 		{
 		public:
@@ -30,11 +34,11 @@ namespace HARMONY
 
 			/// @brief 同期的にデータを送信する関数
 			/// @param data 送るバイトデータ
-			virtual void Send(const HMArray<int8_t>& data) = 0;
+			virtual void Send(const uint32_t id,const HMArray<uint8_t>& data) = 0;
 
 			/// @brief 同期的にデータを送信する関数
 			/// @param data 送るバイトデータ
-			virtual void AsyncSend(const HMArray<int8_t>& data) = 0;
+			virtual void AsyncSend(const uint32_t id,const HMArray<uint8_t>& data) = 0;
 
 			/// @brief 非同期でデータを受け取る用のコールバック関数を登録する関数
 			/// @param callback コールバック関数
@@ -46,7 +50,7 @@ namespace HARMONY
 
 			/// @brief 同期的にデータを待つ関数
 			/// @return 送られてきたデータ
-			virtual std::vector<int8_t> SyncReceive() = 0;
+			virtual std::vector<uint8_t> SyncReceive() = 0;
 
 			/// @brief 終了処理
 			virtual void Terminate() = 0;

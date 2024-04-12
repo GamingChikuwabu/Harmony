@@ -101,8 +101,9 @@ class IPCManager(QObject):
 
     def SendData(self,datasize:int,command:int,data:bytes):
         #データサイズ、コマンド、データの順になるようにする
-        header = struct.pack('<II',datasize,command)
-        self.modeltcp.send_data(header + data)
+        header = struct.pack('<I',datasize)
+        self.modeltcp.send_data(header)
+        self.modeltcp.send_data(struct.pack('<I',command) + data)
 
     def RegisterReceveDataCallBack(self,command,func):
         self.callbackdict[command] = func

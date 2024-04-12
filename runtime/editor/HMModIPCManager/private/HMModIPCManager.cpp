@@ -1,5 +1,6 @@
 #include "HMModIPCManager.h"
 #include"INetWorkModule.h"
+#include"IProtocol.h"
 #include<functional>
 #include<filesystem>
 
@@ -19,12 +20,7 @@ namespace HARMONY
 		bool HMModIPCManager::AwakeInitialize()
 		{
 			Ifstream ifs(std::filesystem::path(ModuleManager::GetEnginePath()).append("config").append("IPCSetting.json").string());
-
-
-			//SERIALIZER::IJsonArchiver()
-
-			//LoadCommands(std::filesystem::path(ModuleManager::GetEnginePath()).append("config").append("networkcommandlist.json").string());
-			EventManager::GetEvent<const char*, int, DataReceivedCallback, HPROTOCOL&>
+			EventManager::GetEvent<const char*,int, ::AsyncReceiveDataCallBackBinary,HPROTOCOL&>
 				(TSTR("CreateTCPClient"))
 				.Broadcast(
 					"127.0.0.1"
@@ -82,38 +78,11 @@ namespace HARMONY
 			EventManager::GetEvent<HPROTOCOL, std::vector<char>&>(TSTR("SendData")).Broadcast(_hProtocol, logData);
 		}
 
-		void HMModIPCManager::getDataCallBack(const std::vector<char>& data)
+		void HMModIPCManager::getDataCallBack(const HMArray<uint8_t>& data)
 		{
-			size_t offset = 0;
-			while (offset < data.size()) {
-				if (offset + sizeof(DataHeader) > data.size()) {
-					HM_DEBUG_LOG("red", TSTR("受信データが不足しています。"));
-					break; // ヘッダを読むための十分なデータがない
-				}
-
-				// ヘッダの抽出
-				DataHeader header;
-				std::memcpy(&header, &data[offset], sizeof(header));
-				offset += sizeof(header);
-
-				if (offset + header.dataSize > data.size()) {
-					HM_DEBUG_LOG("red", TSTR("データサイズが不一致です。"));
-					break; // データサイズが不一致
-				}
-
-				// コマンドに対応するコールバック関数を呼び出す
-				auto callbacks = _callBackFuncArray.find(header.command);
-				if (callbacks != _callBackFuncArray.end()) {
-					for (auto& callback : callbacks->second) {
-						// 適切なデータ部分を抽出してコールバックに渡す
-						std::vector<char> dataBlock(data.begin() + offset, data.begin() + offset + header.dataSize);
-						callback(dataBlock);
-					}
-				}
-
-				offset += header.dataSize; // データサイズ分だけオフセットを進める
-			}
+			printf("");
 		}
+
 		void HMModIPCManager::LoadCommands(const HMString& filename)
 		{
 			/*rapidjson::Document doc = LoadJson(filename);

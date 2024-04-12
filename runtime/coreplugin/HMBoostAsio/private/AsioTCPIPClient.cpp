@@ -5,9 +5,10 @@ namespace HARMONY
 {
 	namespace NETWORK
 	{
-		AsioTCPIPClient::AsioTCPIPClient()
-		:socket(io_context)
-		,resolver(io_context)
+		AsioTCPIPClient::AsioTCPIPClient():
+		io_context(),
+		resolver(io_context),
+		socket(io_context,tcp::endpoint(tcp::v4(),11111))
 		{
 
 		}
@@ -24,7 +25,7 @@ namespace HARMONY
 			if(socket.is_open())
 			{
 				_netthred = std::thread(std::bind(&AsioTCPIPClient::Running, this));
-
+				AsyncReceiveHeader();
 				return true;
 			}
 			return false;
@@ -40,39 +41,81 @@ namespace HARMONY
 			return true;
 		}
 
-		void AsioTCPIPClient::Send(const uint32_t id,const HMArray<uint8_t>& data)
+		void AsioTCPIPClient::Send(const HMArray<uint8_t>& data)
 		{
 			std::size_t datasize = data.GetSize();
-			DataHeader header{ id,datasize };
+			DataHeader header{ datasize };
 			asio::write(socket, asio::buffer(&datasize, sizeof(DataHeader)));
 			asio::write(socket, asio::buffer(data.GetData(), datasize));
 		}
 
-		void AsioTCPIPClient::AsyncSend(const uint32_t id,const HMArray<uint8_t>& data)
+		void AsioTCPIPClient::AsyncSend(const HMArray<uint8_t>& data)
 		{
+			auto header = std::make_shared<DataHeader>();
 			std::size_t datasize = data.GetSize();
-			_sendDataHeader.id = id;
-			_sendDataHeader.size = datasize;
-			asio::async_write(socket, asio::buffer(&_sendDataHeader, sizeof(DataHeader)),
-				[this](const asio::error_code& ec, std::size_t bytes_transferred) {
-					write_handler_header(ec, bytes_transferred);
+			header->size = datasize;
+			asio::async_write(socket, asio::buffer(header.get(), sizeof(DataHeader)),
+				[this, header, data](const asio::error_code& ec, std::size_t bytes_transferred) {
+					if (!ec) {
+						AsyncSendMainData(data);
+					}
+					else {
+						HM_DEBUG_LOG("red", TSTR("データの送信に失敗"));
+					}
 				});
-			_sendData = std::move(data);
 		}
 
-		void AsioTCPIPClient::ReceiveCallBack(AsyncReceiveDataCallBackBinary callback)
+		void AsioTCPIPClient::AsyncSendMainData(const HMArray<uint8_t>& data)
 		{
-
+			auto sharedData = std::make_shared<HMArray<uint8_t>>(data);
+			asio::async_write(socket, asio::buffer(sharedData->GetData(), sharedData->GetSize()),
+				[this](const asio::error_code& ec, std::size_t bytes_transferred) {
+					if (!ec) {
+						
+					}
+					else {
+						HM_DEBUG_LOG("red", TSTR("データの送信に失敗"));
+					}
+				});
 		}
 
-		void AsioTCPIPClient::ReceiveCallBack(AsyncReceiveDataCallBackStr callback)
+		void AsioTCPIPClient::AsyncReceiveHeader()
 		{
-
+			auto header = std::make_shared<DataHeader>();
+			asio::async_read(socket, asio::buffer(header.get(), sizeof(DataHeader)),
+				[this, header](const asio::error_code& ec, std::size_t /*bytes_transferred*/) {
+					if (!ec) {
+						// ヘッダ受信成功。データ本体の受信を開始
+						AsyncReceiveData(*header);
+					}
+					else {
+						HM_DEBUG_LOG("red", TSTR("ヘッダの取得に失敗"));
+					}
+				});
 		}
 
-		std::vector<uint8_t> AsioTCPIPClient::SyncReceive()
+		void AsioTCPIPClient::AsyncReceiveData(DataHeader mainDataInfo)
 		{
-			return std::vector<uint8_t>();
+			auto data = std::make_shared<HMArray<uint8_t>>(mainDataInfo.size);
+			asio::async_read(socket, asio::buffer(data->GetData(), mainDataInfo.size),
+				[this, data,mainDataInfo](const asio::error_code& ec, std::size_t /*bytes_transferred*/) {
+					if (!ec) {
+						_callBackFunc(*data);
+					}
+					else {
+						HM_DEBUG_LOG("red", TSTR("データ本体の取得に失敗"));
+					}
+				});
+		}
+
+		void AsioTCPIPClient::RegisterAsyncReceiveCallBack(AsyncReceiveDataCallBackBinary callback)
+		{
+			_callBackFunc = callback;
+		}
+
+		HMArray<uint8_t> AsioTCPIPClient::SyncReceive()
+		{
+			return HMArray<uint8_t>();
 		}
 
 		void AsioTCPIPClient::Terminate()
@@ -88,77 +131,6 @@ namespace HARMONY
 		void AsioTCPIPClient::Running()
 		{
 			io_context.run();
-		}
-
-		void AsioTCPIPClient::AsyncReceiveHeader()
-		{
-			auto header = std::make_shared<DataHeader>();
-			asio::async_read(socket, asio::buffer(header.get(), sizeof(DataHeader)),
-				[this, header](const asio::error_code& ec, std::size_t /*bytes_transferred*/) {
-					if (!ec) {
-						// ヘッダ受信成功。データ本体の受信を開始
-						AsyncReceiveData(*header);
-					}
-					else {
-						// エラーハンドリング
-					}
-				});
-		}
-
-		void AsioTCPIPClient::AsyncReceiveData(DataHeader mainDataInfo)
-		{
-			auto data = std::make_shared<std::vector<uint8_t>>(mainDataInfo.size);
-			asio::async_read(socket, asio::buffer(data->data(), mainDataInfo.size),
-				[this, data](const asio::error_code& ec, std::size_t /*bytes_transferred*/) {
-					if (!ec) {
-						
-					}
-					else {
-						// エラーハンドリング
-					}
-				});
-		}
-
-		void AsioTCPIPClient::AsyncSendMainData()
-		{
-			asio::async_write(socket, asio::buffer(_sendData.GetData(), _sendData.GetSize()),
-				[this](const asio::error_code& ec, std::size_t bytes_transferred) {
-					write_handler_main_data(ec, bytes_transferred);
-				});
-		}
-
-		void AsioTCPIPClient::read_handler(const asio::error_code& ec, std::size_t bytes_transferred)
-		{
-			if (!ec) {
-				// Process the data received
-			}
-			else {
-				// Handle the error
-			}
-		}
-
-		void AsioTCPIPClient::write_handler_header(const asio::error_code& ec, std::size_t bytes_transferred)
-		{
-			if (!ec) {
-				//ヘッダをリセット
-				_sendDataHeader.id = 0;
-				_sendDataHeader.size = 0;
-				//送るデータの本体を送信する
-				AsyncSendMainData();
-			}
-			else {
-				// Handle the error
-			}
-		}
-
-		void AsioTCPIPClient::write_handler_main_data(const asio::error_code& ec, std::size_t bytes_transferred)
-		{
-			if (!ec) {
-				_sendData.ReSize(0);
-			}
-			else {
-				
-			}
 		}
 
 		void AsioTCPIPClient::connect_handler(const asio::error_code& ec)

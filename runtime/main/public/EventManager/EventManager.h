@@ -1,6 +1,7 @@
 #pragma once
 #include <functional>
 #include <any>
+#include<stdexcept>
 #include"Utility/String/HMString.h"
 #include"Utility/Map/HMUnorderedMap.h"
 
@@ -37,7 +38,15 @@ namespace HARMONY {
             if (!event.has_value()) {
                 event = MulticastDelegate<Args...>();
             }
-            return std::any_cast<MulticastDelegate<Args...>&>(event);
+
+            auto type1 = event.type().name();
+            auto type2 = typeid(MulticastDelegate<Args...>).name();
+            if (event.type() == typeid(MulticastDelegate<Args...>)) {
+                return std::any_cast<MulticastDelegate<Args...>&>(event);
+            }
+            else {
+                throw std::runtime_error("Event type mismatch");
+            }
         }
 
     private:

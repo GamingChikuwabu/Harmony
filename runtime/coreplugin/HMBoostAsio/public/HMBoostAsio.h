@@ -1,6 +1,5 @@
 #pragma once
 #include"INetWorkModule.h"
-#include"IProtocol.h"
 #include"Utility.hpp"
 #include<vector>
 #include<memory>
@@ -13,9 +12,8 @@ namespace HARMONY
 		class HMBoostAsio : public INetWorkModule
 		{
 		public:
-			HPROTOCOL CreateTCPClient(const char* serverIP, int port, DataReceivedCallback callbackfunc)override;
-			void StartReceive(HPROTOCOL handle)override;
-			void SendData(HPROTOCOL handle, std::vector<char>& data)override;
+			HPROTOCOL CreateTCPClient(const char* serverIP, int port, AsyncReceiveDataCallBackBinary callbackfunc)override;
+			void SendData(HPROTOCOL handle, HMArray<uint8_t>& data)override;
 			void Terminate()override;
 		private:
 			// プロトコルオブジェクトを管理

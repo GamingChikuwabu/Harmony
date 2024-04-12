@@ -1,18 +1,15 @@
 #pragma once
-#include<vector>
-#include<functional>
 #include"IModule.h"
+#include"IProtocol.h"
 
 namespace HARMONY
 {
 	//サーバーやクライアントの通信にアクセスするためのハンドル
-	using HPROTOCOL = int;
-	using DataReceivedCallback = std::function<void(const std::vector<char>& data)>;
+	using HPROTOCOL = uint32_t;
 	class INetWorkModule : public IModule
 	{
 	public:
-		virtual HPROTOCOL CreateTCPClient(const char* serverIP, int port, DataReceivedCallback callbackfunc) = 0;
-		virtual void SendData(HPROTOCOL handle, std::vector<char>& data) = 0;
-		virtual void StartReceive(HPROTOCOL handle) = 0;
+		virtual HPROTOCOL CreateTCPClient(const char* serverIP, int port, AsyncReceiveDataCallBackBinary callbackfunc) = 0;
+		virtual void SendData(HPROTOCOL handle, HMArray<uint8_t>& data) = 0;
 	};
 }

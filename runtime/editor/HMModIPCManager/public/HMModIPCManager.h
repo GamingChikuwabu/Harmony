@@ -76,9 +76,9 @@ namespace HARMONY
 		private:
 			void Terminate(const std::vector<char>& data);
 			void debugLog(const char* log);
-			void getDataCallBack(const std::vector<char>& data);
+			void getDataCallBack(const HMArray<uint8_t>& data);
 			void LoadCommands(const HMString& filename);
-			int									_hProtocol;
+			uint32_t									_hProtocol;
 			HMUnorderedMap<uint32_t, HMArray<std::function<void(const std::vector<char>& data)>>> _callBackFuncArray;
 			NetworkCommandMap _command;
 		};

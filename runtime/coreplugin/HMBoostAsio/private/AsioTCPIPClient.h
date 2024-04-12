@@ -1,5 +1,6 @@
 #pragma once
 #include"asio.hpp"
+#include <asio/ip/tcp.hpp>
 #include"ITCPClient.h"
 
 namespace HARMONY
@@ -16,45 +17,38 @@ namespace HARMONY
 			/// @param Ipadder サーバーのIPアドレス
 			/// @param port サーバーのポート番号
 			/// @return 結果
-			virtual bool Connect(const char* Ipadder, int32_t port);
+			virtual bool Connect(const char* Ipadder, int32_t port)override;
 
 			/// @brief 非同期処理でサーバーとのコネクションを試みる関数
 			/// @param Ipadder サーバーのIPアドレス
 			/// @param port サーバーのポート番号
 			/// @return 結果
-			virtual bool AsyncConnect(const char* Ipadder, int32_t port);
+			virtual bool AsyncConnect(const char* Ipadder, int32_t port)override;
 
 			/// @brief 同期的にデータを送信する関数
 			/// @param data 送るバイトデータ
-			virtual void Send(const uint32_t id,const HMArray<uint8_t>& data);
+			virtual void Send(const HMArray<uint8_t>& data)override;
 
 			/// @brief 同期的にデータを送信する関数
 			/// @param data 送るバイトデータ
-			virtual void AsyncSend(const uint32_t id,const HMArray<uint8_t>& data);
+			virtual void AsyncSend(const HMArray<uint8_t>& data)override;
 
 			/// @brief 非同期でデータを受け取る用のコールバック関数を登録する関数
 			/// @param callback コールバック関数
-			virtual void ReceiveCallBack(AsyncReceiveDataCallBackBinary callback);
-
-			/// @brief 非同期でデータを受け取る用のコールバック関数を登録する関数の文字列バージョン
-			/// @param callback 登録するコールバック関数
-			virtual void ReceiveCallBack(AsyncReceiveDataCallBackStr callback);
+			virtual void RegisterAsyncReceiveCallBack(AsyncReceiveDataCallBackBinary callback)override;
 
 			/// @brief 同期的にデータを待つ関数
 			/// @return 送られてきたデータ
-			virtual std::vector<uint8_t> SyncReceive();
+			virtual HMArray<uint8_t> SyncReceive()override;
 
 			/// @brief 終了処理
-			virtual void Terminate();
+			virtual void Terminate()override;
 		private:
 			void Running();
 			void AsyncReceiveHeader();
 			void AsyncReceiveData(DataHeader mainDataInfo);
-			void AsyncSendMainData();
-			DataHeader _sendDataHeader;
-			HMArray<uint8_t> _sendData;
+			void AsyncSendMainData(const HMArray<uint8_t>& data);
 
-			std::vector<char> data_; 
 			std::thread _netthred;
 
 			tcp::socket socket;
@@ -62,16 +56,8 @@ namespace HARMONY
 			asio::ip::tcp::resolver resolver;
 			asio::ip::tcp::resolver::results_type endpoints;
 
-
+			AsyncReceiveDataCallBackBinary _callBackFunc;
 		private:
-			// サーバからのメッセージを非同期に読み取るためのハンドラ
-			void read_handler(const asio::error_code& ec, std::size_t bytes_transferred);
-
-			// サーバへのメッセージを非同期に書き込むためのハンドラ
-
-			void write_handler_header(const asio::error_code& ec, std::size_t bytes_transferred);
-			void write_handler_main_data(const asio::error_code& ec, std::size_t bytes_transferred);
-
 			// 非同期接続のハンドラ
 			void connect_handler(const asio::error_code& ec);
 		};

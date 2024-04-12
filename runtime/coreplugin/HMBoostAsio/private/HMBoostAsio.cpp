@@ -1,4 +1,4 @@
-#include"AsioTCPIP.h"
+#include"AsioTCPIPClient.h"
 #include"HMBoostAsio.h"
 #include"ModuleManager.h"
 
@@ -7,34 +7,32 @@ namespace HARMONY
 	namespace COREPLUGIN
 	{
 		RegisterModuleClass(HMBoostAsio)
-		HPROTOCOL HMBoostAsio::CreateTCPClient(const char* serverIP, int port, DataReceivedCallback callbackfunc)
+		HPROTOCOL HMBoostAsio::CreateTCPClient(const char* serverIP, int port, AsyncReceiveDataCallBackBinary callbackfunc)
 		{
 			HPROTOCOL pro = getNextHandle();
-			m_protocols[pro] = CreateObject<AsioTCPIP>();
-			m_protocols[pro]->registerDataReceivedCallback(callbackfunc);
-			m_protocols[pro]->connect(serverIP, port);
-			StartReceive(pro);
+			m_protocols[pro] = CreateObject<NETWORK::AsioTCPIPClient>();
+			m_protocols[pro]->RegisterAsyncReceiveCallBack(callbackfunc);
+			static_cast<NETWORK::ITCPClient*>(m_protocols[pro])->Connect(serverIP, port);
 			return pro;
 		}
-		void HMBoostAsio::StartReceive(HPROTOCOL handle)
+
+		void HMBoostAsio::SendData(HPROTOCOL handle, HMArray<uint8_t>& data)
 		{
-			m_protocols[handle]->receive();
+			m_protocols[handle]->AsyncSend(data);
 		}
-		void HMBoostAsio::SendData(HPROTOCOL handle, std::vector<char>& data)
-		{
-			m_protocols[handle]->send(data);
-		}
+
 		void HMBoostAsio::Terminate()
 		{
 			for (auto& protcl : m_protocols)
 			{
-				protcl.second->disconnect();
-				protcl.second->stop_server();
+				protcl.second->Terminate();
 			}
 		}
+
 		HPROTOCOL HMBoostAsio::getNextHandle()
 		{
 			return ++m_nextHandle;
 		}
+
 	}
 }

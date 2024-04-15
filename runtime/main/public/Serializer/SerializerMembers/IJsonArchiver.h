@@ -59,24 +59,44 @@ namespace HARMONY
 		template<typename T, typename Tp>
 		bool IJsonArchiver::operator&(T&& obj)
 		{
-			Class* class_ = std::remove_pointer_t<Tp>::StaticGetClass();
-			Value& source = doc[class_->GetName()];
-			if (source.IsObject()) {
-				void* tempObj = obj;
-				if constexpr (std::is_pointer_v<Tp>)
-				{
-					if (DETAIL::LoadObject(source, tempObj))
+			if constexpr (std::is_pointer_v<Tp>)
+			{
+				Class* class_ = std::remove_pointer_t<Tp>::StaticGetClass();
+				Value& source = doc[class_->GetName()];
+				if (source.IsObject()) {
+					void* tempObj = obj;
+					if constexpr (std::is_pointer_v<Tp>)
 					{
-						obj = static_cast<Tp>(tempObj);
+						if (DETAIL::LoadObject(source, tempObj))
+						{
+							obj = static_cast<Tp>(tempObj);
+						}
+					}
+					else
+					{
+						DETAIL::LoadClass(source, class_, tempObj);
 					}
 				}
-				else
-				{
-					DETAIL::LoadClass(source, class_, tempObj);
+			}
+			else
+			{
+				Class* class_ = Tp::StaticGetClass();
+				Value& source = doc[class_->GetName()];
+				if (source.IsObject()) {
+					void* tempObj = &obj;
+					if constexpr (std::is_pointer_v<Tp>)
+					{
+						if (DETAIL::LoadObject(source, tempObj))
+						{
+							obj = static_cast<Tp>(tempObj);
+						}
+					}
+					else
+					{
+						DETAIL::LoadClass(source, class_, tempObj);
+					}
 				}
 			}
-
-			
 
 			//Class* class_ = std::remove_pointer_t<Tp>::StaticGetClass();
 			//

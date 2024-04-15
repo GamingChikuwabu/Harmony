@@ -41,7 +41,7 @@ struct AUTO_REGISTER_STRUCTURE_##classType\
         G_AUTO_REGISTER_FUNCTION_##classType();\
     }\
 };\
-struct AUTO_REGISTER_STRUCTURE_##classType ARS = {};\
+struct AUTO_REGISTER_STRUCTURE_##classType classType##_ARS = {};\
     struct G_Class_Declaration_Field_##classType\
     {\
         static HMArray<Property*>& GetPropertyField() {\

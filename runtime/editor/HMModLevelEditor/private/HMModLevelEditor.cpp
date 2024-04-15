@@ -32,21 +32,24 @@ namespace HARMONY
 		HMModLevelEditor::HMModLevelEditor()
 		{
 		}
+
 		HMModLevelEditor::~HMModLevelEditor()
 		{
 		}
+
 		bool HMModLevelEditor::AwakeInitialize()
 		{
 
 			return true;
 		}
+
 		bool HMModLevelEditor::Initialize()
 		{
 			_window = ModuleManager::GetModule<IWindow>();
 			HM_ASSERT(_window != nullptr, "windowの取得に失敗","");
             //IPCモジュールを取得してコールバック関数を登録
             auto IPC = ModuleManager::GetModule<HMModIPCManager>();
-            IPC->RegisterCallBack(IPC->GetCommandInfo(TSTR("LevelEditorMakeChild")).id, std::bind(&HMModLevelEditor::handleGetLevelEditorWindowHandle, this, std::placeholders::_1));
+            //IPC->RegisterCallBack(IPC->GetCommandInfo(TSTR("LevelEditorMakeChild"))._id, std::bind(&HMModLevelEditor::handleGetLevelEditorWindowHandle, this, std::placeholders::_1));
 			return true;
 		}
 

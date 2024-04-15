@@ -46,6 +46,7 @@ class pMainWindow(IPresenter.IPresenter):
                     if callable(attr) and hasattr(attr, '_menu_items'):
                         for menu_name in attr._menu_items:
                             menu_functions[menu_name] = attr
+                            print(f"メニュー登録: {menu_name} -> {attr}")  # デバッグ出力
         return menu_functions
     
     def create_menu_item(self, menu_path, callback):

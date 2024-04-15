@@ -19,12 +19,17 @@ namespace HARMONY
 	{
 		// コマンド情報を格納する構造体
 		struct CommandInfo {
-			int id;
-			std::string description;
+			HM_MANUAL_REGISTER_BASE_CLASS_BODY(CommandInfo);
+			CommandInfo(int32_t command, HMString description) :_id(command),_description(description) 
+			{}
+			CommandInfo():_id(0),_description(TSTR("")) {};
+			int32_t _id;
+			HMString _description;
 		};
 
 		struct NetworkCommandMap
 		{
+			HM_MANUAL_REGISTER_BASE_CLASS_BODY(NetworkCommandMap)
 			HMUnorderedMap<HMString, CommandInfo> commandMap;
 		};
 
@@ -33,6 +38,8 @@ namespace HARMONY
 			size_t dataSize;
 			unsigned int command;
 		};
+
+		using IPCCallBackFunc = std::function<void(const TCHAR*)>;//jsonの文字列が格納されている
 
 		class HMMODIPCMANAGER_API HMModIPCManager : public IModule 
 		{
@@ -45,9 +52,10 @@ namespace HARMONY
 			/// @return 
 			bool AwakeInitialize()override;
 			bool LateInitialize()override;
-			void RegisterCallBack(int command, std::function<void(const std::vector<char>& data)> func);
+			void RegisterCallBack(int command, IPCCallBackFunc func);
 			void SendIPCData4Editor(unsigned int command, std::vector<char>& data);
 			CommandInfo GetCommandInfo(const TCHAR* commandname);
+			void Terminate()override;
 			// データ送信の汎用関数
 			template<typename T>
 			bool SendData(unsigned int command, const T& data) {
@@ -78,9 +86,10 @@ namespace HARMONY
 			void debugLog(const char* log);
 			void getDataCallBack(const HMArray<uint8_t>& data);
 			void LoadCommands(const HMString& filename);
-			uint32_t									_hProtocol;
-			HMUnorderedMap<uint32_t, HMArray<std::function<void(const std::vector<char>& data)>>> _callBackFuncArray;
-			NetworkCommandMap _command;
+		private:
+			uint32_t											_hProtocol;
+			HMUnorderedMap<uint32_t, HMArray<IPCCallBackFunc>>	_callBackFuncArray;
+			NetworkCommandMap									_command;
 		};
 	}
 }

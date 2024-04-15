@@ -24,10 +24,7 @@ namespace HARMONY
 			~HMModHierarchy();
 			bool Initialize()override;
 		private:
-			void CreateSceneObject(const std::vector<char>& data);
-			void AddSceneObject(const std::vector<char>& data);
 			void SendAddedSceneData(const char* name, const char* parent_name);
-			void AddGameObject(const std::vector<char>& data);
 			CORE::HMModSceneManager* _sceneManager;
 		};
 	}

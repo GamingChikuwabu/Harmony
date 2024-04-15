@@ -29,14 +29,19 @@ class pLevelEditor(IPresenter.IPresenter):
     def Terminate(self, setting: QSettings):
         return super().Terminate(setting)
     
+   
     def frameResize(self):
         # ウィンドウIDを取得
         window_id = self.levelwindow.frame.winId()
+        print(window_id)
         # JSON文字列を作成
         jsonStr = json.dumps({"window_id": window_id})
+        print(jsonStr)
         # JSON文字列をUTF-16でエンコード
         encoded_jsonStr = jsonStr.encode("utf-16")
+        print(encoded_jsonStr)
         # エンコードされたデータの長さを取得
         data_length = len(encoded_jsonStr)
+        print(data_length)
         # データを送信
         self.IPC.SendData(data_length, self.IPC.commandlist["LevelEditorMakeChild"], encoded_jsonStr)

@@ -9,17 +9,49 @@ namespace HARMONY
 	namespace EDITOR
 	{
 		RegisterModuleClass(HMModIPCManager)
+
+		HM_MANUAL_REGISTER_BASE_CLASS_BODY_PROPERTIES(CommandInfo)
+			HM_ADD_PROPERTY_STRING(CommandInfo,_description),
+			HM_ADD_PROPERTY_INT32(CommandInfo,_id)
+		HM_MANUAL_REGISTER_BASE_CLASS_BODY_PROPERTIES_END(CommandInfo)
+
+		HM_MANUAL_REGISTER_BASE_CLASS_BODY_PROPERTIES(NetworkCommandMap)
+			HM_ADD_PROPERTY_UMAP(NetworkCommandMap, commandMap)
+		HM_MANUAL_REGISTER_BASE_CLASS_BODY_PROPERTIES_END(NetworkCommandMap)
+
+
 		HMModIPCManager::HMModIPCManager()
+		:_hProtocol(0)
 		{
 			
 		}
+
 		HMModIPCManager::~HMModIPCManager()
 		{
+
 		}
 
 		bool HMModIPCManager::AwakeInitialize()
 		{
+			auto CommandConfigPath = std::filesystem::path(ModuleManager::GetEnginePath()).append("config").append("IPCSetting.json").string();
+
+			if (!std::filesystem::exists(CommandConfigPath))//ファイルの存在を確認
+			{
+				Ofstream ofs(CommandConfigPath);
+				if (ofs)
+				{
+					SERIALIZER::OJsonArchiver oja;
+					ofs << ( oja & _command).GetRaw();
+				}
+				else
+				{
+					return false;
+				}
+			}
 			Ifstream ifs(std::filesystem::path(ModuleManager::GetEnginePath()).append("config").append("IPCSetting.json").string());
+			SERIALIZER::IJsonArchiver ij(ifs);
+			ij& _command;
+
 			EventManager::GetEvent<const char*,int, ::AsyncReceiveDataCallBackBinary,HPROTOCOL&>
 				(TSTR("CreateTCPClient"))
 				.Broadcast(
@@ -33,11 +65,11 @@ namespace HARMONY
 
 		bool HMModIPCManager::LateInitialize()
 		{
-			this->RegisterCallBack(this->GetCommandInfo(TSTR("ShutdownRuntime")).id,std::bind(&HMModIPCManager::Terminate, this, std::placeholders::_1));
+			//this->RegisterCallBack(this->GetCommandInfo(TSTR("ShutdownRuntime"))._id,std::bind(&HMModIPCManager::Terminate, this, std::placeholders::_1));
 			return true;
 		}
 
-		void HMModIPCManager::RegisterCallBack(int command, std::function<void(const std::vector<char>& data)> func)
+		void HMModIPCManager::RegisterCallBack(int command, IPCCallBackFunc func)
 		{
 			_callBackFuncArray[command].Add(func);
 		}
@@ -67,7 +99,23 @@ namespace HARMONY
 
 		CommandInfo HMModIPCManager::GetCommandInfo(const TCHAR* commandname)
 		{
-			return _command.commandMap[commandname];
+			auto it = _command.commandMap.find(commandname);
+			if (it != _command.commandMap.end())
+			{
+				return it->second;
+			}
+			return CommandInfo();
+		}
+
+		void HMModIPCManager::Terminate()
+		{
+			auto CommandConfigPath = std::filesystem::path(ModuleManager::GetEnginePath()).append("config").append("IPCSetting.json").string();
+			Ofstream ofs(CommandConfigPath);
+			if (ofs)
+			{
+				SERIALIZER::OJsonArchiver oja;
+				ofs << (oja & _command).GetRaw();
+			}
 		}
 
 		void HMModIPCManager::debugLog(const char* log)
@@ -102,11 +150,6 @@ namespace HARMONY
 				info.description = command["description"].GetString();
 				commandMap[command["name"].GetString()] = info;
 			}*/
-		}
-
-		void HMModIPCManager::Terminate(const std::vector<char>& data)
-		{
-			HM_ASSERT(false,"終了")
 		}
 	}
 }

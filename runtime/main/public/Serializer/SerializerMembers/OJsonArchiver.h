@@ -13,6 +13,7 @@ using Document = rapidjson::GenericDocument<rapidjson::UTF16<>>;
 using Value = rapidjson::GenericValue<rapidjson::UTF16<>>;
 using StringBuffer = rapidjson::GenericStringBuffer<rapidjson::UTF16<>>;
 using Writer = rapidjson::PrettyWriter<StringBuffer, rapidjson::UTF16<>, rapidjson::UTF16<>>;
+using Ofstream = std::wofstream;
 #else // UTF32 for Unix-like systems
 using Document = rapidjson::GenericDocument<rapidjson::UTF32<>>;
 using Value = rapidjson::GenericValue<rapidjson::UTF32<>>;

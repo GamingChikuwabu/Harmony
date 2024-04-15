@@ -10,7 +10,7 @@ namespace HARMONY
 			char message[246]; // 文字列
 			char color[10];    // 文字列の色
 		};
-		RegisterModuleClass(HMModConsole)
+		RegisterModuleClass(HMModConsole) 
 		HMModConsole::HMModConsole()
 		{
 		}
@@ -44,7 +44,7 @@ namespace HARMONY
 
 			send_data.insert(send_data.end(), dataPtr, dataPtr + dataSize);
 
-			_manager->SendIPCData4Editor(_manager->GetCommandInfo(TSTR("SendLog")).id, send_data);
+			_manager->SendIPCData4Editor(_manager->GetCommandInfo(TSTR("SendLog"))._id, send_data);
 		}
 	}
 }

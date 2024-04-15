@@ -5,8 +5,9 @@ namespace HARMONY
 {
 	namespace NETWORK
 	{
+		//TODO: メンバにするとバグるので修正が必要
+		asio::io_context io_context;
 		AsioTCPIPClient::AsioTCPIPClient():
-		io_context(),
 		resolver(io_context),
 		socket(io_context,tcp::endpoint(tcp::v4(),11111))
 		{
@@ -60,7 +61,7 @@ namespace HARMONY
 						AsyncSendMainData(data);
 					}
 					else {
-						HM_DEBUG_LOG("red", TSTR("データの送信に失敗"));
+						HM_ERROR_LOG("red", TSTR("データの送信に失敗"));
 					}
 				});
 		}
@@ -74,7 +75,7 @@ namespace HARMONY
 						
 					}
 					else {
-						HM_DEBUG_LOG("red", TSTR("データの送信に失敗"));
+						HM_ERROR_LOG("red", TSTR("データの送信に失敗"));
 					}
 				});
 		}
@@ -83,13 +84,16 @@ namespace HARMONY
 		{
 			auto header = std::make_shared<DataHeader>();
 			asio::async_read(socket, asio::buffer(header.get(), sizeof(DataHeader)),
-				[this, header](const asio::error_code& ec, std::size_t /*bytes_transferred*/) {
+				[this, header](const asio::error_code& ec, std::size_t datasize) {
 					if (!ec) {
-						// ヘッダ受信成功。データ本体の受信を開始
-						AsyncReceiveData(*header);
+						if (datasize == sizeof(size_t))
+						{
+							// ヘッダ受信成功。データ本体の受信を開始
+							AsyncReceiveData(*header);
+						}
 					}
 					else {
-						HM_DEBUG_LOG("red", TSTR("ヘッダの取得に失敗"));
+						HM_ERROR_LOG("red", TSTR("ヘッダの取得に失敗"));
 					}
 				});
 		}
@@ -103,7 +107,7 @@ namespace HARMONY
 						_callBackFunc(*data);
 					}
 					else {
-						HM_DEBUG_LOG("red", TSTR("データ本体の取得に失敗"));
+						HM_ERROR_LOG("red", TSTR("データ本体の取得に失敗"));
 					}
 				});
 		}

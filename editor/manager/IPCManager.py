@@ -101,7 +101,7 @@ class IPCManager(QObject):
 
     def SendData(self,datasize:int,command:int,data:bytes):
         #データサイズ、コマンド、データの順になるようにする
-        header = struct.pack('<I',datasize)
+        header = struct.pack('<Q',datasize)
         self.modeltcp.send_data(header)
         self.modeltcp.send_data(struct.pack('<I',command) + data)
 

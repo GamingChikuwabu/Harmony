@@ -80,6 +80,15 @@ namespace HARMONY
 
 		void HMModIPCManager::getDataCallBack(const HMArray<uint8_t>& data)
 		{
+			constexpr int32_t CommandSize = sizeof(int32_t);
+
+			int32_t command = *reinterpret_cast<int32_t*>(data.GetData());
+			const void* jsonStrv = reinterpret_cast<void*>(&data[CommandSize]);
+			
+			std::vector<char> buffer(data.GetSize(), 0);
+			memcpy(buffer.data(), jsonStrv, data.GetSize());
+			const TCHAR* jsonStr = reinterpret_cast<const wchar_t*>(buffer.data());
+			OutputDebugString(jsonStr);
 			printf("");
 		}
 

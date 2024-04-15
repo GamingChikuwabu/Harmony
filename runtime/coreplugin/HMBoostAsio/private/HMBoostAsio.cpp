@@ -12,7 +12,10 @@ namespace HARMONY
 			HPROTOCOL pro = getNextHandle();
 			m_protocols[pro] = CreateObject<NETWORK::AsioTCPIPClient>();
 			m_protocols[pro]->RegisterAsyncReceiveCallBack(callbackfunc);
-			static_cast<NETWORK::ITCPClient*>(m_protocols[pro])->Connect(serverIP, port);
+			if (static_cast<NETWORK::ITCPClient*>(m_protocols[pro])->Connect(serverIP, port))
+			{
+				return 0;
+			}
 			return pro;
 		}
 

@@ -4,6 +4,7 @@ import ModuleManager
 from LevelEditor.view.vLevelEditor import vLevelEditor
 from IPCManager import IPCManager
 import struct
+import json
 
 @IPresenter.register("LevelEditor")
 class pLevelEditor(IPresenter.IPresenter):
@@ -29,6 +30,13 @@ class pLevelEditor(IPresenter.IPresenter):
         return super().Terminate(setting)
     
     def frameResize(self):
-         # ウィンドウIDを取得
+        # ウィンドウIDを取得
         window_id = self.levelwindow.frame.winId()
-        self.IPC.SendData(8,self.IPC.commandlist["LevelEditorMakeChild"],struct.pack('<Q', window_id))
+        # JSON文字列を作成
+        jsonStr = json.dumps({"window_id": window_id})
+        # JSON文字列をUTF-16でエンコード
+        encoded_jsonStr = jsonStr.encode("utf-16")
+        # エンコードされたデータの長さを取得
+        data_length = len(encoded_jsonStr)
+        # データを送信
+        self.IPC.SendData(data_length, self.IPC.commandlist["LevelEditorMakeChild"], encoded_jsonStr)

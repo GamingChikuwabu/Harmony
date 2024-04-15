@@ -45,6 +45,28 @@ namespace HARMONY
 #define HM_DEBUG_LOG(c_char, ...) //
 #endif // _DEBUG
 
+#if defined(_DEVELOP) || defined(_DEBUG)
+#define HM_ERROR_LOG(color,c_char, ...)\
+    {\
+        TCHAR moji[512];\
+        TSPRINTF(moji, _countof(moji), c_char, ##__VA_ARGS__);\
+        HARMONY::EventManager::GetEvent<const TCHAR*,const TCHAR*>(TSTR("DebugLog")).Broadcast(moji,TSTR(color));\
+    }
+#else
+#define HM_DEBUG_LOG(c_char, ...) //
+#endif // _DEBUG
+
+
+#if defined(_DEVELOP) || defined(_DEBUG)
+#define HM_WARNIN_LOG(color,c_char, ...)\
+    {\
+        TCHAR moji[512];\
+        TSPRINTF(moji, _countof(moji), c_char, ##__VA_ARGS__);\
+        HARMONY::EventManager::GetEvent<const TCHAR*,const TCHAR*>(TSTR("DebugLog")).Broadcast(moji,TSTR(color));\
+    }
+#else
+#define HM_DEBUG_LOG(c_char, ...) //
+#endif // _DEBUG
 
 #if defined(_DEVELOP) || defined(_DEBUG)
 #define HM_ENGIN_LOG(color,c_char, ...)\

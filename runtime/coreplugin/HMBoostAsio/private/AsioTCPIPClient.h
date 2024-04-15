@@ -52,7 +52,7 @@ namespace HARMONY
 			std::thread _netthred;
 
 			tcp::socket socket;
-			asio::io_context io_context;
+			/*asio::io_context io_context;*/
 			asio::ip::tcp::resolver resolver;
 			asio::ip::tcp::resolver::results_type endpoints;
 

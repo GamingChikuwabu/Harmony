@@ -49,6 +49,10 @@ namespace HARMONY
 		return true;
 	}
 
+	void ModuleManager::Running()
+	{
+	}
+
 	void ModuleManager::Ready()
 	{
 		for (const auto& mod : _pModuleArray)

@@ -1,0 +1,832 @@
+{
+  "version": "2.1.0",
+  "$schema": "https://schemastore.azurewebsites.net/schemas/json/sarif-2.1.0-rtm.5.json",
+  "runs": [
+    {
+      "results": [
+        {
+          "ruleId": "C28251",
+          "message": {
+            "text": "'new[]' に対する整合性のない注釈: このインスタンスには 注釈なし が含まれます。c:\\work\\myworkspace\\engine\\v3_60_00\\develop\\editor\\engine\\editor\\codeanalysis\\predefined c++ types (compiler internal)(58) を参照してください。この組み込み関数の 1 つ目のユーザーに指定された注釈は行 c:\\program files\\microsoft visual studio\\2022\\community\\vc\\tools\\msvc\\14.39.33519\\include\\vcruntime_new.h(59) にあります。 "
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/work/myworkspace/engine/v3_60_00/develop/runtime/thirdparty/include/bdwgc/gc/gc_cpp.h"
+                },
+                "region": {
+                  "startLine": 342,
+                  "startColumn": 18
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "new[]",
+                  "decoratedName": "??_U@YAPEAX_K@Z",
+                  "kind": "function"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C28251",
+          "message": {
+            "text": "'new[]' に対する整合性のない注釈: このインスタンスには 注釈なし が含まれます。c:\\program files\\microsoft visual studio\\2022\\community\\vc\\tools\\msvc\\14.39.33519\\include\\vcruntime_new.h(64) を参照してください。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/work/myworkspace/engine/v3_60_00/develop/runtime/thirdparty/include/bdwgc/gc/gc_cpp.h"
+                },
+                "region": {
+                  "startLine": 355,
+                  "startColumn": 41
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "new[]",
+                  "decoratedName": "??_U@YAPEAX_KAEBUnothrow_t@std@@@Z",
+                  "kind": "function"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C28251",
+          "message": {
+            "text": "'new' に対する整合性のない注釈: このインスタンスには 注釈なし が含まれます。c:\\work\\myworkspace\\engine\\v3_60_00\\develop\\editor\\engine\\editor\\codeanalysis\\predefined c++ types (compiler internal)(33) を参照してください。この組み込み関数の 1 つ目のユーザーに指定された注釈は行 c:\\program files\\microsoft visual studio\\2022\\community\\vc\\tools\\msvc\\14.39.33519\\include\\vcruntime_new.h(48) にあります。 "
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/work/myworkspace/engine/v3_60_00/develop/runtime/thirdparty/include/bdwgc/gc/gc_cpp.h"
+                },
+                "region": {
+                  "startLine": 369,
+                  "startColumn": 16
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "new",
+                  "decoratedName": "??2@YAPEAX_K@Z",
+                  "kind": "function"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C28251",
+          "message": {
+            "text": "'new' に対する整合性のない注釈: このインスタンスには 注釈なし が含まれます。c:\\program files\\microsoft visual studio\\2022\\community\\vc\\tools\\msvc\\14.39.33519\\include\\vcruntime_new.h(53) を参照してください。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/work/myworkspace/engine/v3_60_00/develop/runtime/thirdparty/include/bdwgc/gc/gc_cpp.h"
+                },
+                "region": {
+                  "startLine": 382,
+                  "startColumn": 39
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "new",
+                  "decoratedName": "??2@YAPEAX_KAEBUnothrow_t@std@@@Z",
+                  "kind": "function"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C28251",
+          "message": {
+            "text": "'new' に対する整合性のない注釈: このインスタンスには 注釈なし が含まれます。c:\\program files\\microsoft visual studio\\2022\\community\\vc\\tools\\msvc\\14.39.33519\\include\\vcruntime_new_debug.h(26) を参照してください。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/work/myworkspace/engine/v3_60_00/develop/runtime/thirdparty/include/bdwgc/gc/gc_cpp.h"
+                },
+                "region": {
+                  "startLine": 410,
+                  "startColumn": 18
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "new",
+                  "decoratedName": "??2@YAPEAX_KHPEBDH@Z",
+                  "kind": "function"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C28251",
+          "message": {
+            "text": "'new[]' に対する整合性のない注釈: このインスタンスには 注釈なし が含まれます。c:\\program files\\microsoft visual studio\\2022\\community\\vc\\tools\\msvc\\14.39.33519\\include\\vcruntime_new_debug.h(34) を参照してください。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/work/myworkspace/engine/v3_60_00/develop/runtime/thirdparty/include/bdwgc/gc/gc_cpp.h"
+                },
+                "region": {
+                  "startLine": 425,
+                  "startColumn": 20
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "new[]",
+                  "decoratedName": "??_U@YAPEAX_KHPEBDH@Z",
+                  "kind": "function"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "ruleId": "C26495",
+          "message": {
+            "text": "変数 'rapidjson::internal::Double::<unnamed-tag>::u_' が初期化されていません。メンバー変数は必ず初期化してください (type.6)。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/work/myworkspace/engine/v3_60_00/develop/runtime/thirdparty/include/rapidjson/rapidjson/internal/ieee754.h"
+                },
+                "region": {
+                  "startLine": 25,
+                  "startColumn": 5
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "rapidjson::internal::Double::{ctor}",
+                  "decoratedName": "??0Double@internal@rapidjson@@QEAA@XZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "targetSymbol": "rapidjson::internal::Double::<unnamed-tag>::u_"
+          }
+        },
+        {
+          "ruleId": "C26495",
+          "message": {
+            "text": "変数 'rapidjson::internal::Double::<unnamed-tag>::d_' が初期化されていません。メンバー変数は必ず初期化してください (type.6)。"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "file:///C:/work/myworkspace/engine/v3_60_00/develop/runtime/thirdparty/include/rapidjson/rapidjson/internal/ieee754.h"
+                },
+                "region": {
+                  "startLine": 25,
+                  "startColumn": 5
+                }
+              },
+              "logicalLocations": [
+                {
+                  "fullyQualifiedName": "rapidjson::internal::Double::{ctor}",
+                  "decoratedName": "??0Double@internal@rapidjson@@QEAA@XZ",
+                  "kind": "function"
+                }
+              ]
+            }
+          ],
+          "properties": {
+            "targetSymbol": "rapidjson::internal::Double::<unnamed-tag>::d_"
+          }
+        }
+      ],
+      "tool": {
+        "driver": {
+          "name": "PREfast",
+          "fullName": "PREfast Code Analysis",
+          "version": "14.39.33523.0",
+          "informationUri": "https://aka.ms/cpp/ca"
+        }
+      },
+      "invocations": [
+        {
+          "executionSuccessful": true
+        }
+      ],
+      "artifacts": [
+        {
+          "location": {
+            "uri": "file:///C:/work/myworkspace/engine/v3_60_00/develop/runtime/thirdparty/include/bdwgc/gc/gc_cpp.h"
+          },
+          "roles": [
+            "resultFile"
+          ],
+          "hashes": {
+            "sha-256": "4060a5007e50483a5896830487c7c25cc67e7f4ea5855eb2d02711f3f25a8e92"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///C:/work/myworkspace/engine/v3_60_00/develop/runtime/thirdparty/include/rapidjson/rapidjson/internal/ieee754.h"
+          },
+          "roles": [
+            "resultFile"
+          ],
+          "hashes": {
+            "sha-256": "4194d836407c2d3785597b34ac0ff8985eae435c0d4bc0a78f0217c452b5d266"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/work/myworkspace/engine/v3_60_00/develop/runtime/editor/hmmodipcmanager/private/hmmodipcmanager.cpp"
+          },
+          "roles": [
+            "analysisTarget"
+          ],
+          "hashes": {
+            "sha-256": "2e9543ad3ae0a706a5d716b25bc87cbe2ba74bd460e088076bc88576b1c20558"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/work/myworkspace/engine/v3_60_00/develop/runtime/editor/hmmodipcmanager/public/hmmodipcmanager.h"
+          },
+          "hashes": {
+            "sha-256": "7163c5fd239a17801492fbe65ef3345b222122311c7f9744eabfd266e230a129"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/work/myworkspace/engine/v3_60_00/develop/runtime/main/public/utility.hpp"
+          },
+          "hashes": {
+            "sha-256": "4869a5eccc5572efc4bb1062b20fc4a6a3c7e7742a3014d76b19ccf886d29175"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/work/myworkspace/engine/v3_60_00/develop/runtime/main/public/eventmanager/eventmanager.h"
+          },
+          "hashes": {
+            "sha-256": "41959d0327f216c872d07302cc28ff1ff11125e804a249cedfd5d18bca833a6a"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/work/myworkspace/engine/v3_60_00/develop/runtime/main/public/utility/string/hmstring.h"
+          },
+          "hashes": {
+            "sha-256": "48d4cd2b05dff7d7c5e88ace0cf61041a8bec74a5fb94c4ee31a82de7b965d31"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/work/myworkspace/engine/v3_60_00/develop/runtime/main/public/utility/string/platformstring.h"
+          },
+          "hashes": {
+            "sha-256": "53c87d6288c741f3a1513a38f8e4e8c9310a70d39061d591bc5b10f75ca3aa83"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/work/myworkspace/engine/v3_60_00/develop/runtime/main/public/utility/map/hmunorderedmap.h"
+          },
+          "hashes": {
+            "sha-256": "7bceedaab5b3629e7afc5167a8980134fb12808673c71d9585831157f7d604f3"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/work/myworkspace/engine/v3_60_00/develop/runtime/main/public/utility/array/hmarray.h"
+          },
+          "hashes": {
+            "sha-256": "0dc6fe554bcc5a75ee4d5b6922cfe9652445b9bd2dd79a38506860307fc934dd"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/work/myworkspace/engine/v3_60_00/develop/runtime/thirdparty/include/bdwgc/gc_cpp.h"
+          },
+          "hashes": {
+            "sha-256": "ce774904643e4610c2936386a7e5de94aae87b4943171e0b055b277a60dea431"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/work/myworkspace/engine/v3_60_00/develop/runtime/thirdparty/include/bdwgc/gc/gc.h"
+          },
+          "hashes": {
+            "sha-256": "745fa8f04fe14b71dbc73b07b7a54bbfd83e74fe9cdfeebe1db7b3d55a7a56c9"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/work/myworkspace/engine/v3_60_00/develop/runtime/thirdparty/include/bdwgc/gc/gc_version.h"
+          },
+          "hashes": {
+            "sha-256": "0cf40b1c08da6bf7d18964d0527106f41af8d92a9c7b157c119ae931a60e8eff"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/work/myworkspace/engine/v3_60_00/develop/runtime/thirdparty/include/bdwgc/gc/gc_config_macros.h"
+          },
+          "hashes": {
+            "sha-256": "715697a0353400e76a2c1cae7702903366bc559146b1b7f1d4770b25be0491a5"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/work/myworkspace/engine/v3_60_00/develop/runtime/thirdparty/include/bdwgc/gc/gc_allocator.h"
+          },
+          "hashes": {
+            "sha-256": "174bd85e29e647d8dd7a8a6a434b1e80eb7011c53e679f0c7b6d35aba01c15de"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/work/myworkspace/engine/v3_60_00/develop/runtime/main/public/utility/array/detail/hmarray_impl.inl"
+          },
+          "hashes": {
+            "sha-256": "72450ae3b3fe6c68635c33d7287b152cd831d9b83212b2a0f327587b078a3dc5"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/work/myworkspace/engine/v3_60_00/develop/runtime/main/public/utility/pair/hmpair.h"
+          },
+          "hashes": {
+            "sha-256": "3560fcc3c5c001e8610df5720f311cb04a26a37c5b211006df6bb03519287b2a"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/work/myworkspace/engine/v3_60_00/develop/runtime/main/public/utility/map/deteil/hmunorderedmap_impl.inl"
+          },
+          "hashes": {
+            "sha-256": "ad9a785322bf80903de3bec8a66e55218f83fc2657255e026e1a29e10aaacad2"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/work/myworkspace/engine/v3_60_00/develop/runtime/main/public/gameloopmanager/gameloopmanager.h"
+          },
+          "hashes": {
+            "sha-256": "7c96df6369ba39b64d6886300c7f7ace70b28a0c5735e953cd4a0f7205c7af79"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/work/myworkspace/engine/v3_60_00/develop/runtime/main/public/jobsystem/jobsystem.h"
+          },
+          "hashes": {
+            "sha-256": "5b084c146b888328c51390e65f5785405e5df8bb6cae82eefcae5b50b59ad9c0"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/work/myworkspace/engine/v3_60_00/develop/runtime/main/public/logmanager/logmanager.h"
+          },
+          "hashes": {
+            "sha-256": "7eae86d95efc14b263f2bbf7a4038237e270aef5d339669e790589af59d3bad3"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/work/myworkspace/engine/v3_60_00/develop/runtime/main/public/modulemanager/imodule.h"
+          },
+          "hashes": {
+            "sha-256": "89d3661a22e6c20bb8ba64243ca5e53d8d4869e650b7740c167026ea39bdb0c3"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/work/myworkspace/engine/v3_60_00/develop/runtime/main/public/utility/object/hmobject.h"
+          },
+          "hashes": {
+            "sha-256": "7c95c53980a45ef50696d67c6d5134b2ebdbcb4f8ab2793532ef69d0fbd26534"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/work/myworkspace/engine/v3_60_00/develop/runtime/main/public/utility/macro/objectmacro.h"
+          },
+          "hashes": {
+            "sha-256": "90eefddf3bd3e223e3c661dbf28a4d3002f7d6c07dfbf29a5d7b182772c2cd5c"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/work/myworkspace/engine/v3_60_00/develop/runtime/main/public/utility/math/vector/float3.h"
+          },
+          "hashes": {
+            "sha-256": "517cc6e1103958411c590babfd51de02e333868a814f6e9b1516730e75c99694"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/work/myworkspace/engine/v3_60_00/develop/runtime/main/public/utility/macro/manualregistermacro.h"
+          },
+          "hashes": {
+            "sha-256": "130ae8771cb5a2e816c77884c6107c033cf286e0b01248138d9000f246670c37"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/work/myworkspace/engine/v3_60_00/develop/runtime/main/public/modulemanager/modulemanager.h"
+          },
+          "hashes": {
+            "sha-256": "8e7e5667af07d3518aaeebd5da34eda0e67d056a6d0897c238122d2889f494f6"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/work/myworkspace/engine/v3_60_00/develop/runtime/main/public/modulemanager/moduleinstancemanagerbase.h"
+          },
+          "hashes": {
+            "sha-256": "489f1efcae8c861bd839e35ffec30e126964d429d47beb1f7fcb9b92dbbbf2f8"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/work/myworkspace/engine/v3_60_00/develop/runtime/main/public/reflection/reflection.hpp"
+          },
+          "hashes": {
+            "sha-256": "135f5346bd811d1d6cd87ac88708c953bb4f75eb7f6140daed25a88b0685fa83"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/work/myworkspace/engine/v3_60_00/develop/runtime/main/public/reflection/property/property.h"
+          },
+          "hashes": {
+            "sha-256": "87b492a8ec0030f975e92da17f2d6d17e5e9f6751979b8109d36cfc4bfa157ce"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/work/myworkspace/engine/v3_60_00/develop/runtime/main/public/reflection/property/propertykind.h"
+          },
+          "hashes": {
+            "sha-256": "53d89ea1d1e443ac7ef9caaf20d85ea00588ada92efe998c7d74e416645ba7d7"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/work/myworkspace/engine/v3_60_00/develop/runtime/main/public/reflection/property/propertyaccessor.h"
+          },
+          "hashes": {
+            "sha-256": "41d98bb8f1e73e17554e6bf55cf63f30b2df5aad27f4a1191f506bb463ece469"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/work/myworkspace/engine/v3_60_00/develop/runtime/main/public/reflection/class/class.h"
+          },
+          "hashes": {
+            "sha-256": "e3e71756a04ef44be4375943da6bae8e18213bbf04d8b2f2facf89498bcefd9c"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/work/myworkspace/engine/v3_60_00/develop/runtime/main/public/reflection/class/deteil/class_impl.inl"
+          },
+          "hashes": {
+            "sha-256": "576fdd3606b44c1c0d6a92a5a4780902163de2be56b1c3c388e18e7359d3607f"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/work/myworkspace/engine/v3_60_00/develop/runtime/main/public/reflection/class/deteil/classdata.h"
+          },
+          "hashes": {
+            "sha-256": "94489f6df1069afb26643a3d3e9ef03b69a3ba2d6769e35f35bc3c3673169e8c"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/work/myworkspace/engine/v3_60_00/develop/runtime/main/public/reflection/construction/construction.h"
+          },
+          "hashes": {
+            "sha-256": "aa45e37265f602c9b9597a065efea6624e0c95f8d049c0c7138dde8a878f806c"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/work/myworkspace/engine/v3_60_00/develop/runtime/main/public/reflection/construction/deteil/construction_impl.inl"
+          },
+          "hashes": {
+            "sha-256": "9147defed90b9a64f8bba2cddf6355e3bdee82f5cdedb7724ec0b6a6c9402c23"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/work/myworkspace/engine/v3_60_00/develop/runtime/main/public/reflection/class/classbuilder.h"
+          },
+          "hashes": {
+            "sha-256": "163225de85b6b841ad9ea7482aa1e25cc85ac775c995edbbc07ad7ba4e254617"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/work/myworkspace/engine/v3_60_00/develop/runtime/main/public/serializer/serializer.hpp"
+          },
+          "hashes": {
+            "sha-256": "80e4d9b6b51d6ac79559c68d840398bd2ad2b239b9c8ef2cd44c47fc62c9b3b3"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/work/myworkspace/engine/v3_60_00/develop/runtime/main/public/serializer/serializermembers/ojsonarchiver.h"
+          },
+          "hashes": {
+            "sha-256": "2d71dec417ef8c918f1e6b17ee15b16dc8eb85f8c80adb70536c143aaf232390"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/work/myworkspace/engine/v3_60_00/develop/runtime/thirdparty/include/rapidjson/rapidjson/document.h"
+          },
+          "hashes": {
+            "sha-256": "2dc68a305663852ca9977c32a587a1140bcfbd6fb430da4e21096ce24de9c83a"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/work/myworkspace/engine/v3_60_00/develop/runtime/thirdparty/include/rapidjson/rapidjson/reader.h"
+          },
+          "hashes": {
+            "sha-256": "f70d08e820dddcab116366228ec5b576a88f7631182e93879c013c8170805c33"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/work/myworkspace/engine/v3_60_00/develop/runtime/thirdparty/include/rapidjson/rapidjson/allocators.h"
+          },
+          "hashes": {
+            "sha-256": "5ddfadf9b2391d48b1f911ef589b88ca6a17cb0a418e865e74ee214036751bc2"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/work/myworkspace/engine/v3_60_00/develop/runtime/thirdparty/include/rapidjson/rapidjson/rapidjson.h"
+          },
+          "hashes": {
+            "sha-256": "9da99169b7ed3749c26a6c2658bf7a2453bf8bef70136567a18049312799321f"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/work/myworkspace/engine/v3_60_00/develop/runtime/thirdparty/include/rapidjson/rapidjson/internal/meta.h"
+          },
+          "hashes": {
+            "sha-256": "aafe4f39c908cfb142891d8d14b2ec10cae5cc05478189026428e8f85b0c9e14"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/work/myworkspace/engine/v3_60_00/develop/runtime/thirdparty/include/rapidjson/rapidjson/stream.h"
+          },
+          "hashes": {
+            "sha-256": "4fccb0b49d9fd74edc83d6587c0e27d8f4cc968675e5c84d003b149bd6121d63"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/work/myworkspace/engine/v3_60_00/develop/runtime/thirdparty/include/rapidjson/rapidjson/encodings.h"
+          },
+          "hashes": {
+            "sha-256": "8a9fdd19ffe75cab13fa8855614f792f938193f01109747700022bd85d06305f"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/work/myworkspace/engine/v3_60_00/develop/runtime/thirdparty/include/rapidjson/rapidjson/encodedstream.h"
+          },
+          "hashes": {
+            "sha-256": "714f0185933aa3ccc1913ea759e8c58644c801844336f33e3c23036075c678af"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/work/myworkspace/engine/v3_60_00/develop/runtime/thirdparty/include/rapidjson/rapidjson/memorystream.h"
+          },
+          "hashes": {
+            "sha-256": "2fe6d854fb51aec70f9aaef7ce69a230cda2d0b7ee6b297fe81b12372039d439"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/work/myworkspace/engine/v3_60_00/develop/runtime/thirdparty/include/rapidjson/rapidjson/internal/clzll.h"
+          },
+          "hashes": {
+            "sha-256": "57b3a1473d4bcfcbda27742abfe7f253c595339aba2eaf3cdcd034daa881ab94"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/work/myworkspace/engine/v3_60_00/develop/runtime/thirdparty/include/rapidjson/rapidjson/internal/stack.h"
+          },
+          "hashes": {
+            "sha-256": "3d96753fcac2bee48d3bc72cc80723b60251602c372af44c21e562700d97b858"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/work/myworkspace/engine/v3_60_00/develop/runtime/thirdparty/include/rapidjson/rapidjson/internal/swap.h"
+          },
+          "hashes": {
+            "sha-256": "e9ccf3a752c6fcd83d8963e3014d62a9053b9b354de078cc5cba16f03a69e3d1"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/work/myworkspace/engine/v3_60_00/develop/runtime/thirdparty/include/rapidjson/rapidjson/internal/strtod.h"
+          },
+          "hashes": {
+            "sha-256": "b8566116106094d7741568797f836f265d75b87c788e19df0033424c866c7ce4"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/work/myworkspace/engine/v3_60_00/develop/runtime/thirdparty/include/rapidjson/rapidjson/internal/biginteger.h"
+          },
+          "hashes": {
+            "sha-256": "4f28bf08f850e4b7d617fcfdc9ad92fbdb3e8f6044f27da5a6fb36e0b7de4d18"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/work/myworkspace/engine/v3_60_00/develop/runtime/thirdparty/include/rapidjson/rapidjson/internal/diyfp.h"
+          },
+          "hashes": {
+            "sha-256": "b2efc62067739dbb6f0087d29ac5e4ba4cda601c0f220ebda7d9afb8b3e595ba"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/work/myworkspace/engine/v3_60_00/develop/runtime/thirdparty/include/rapidjson/rapidjson/internal/pow10.h"
+          },
+          "hashes": {
+            "sha-256": "ad9bd65f954d9c602ca9e0ad48850769770879472eb3020cd6cd3c9b904e3d09"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/work/myworkspace/engine/v3_60_00/develop/runtime/thirdparty/include/rapidjson/rapidjson/error/error.h"
+          },
+          "hashes": {
+            "sha-256": "69aab7f33320a0598f80dcf4a25d30458ebe87d43a1a18607252f50d7186ab28"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/work/myworkspace/engine/v3_60_00/develop/runtime/thirdparty/include/rapidjson/rapidjson/internal/strfunc.h"
+          },
+          "hashes": {
+            "sha-256": "8f860366d52a02a3f08ffc26db551bb5eef1abacc8cd81c44b46af3f7cdb9b79"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/work/myworkspace/engine/v3_60_00/develop/runtime/thirdparty/include/rapidjson/rapidjson/stringbuffer.h"
+          },
+          "hashes": {
+            "sha-256": "9c3ee99091d9d8dbd3eded3f9102d959a29698859012f97d083bc4310afdaa76"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/work/myworkspace/engine/v3_60_00/develop/runtime/thirdparty/include/rapidjson/rapidjson/writer.h"
+          },
+          "hashes": {
+            "sha-256": "a9f837e8ab0349d1e6ac299992277d5acc9917bdf8edd2da33e1fe69c6cc2286"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/work/myworkspace/engine/v3_60_00/develop/runtime/thirdparty/include/rapidjson/rapidjson/internal/dtoa.h"
+          },
+          "hashes": {
+            "sha-256": "7fac53ab2f2bd99917b015c7476ac1e3fdc6b68d8af94a5affc99480cfc3dc87"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/work/myworkspace/engine/v3_60_00/develop/runtime/thirdparty/include/rapidjson/rapidjson/internal/itoa.h"
+          },
+          "hashes": {
+            "sha-256": "ba8af4d4416789265d45c4d216218c43c506fa73b84f50e80481b663bfa8769b"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/work/myworkspace/engine/v3_60_00/develop/runtime/thirdparty/include/rapidjson/rapidjson/prettywriter.h"
+          },
+          "hashes": {
+            "sha-256": "44b435efb6bdba9e5d08e3a40de274bda476b24907f54bf3699ef62169ce3722"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/work/myworkspace/engine/v3_60_00/develop/runtime/main/public/serializer/serializermembers/ijsonarchiver.h"
+          },
+          "hashes": {
+            "sha-256": "76a03ebd382696e87e45931cc624be9eb83c6e7b77c1b38df43da3ccd98ff1e6"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/work/myworkspace/engine/v3_60_00/develop/runtime/thirdparty/include/rapidjson/rapidjson/istreamwrapper.h"
+          },
+          "hashes": {
+            "sha-256": "6d954b6158f4ba734122a9305896272315b39661ae9a1fb6192189a33bb4e2f6"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/work/myworkspace/engine/v3_60_00/develop/runtime/main/public/utility/utilitycore.hpp"
+          },
+          "hashes": {
+            "sha-256": "7cf7627ffd0f12a0db2dc777615173d531594506549f5bff5f4ca6707a25d81e"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/work/myworkspace/engine/v3_60_00/develop/runtime/main/public/utility/macro/generatemacro.h"
+          },
+          "hashes": {
+            "sha-256": "a36cdbee7d6d5690d6c3540f612f69e68e1228837e5520cd6f4e81de8139ee2e"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/work/myworkspace/engine/v3_60_00/develop/runtime/main/public/utility/math/vector/quaternion.h"
+          },
+          "hashes": {
+            "sha-256": "253982c88a33d9cbeeaa9b38ea9cdbbbe22376aec910ff76cf36d84a825ececb"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/work/myworkspace/engine/v3_60_00/develop/runtime/main/public/utility/math/platformsimdchacker.h"
+          },
+          "hashes": {
+            "sha-256": "878bc38e987174fdecbfa8da020041e2305850845c936dc0cba7bda797473451"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/work/myworkspace/engine/v3_60_00/develop/runtime/main/public/utility/math/vector/vector3f.h"
+          },
+          "hashes": {
+            "sha-256": "8ce54203cd6a43a5064ae973ab44b9c1b9b3097858cc21d6f47c3dc0d4534a2a"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/work/myworkspace/engine/v3_60_00/develop/runtime/main/public/utility/math/matrix/matrix4x4.h"
+          },
+          "hashes": {
+            "sha-256": "d8ce1a77a542b747e338383e414a951f4afec7960241b96cebdea42b1667441d"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/work/myworkspace/engine/v3_60_00/develop/runtime/core/hmmodnetwork/public/inetworkmodule.h"
+          },
+          "hashes": {
+            "sha-256": "6672eb2778385733683ec8fb4eb85b809a64106e3d346e3a1006e79c501c4697"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/work/myworkspace/engine/v3_60_00/develop/runtime/core/hmmodnetwork/public/iprotocol.h"
+          },
+          "hashes": {
+            "sha-256": "d9553884b47045891f77c2f23b95a9a19964e59d13f270c4729580ad830bfb31"
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -4,12 +4,56 @@
         "members": {
             "commandMap": [
                 {
+                    "Key": "DeleteScene",
+                    "Value": {
+                        "type": "CommandInfo",
+                        "members": {
+                            "_description": "LevelEditorを選択状態にする",
+                            "_id": 204
+                        },
+                        "base": null
+                    }
+                },
+                {
+                    "Key": "CreateSceneObject",
+                    "Value": {
+                        "type": "CommandInfo",
+                        "members": {
+                            "_description": "LevelEditorを選択状態にする",
+                            "_id": 202
+                        },
+                        "base": null
+                    }
+                },
+                {
+                    "Key": "LevelEditorMakeChild",
+                    "Value": {
+                        "type": "CommandInfo",
+                        "members": {
+                            "_description": "LevelEditorに子ウィンドウを作成する",
+                            "_id": 101
+                        },
+                        "base": null
+                    }
+                },
+                {
+                    "Key": "AddScene",
+                    "Value": {
+                        "type": "CommandInfo",
+                        "members": {
+                            "_description": "LevelEditorを選択状態にする",
+                            "_id": 203
+                        },
+                        "base": null
+                    }
+                },
+                {
                     "Key": "unti",
                     "Value": {
                         "type": "CommandInfo",
                         "members": {
-                            "_description": "awefffffffff",
-                            "_id": 1
+                            "_description": "指定したシーンにGameObjectを追加する",
+                            "_id": 201
                         },
                         "base": null
                     }

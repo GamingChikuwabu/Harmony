@@ -1,6 +1,6 @@
 #include"HMModLevelEditor.h"
-#include"LogManager.h"
 #include"HMModIPCManager.h"
+#include"Utility.hpp"
 
 namespace HARMONY
 {
@@ -12,25 +12,19 @@ namespace HARMONY
 		};
 
 		struct LevelEditorHWNDData {
+            HM_MANUAL_REGISTER_BASE_CLASS_BODY(LevelEditorHWNDData)
 			HWND parentWindow;
 		};
 
-		struct ResizeData {
-			uint32_t width;
-			uint32_t height;
-		};
-
-		struct ReceivedData {
-			union {
-				LevelEditorHWNDData levelEditorHWNDData;
-				ResizeData resizeData;
-			};
-		};
+        HM_MANUAL_REGISTER_BASE_CLASS_BODY_PROPERTIES(LevelEditorHWNDData)
+            HM_ADD_PROPERTY_INT64(LevelEditorHWNDData, parentWindow)
+        HM_MANUAL_REGISTER_BASE_CLASS_BODY_PROPERTIES_END(LevelEditorHWNDData)
 
         RegisterModuleClass(HMModLevelEditor)
 
 		HMModLevelEditor::HMModLevelEditor()
 		{
+
 		}
 
 		HMModLevelEditor::~HMModLevelEditor()
@@ -49,7 +43,8 @@ namespace HARMONY
 			HM_ASSERT(_window != nullptr, "windowの取得に失敗","");
             //IPCモジュールを取得してコールバック関数を登録
             auto IPC = ModuleManager::GetModule<HMModIPCManager>();
-            //IPC->RegisterCallBack(IPC->GetCommandInfo(TSTR("LevelEditorMakeChild"))._id, std::bind(&HMModLevelEditor::handleGetLevelEditorWindowHandle, this, std::placeholders::_1));
+            int32_t command = IPC->GetCommandInfo(TSTR("LevelEditorMakeChild"))._id;
+            IPC->RegisterCallBack(IPC->GetCommandInfo(TSTR("LevelEditorMakeChild"))._id, std::bind(&HMModLevelEditor::handleGetLevelEditorWindowHandle, this, std::placeholders::_1));
 			return true;
 		}
 
@@ -58,23 +53,15 @@ namespace HARMONY
 
 		}
 
-		void HMModLevelEditor::handleGetLevelEditorWindowHandle(const std::vector<char>& data)
+		void HMModLevelEditor::handleGetLevelEditorWindowHandle(const TCHAR* data)
 		{
-            ReceivedData receive_data;
-            memcpy(&receive_data, data.data(), sizeof(LevelEditorHWNDData));
+            LevelEditorHWNDData windowdata;
+            SERIALIZER::IJsonArchiver ij(data);
+            ij& windowdata;
             RECT rec;
             HWND myWindow = (HWND)_window->GetWindowHandle(L"Harmony");
-            if (data.size() < sizeof(receive_data.levelEditorHWNDData.parentWindow)) {
-                HM_DEBUG_LOG("red",TSTR("受信データが不足しています。必要: %zu, 実際: %zu\n"), (long long)receive_data.levelEditorHWNDData.parentWindow, data.size());
-                return;
-            }
-
-            if (!receive_data.levelEditorHWNDData.parentWindow || !IsWindow(receive_data.levelEditorHWNDData.parentWindow)) {
-                HM_DEBUG_LOG("red", TSTR("無効なウィンドウハンドルです"));
-                return;
-            }
-
-            if (!GetWindowRect(receive_data.levelEditorHWNDData.parentWindow, &rec)) {
+            
+            if (!GetWindowRect(windowdata.parentWindow, &rec)) {
                 // GetWindowRectのエラーハンドリング
                 HM_DEBUG_LOG("red", TSTR("GetWindowRectに失敗しました"));
                 return;
@@ -90,7 +77,7 @@ namespace HARMONY
 
             // 子ウィンドウとして設定する必要があるかチェック
             if (style != WS_CHILD) {
-                style = (style & ~WS_OVERLAPPEDWINDOW) | WS_CHILD; // 例えば、WS_CHILDスタイルを設定
+                style = (style & ~WS_OVERLAPPEDWINDOW) | WS_CHILD; 
 
                 // ウィンドウスタイルを更新
                 if (SetWindowLong(myWindow, GWL_STYLE, style) == 0) {
@@ -100,7 +87,7 @@ namespace HARMONY
                 }
 
                 // hwndChildをhwndParentの子ウィンドウに設定
-                if (SetParent(myWindow, receive_data.levelEditorHWNDData.parentWindow) == NULL) {
+                if (SetParent(myWindow, windowdata.parentWindow) == NULL) {
                     // SetParentのエラーハンドリング
                     HM_DEBUG_LOG("red", TSTR("SetParentに失敗しました"));
                     return;

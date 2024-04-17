@@ -108,7 +108,9 @@ namespace HARMONY
 				if (!prop || !object) return false;
 				auto* _class = dynamic_cast<PropertyClass*>(prop)->GetPropertyClass();
 				SerializeObject(value, _class, object);
+				return true;
 			}
+
 
 			bool SaveMap(Writer& value, Property* prop, void* object)
 			{

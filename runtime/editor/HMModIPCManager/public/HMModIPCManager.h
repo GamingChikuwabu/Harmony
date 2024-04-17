@@ -19,7 +19,7 @@ namespace HARMONY
 	{
 		// コマンド情報を格納する構造体
 		struct CommandInfo {
-			HM_MANUAL_REGISTER_BASE_CLASS_BODY(CommandInfo);
+			HM_MANUAL_REGISTER_BASE_CLASS_BODY(CommandInfo)
 			CommandInfo(int32_t command, HMString description) :_id(command),_description(description) 
 			{}
 			CommandInfo():_id(0),_description(TSTR("")) {};
@@ -30,6 +30,7 @@ namespace HARMONY
 		struct NetworkCommandMap
 		{
 			HM_MANUAL_REGISTER_BASE_CLASS_BODY(NetworkCommandMap)
+
 			HMUnorderedMap<HMString, CommandInfo> commandMap;
 		};
 
@@ -82,10 +83,8 @@ namespace HARMONY
 				return true;
 			}
 		private:
-			void Terminate(const std::vector<char>& data);
 			void debugLog(const char* log);
 			void getDataCallBack(const HMArray<uint8_t>& data);
-			void LoadCommands(const HMString& filename);
 		private:
 			uint32_t											_hProtocol;
 			HMUnorderedMap<uint32_t, HMArray<IPCCallBackFunc>>	_callBackFuncArray;

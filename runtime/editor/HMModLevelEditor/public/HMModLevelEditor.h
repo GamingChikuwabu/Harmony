@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #ifdef _WIN32
 #ifdef HMMODLEVELEDITOR_EXPORTS 
 #define HMMODLEVELEDITOR_API  __declspec(dllexport) 
@@ -25,7 +25,7 @@ namespace HARMONY
 			bool Initialize()override;
 			void Terminate()override;
 		private:
-			void handleGetLevelEditorWindowHandle(const std::vector<char>& data);
+			void handleGetLevelEditorWindowHandle(const TCHAR* data);
 			IWindow* _window;
 		};
 	}

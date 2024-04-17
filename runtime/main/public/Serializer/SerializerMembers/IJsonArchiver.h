@@ -81,6 +81,12 @@ namespace HARMONY
 			else
 			{
 				Class* class_ = Tp::StaticGetClass();
+				auto it = doc.FindMember(class_->GetName());
+				if (it == doc.MemberEnd())
+				{
+					return false;
+				}
+
 				Value& source = doc[class_->GetName()];
 				if (source.IsObject()) {
 					void* tempObj = &obj;

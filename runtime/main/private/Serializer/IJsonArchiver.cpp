@@ -1,18 +1,42 @@
 #include"SerializerMembers/IJsonArchiver.h"
+#include"LogManager/LogManager.h"
+#undef GetObject
 
 namespace HARMONY
 {
 	namespace SERIALIZER
 	{
+		// JSON文字列を受け取るコンストラクタ
 		IJsonArchiver::IJsonArchiver(const TCHAR* jsonStr)
 		{
-			doc.Parse(jsonStr);
+			if (jsonStr != nullptr) { // 入力がnullでないことを確認
+				doc.Parse(jsonStr);
+				if (doc.HasParseError()) { // パースエラーがあるかどうかを確認
+					auto error = doc.GetParseError();
+					auto offset = doc.GetErrorOffset();
+					HM_ERROR_LOG("red", TSTR("Jsonがパースできませんでした"))
+				}
+			}
+			else {
+				HM_ERROR_LOG("red", TSTR("Jsonがパースできませんでした"))
+			}
 		}
+
+		// ファイルストリームを受け取るコンストラクタ
 		IJsonArchiver::IJsonArchiver(Ifstream& ifs)
 		{
-			StreamWrapper isw(ifs);
-			doc.ParseStream(isw);
+			if (ifs) { // ストリームが有効かどうかを確認
+				StreamWrapper isw(ifs);
+				doc.ParseStream(isw);
+				if (doc.HasParseError()) { // パースエラーがあるかどうかを確認
+					HM_ERROR_LOG("red", TSTR("Jsonがパースできませんでした"))
+				}
+			}
+			else {
+				HM_ERROR_LOG("red", TSTR("Jsonがパースできませんでした"))
+			}
 		}
+
 		IJsonArchiver::~IJsonArchiver()
 		{
 
@@ -86,7 +110,7 @@ namespace HARMONY
 				//=============================================================================================
 				// 初期化
 				//=============================================================================================
-				Class* DerivedClass = nullptr;
+				HARMONY::Class* DerivedClass = nullptr;
 				if (!obj)//ポリモーフィズム用の対象がnullptrの場合
 				{
 					auto objectPtr = reinterpret_cast<HMObject*>(obj);
@@ -168,6 +192,10 @@ namespace HARMONY
 						{
 							LoadArray(jsonMember->value, member, obj);
 						}
+						else if (member->GetKind() == PropertyKind::UMap)
+						{
+							LoadMap(jsonMember->value, member, obj);
+						}
 						else
 						{
 							LoadNumeric(jsonMember->value, member, obj);
@@ -201,32 +229,71 @@ namespace HARMONY
 
 							auto KeyKind = umapProperty->_pKey->GetKind();
 							auto ValueKind = umapProperty->_pValue->GetKind();
-							
-							if (KeyKind == PropertyKind::Class)
+
+							if (KeyKind == PropertyKind::Int32)
 							{
-								LoadClass(key->value, static_cast<PropertyClass*>(umapProperty->_pKey)->GetPropertyClass(), pkey);
+								pkey = new int32_t();
 							}
-							else if(KeyKind == PropertyKind::Array)
+							else if (KeyKind == PropertyKind::UInt32)
 							{
-								LoadArray(key->value,umapProperty->_pKey,pkey);
+								pkey = new uint32_t();
 							}
-							else if (KeyKind == PropertyKind::Object)
+							else if (KeyKind == PropertyKind::Int64)
 							{
-								LoadObject(key->value,pkey);
+								pkey = new int64_t();
 							}
+							else if (KeyKind == PropertyKind::UInt64)
+							{
+								pkey = new uint16_t();
+							}
+							else if (KeyKind == PropertyKind::String)
+							{
+								pkey = new HMString();
+							}
+
+							//KeyはNumericのみ
+							LoadNumeric(key->value, umapProperty->_pKey, pkey);
+
+
 
 							if (ValueKind == PropertyKind::Class)
 							{
-								LoadClass(value->value, static_cast<PropertyClass*>(umapProperty->_pValue)->GetPropertyClass(), pkey);
+								pValue = static_cast<PropertyClass*>(umapProperty->_pValue)->GetPropertyClass()->Create();
+								LoadClass(value->value, static_cast<PropertyClass*>(umapProperty->_pValue)->GetPropertyClass(), pValue);
 							}
-							else if (ValueKind == PropertyKind::Array)
+							/*else if (ValueKind == PropertyKind::Array)
 							{
 								LoadArray(value->value, umapProperty->_pValue, pkey);
 							}
 							else if (ValueKind == PropertyKind::Object)
 							{
 								LoadObject(value->value, pkey);
+							}*/
+							else
+							{
+								if (ValueKind == PropertyKind::Int32)
+								{
+									pkey = new int32_t();
+								}
+								else if (ValueKind == PropertyKind::UInt32)
+								{
+									pkey = new uint32_t();
+								}
+								else if (ValueKind == PropertyKind::Int64)
+								{
+									pkey = new int64_t();
+								}
+								else if (ValueKind == PropertyKind::UInt64)
+								{
+									pkey = new uint16_t();
+								}
+								else if (ValueKind == PropertyKind::String)
+								{
+									pkey = new HMString();
+								}
+								LoadNumeric(value->value, umapProperty->_pValue, pValue);
 							}
+
 							umapProperty->SetPair(Map, pkey, pValue);
 						}
 					}

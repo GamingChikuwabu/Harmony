@@ -18,7 +18,6 @@ macro(lib_setting targetname)
     add_compile_definitions(_SILENCE_CXX20_CISO646_REMOVED_WARNING)
     message(${target_upper}_API)
     target_compile_definitions(${targetname} PRIVATE ${target_upper}_EXPORTS=1)
-
 endmacro()
 
 macro(lib_path_setting targetname)

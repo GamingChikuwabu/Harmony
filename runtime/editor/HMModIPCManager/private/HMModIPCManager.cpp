@@ -45,12 +45,13 @@ namespace HARMONY
 				}
 				else
 				{
+
 					return false;
 				}
 			}
 			Ifstream ifs(std::filesystem::path(ModuleManager::GetEnginePath()).append("config").append("IPCSetting.json").string());
 			SERIALIZER::IJsonArchiver ij(ifs);
-			ij& _command;
+			ij & _command;
 
 			EventManager::GetEvent<const char*,int, ::AsyncReceiveDataCallBackBinary,HPROTOCOL&>
 				(TSTR("CreateTCPClient"))
@@ -65,7 +66,6 @@ namespace HARMONY
 
 		bool HMModIPCManager::LateInitialize()
 		{
-			//this->RegisterCallBack(this->GetCommandInfo(TSTR("ShutdownRuntime"))._id,std::bind(&HMModIPCManager::Terminate, this, std::placeholders::_1));
 			return true;
 		}
 
@@ -116,6 +116,10 @@ namespace HARMONY
 				SERIALIZER::OJsonArchiver oja;
 				ofs << (oja & _command).GetRaw();
 			}
+			else
+			{
+				HM_ERROR_LOG("red", TSTR("ファイルの書き込みに失敗しました"));
+			}
 		}
 
 		void HMModIPCManager::debugLog(const char* log)
@@ -136,20 +140,15 @@ namespace HARMONY
 			std::vector<char> buffer(data.GetSize(), 0);
 			memcpy(buffer.data(), jsonStrv, data.GetSize());
 			const TCHAR* jsonStr = reinterpret_cast<const wchar_t*>(buffer.data());
-			OutputDebugString(jsonStr);
-			printf("");
+			
+			auto callBackFuncArray = _callBackFuncArray[command];
+
+			for (auto func : callBackFuncArray)
+			{
+				func(jsonStr);
+			}
 		}
 
-		void HMModIPCManager::LoadCommands(const HMString& filename)
-		{
-			/*rapidjson::Document doc = LoadJson(filename);
-			const rapidjson::Value& commands = doc["commands"];
-			for (auto& command : commands.GetArray()) {
-				CommandInfo info;
-				info.id = command["id"].GetInt();
-				info.description = command["description"].GetString();
-				commandMap[command["name"].GetString()] = info;
-			}*/
-		}
+		
 	}
 }

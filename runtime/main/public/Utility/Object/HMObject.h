@@ -10,6 +10,7 @@
 
 namespace HARMONY
 {
+	class Class;
 	HMCLASS()
 	class UTILITY_API HMObject : public  gc
 	{
@@ -21,8 +22,6 @@ namespace HARMONY
 	protected:
 		HMPROPERTY()
 		HMString _guid;
-		HMPROPERTY()
-		HMArray<MATH::Float3> _gg;
 	};
 
 	template<typename T,typename ...Args, typename Enable = void>

@@ -54,8 +54,11 @@ namespace HARMONY
 		void SetPropertyValue(void*& instance, T value)
 		{
 			T temp = value;
-			void* memberPtr = GetPropertyValue(instance);
-			std::memcpy(memberPtr,&temp, _size);
+			if (instance)
+			{
+				void* memberPtr = GetPropertyValue(instance);
+				std::memcpy(memberPtr, &temp, _size);
+			}
 		}
 	private:
 		const TCHAR* _name;
@@ -242,6 +245,20 @@ namespace HARMONY
 		}
 	};
 
+	class PropertyPair : public Property
+	{
+		using Super = Property;
+	};
+
+	template<typename N,typename M>
+	class PropertyPairBase : public PropertyPair
+	{
+		using Super = PropertyPair;
+		using Pair = HMPair<N, M>;
+	public:
+
+	};
+
 	class PropertyUMap : public Property
 	{
 		using Super = Property;
@@ -260,7 +277,7 @@ namespace HARMONY
 		virtual void* GetKey(void* pair) { return nullptr; }
 		virtual void* GetValue(void* pair) { return nullptr; }
 		virtual size_t GetSize(void* mapInstance) { return 0; }
-		virtual void SetPair(void* instance, void* Key, void* value) {};
+		virtual void SetPair(void* instance, void* Key, void* value){/*継承先で実装*/};
 	};
 
 	template<typename Key,typename Value>

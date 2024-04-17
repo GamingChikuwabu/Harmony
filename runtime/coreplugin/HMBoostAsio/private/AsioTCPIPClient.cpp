@@ -105,6 +105,7 @@ namespace HARMONY
 				[this, data,mainDataInfo](const asio::error_code& ec, std::size_t /*bytes_transferred*/) {
 					if (!ec) {
 						_callBackFunc(*data);
+						AsyncReceiveHeader();
 					}
 					else {
 						HM_ERROR_LOG("red", TSTR("データ本体の取得に失敗"));

@@ -60,6 +60,7 @@ namespace HARMONY
             return data[size];
         }
         assert(false);
+        return data[0];
     }
 
     template<typename T>

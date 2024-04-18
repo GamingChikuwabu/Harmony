@@ -10,13 +10,16 @@ namespace HARMONY
 			char message[246]; // 文字列
 			char color[10];    // 文字列の色
 		};
+
 		RegisterModuleClass(HMModConsole) 
 		HMModConsole::HMModConsole()
 		{
 		}
+
 		HMModConsole::~HMModConsole()
 		{
 		}
+
 		bool HMModConsole::Initialize()
 		{
 			//EventManager::GetEvent<const char*, const char*>(TSTR("DebugLog")).Add(std::bind(&HMModConsole::SendDebugLog,this, std::placeholders::_1,std::placeholders::_2));

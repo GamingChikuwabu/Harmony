@@ -30,7 +30,6 @@ namespace HARMONY
 		struct NetworkCommandMap
 		{
 			HM_MANUAL_REGISTER_BASE_CLASS_BODY(NetworkCommandMap)
-
 			HMUnorderedMap<HMString, CommandInfo> commandMap;
 		};
 
@@ -57,31 +56,6 @@ namespace HARMONY
 			void SendIPCData4Editor(unsigned int command, std::vector<char>& data);
 			CommandInfo GetCommandInfo(const TCHAR* commandname);
 			void Terminate()override;
-			// データ送信の汎用関数
-			template<typename T>
-			bool SendData(unsigned int command, const T& data) {
-				
-				// ヘッダーを作成
-				DataHeader header{ static_cast<int>(sizeof(T)), command };
-
-				// ヘッダーとデータの合計サイズを計算
-				size_t totalSize = sizeof(DataHeader) + sizeof(T);
-
-				// バッファを用意
-				std::vector<char> buffer(totalSize);
-
-				// ヘッダーをバッファにコピー
-				std::memcpy(buffer.data(), &header, sizeof(DataHeader));
-
-				// データをバッファにコピー
-				std::memcpy(buffer.data() + sizeof(DataHeader), &data, sizeof(T));
-
-				// 更新されたデータを送信
-				EventManager::GetEvent<int, std::vector<char>&>(TSTR("SendData")).Broadcast(_hProtocol, buffer);
-
-				// 送信されたバイト数が合計サイズと一致するか確認
-				return true;
-			}
 		private:
 			void debugLog(const char* log);
 			void getDataCallBack(const HMArray<uint8_t>& data);

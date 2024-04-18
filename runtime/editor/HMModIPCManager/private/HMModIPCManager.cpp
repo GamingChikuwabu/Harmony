@@ -45,7 +45,6 @@ namespace HARMONY
 				}
 				else
 				{
-
 					return false;
 				}
 			}
@@ -66,6 +65,7 @@ namespace HARMONY
 
 		bool HMModIPCManager::LateInitialize()
 		{
+
 			return true;
 		}
 
@@ -148,7 +148,5 @@ namespace HARMONY
 				func(jsonStr);
 			}
 		}
-
-		
 	}
 }

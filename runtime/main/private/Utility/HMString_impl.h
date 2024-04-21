@@ -1,6 +1,9 @@
 #pragma once
 #include"PlatformString.h"
 #include"gc/gc.h"
+#include<new>
+
+
 
 namespace HARMONY
 {
@@ -12,7 +15,7 @@ namespace HARMONY
         HMStringImpl(const TCHAR* str = TSTR("")) {
             length = TSTRLEN(str);
             // GC_mallocを使用してメモリを確保
-            data = static_cast<TCHAR*>(GC_malloc((length + 1) * sizeof(TCHAR)));
+            data = static_cast<TCHAR*>(GC_MALLOC((length + 1) * sizeof(TCHAR)));
             TSTRCPY(data, str);
         }
 
@@ -20,12 +23,12 @@ namespace HARMONY
         HMStringImpl(const HMStringImpl& other) : length(other.length), data(nullptr) {
             if (other.data != nullptr) {
                 // GC_mallocを使用してメモリを確保
-                data = static_cast<TCHAR*>(GC_malloc((other.length + 1) * sizeof(TCHAR)));
+                data = static_cast<TCHAR*>(GC_MALLOC((other.length + 1) * sizeof(TCHAR)));
                 TSTRCPY(data, other.data);
             }
             else {
                 // 空文字列を割り当てる
-                data = static_cast<TCHAR*>(GC_malloc(sizeof(TCHAR)));
+                data = static_cast<TCHAR*>(GC_MALLOC(sizeof(TCHAR)));
                 data[0] = TSTR('\0');
             }
         }

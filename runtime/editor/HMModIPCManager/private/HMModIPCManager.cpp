@@ -74,27 +74,14 @@ namespace HARMONY
 			_callBackFuncArray[command].Add(func);
 		}
 
-		void HMModIPCManager::SendIPCData4Editor(unsigned int command, std::vector<char>& data)
+		void HMModIPCManager::SendIPCData4Editor(uint32_t command, HMArray<uint8_t>& data)
 		{
-			// ヘッダーを作成
-			DataHeader header{ static_cast<size_t>(data.size()), command };
-
-			// ヘッダーのサイズを計算
-			size_t headerSize = sizeof(DataHeader);
-
-			// 新しいvectorを作成し、ヘッダーと元のデータを追加
-			std::vector<char> combinedData;
-			combinedData.reserve(headerSize + data.size());
-
-			// ヘッダーのデータをvectorにコピー
-			const char* headerData = reinterpret_cast<const char*>(&header);
-			combinedData.insert(combinedData.end(), headerData, headerData + headerSize);
-
-			// 元のデータをvectorにコピー
-			combinedData.insert(combinedData.end(), data.begin(), data.end());
-
-			// 更新されたデータを送信
-			EventManager::GetEvent<HPROTOCOL, std::vector<char>&>(TSTR("SendData")).Broadcast(_hProtocol, combinedData);
+			HMArray<uint8_t> combinedData;
+			combinedData.ReSize(sizeof(uint32_t) + data.GetSize());
+			combinedData.Insert(combinedData.end(), command);
+			combinedData.Insert(combinedData.end(), data.GetData(),data.GetSize());
+			
+			EventManager::GetEvent<HPROTOCOL, HMArray<uint8_t>&>(TSTR("SendData")).Broadcast(_hProtocol, combinedData);
 		}
 
 		CommandInfo HMModIPCManager::GetCommandInfo(const TCHAR* commandname)
@@ -130,19 +117,22 @@ namespace HARMONY
 			EventManager::GetEvent<HPROTOCOL, std::vector<char>&>(TSTR("SendData")).Broadcast(_hProtocol, logData);
 		}
 
+		// データを受信したときに呼び出されるコールバック関数
 		void HMModIPCManager::getDataCallBack(const HMArray<uint8_t>& data)
 		{
+			//　コマンドのサイズ
 			constexpr int32_t CommandSize = sizeof(int32_t);
 
+			// データの先頭からコマンドを取得
 			int32_t command = *reinterpret_cast<int32_t*>(data.GetData());
+			// データの先頭からコマンドを取り除いた部分を取得し、文字列に変換
 			const void* jsonStrv = reinterpret_cast<void*>(&data[CommandSize]);
-			
 			std::vector<char> buffer(data.GetSize(), 0);
 			memcpy(buffer.data(), jsonStrv, data.GetSize());
 			const TCHAR* jsonStr = reinterpret_cast<const wchar_t*>(buffer.data());
 			
+			// コマンドに対応するコールバック関数を取得し、呼び出す
 			auto callBackFuncArray = _callBackFuncArray[command];
-
 			for (auto func : callBackFuncArray)
 			{
 				func(jsonStr);

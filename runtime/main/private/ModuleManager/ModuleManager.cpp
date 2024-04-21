@@ -49,6 +49,7 @@ namespace HARMONY
 		return true;
 	}
 
+
 	void ModuleManager::Running()
 	{
 	}

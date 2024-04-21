@@ -6,14 +6,9 @@ namespace HARMONY
 {
 	namespace EDITOR
 	{
-		enum CommandType {
-			GET_LEVEL_EDITOR_HWND = 2,
-			RESIZE_COMMAND = 3
-		};
-
 		struct LevelEditorHWNDData {
             HM_MANUAL_REGISTER_BASE_CLASS_BODY(LevelEditorHWNDData)
-			HWND parentWindow;
+			HWND parentWindow = 0;
 		};
 
         HM_MANUAL_REGISTER_BASE_CLASS_BODY_PROPERTIES(LevelEditorHWNDData)
@@ -29,6 +24,7 @@ namespace HARMONY
 
 		HMModLevelEditor::~HMModLevelEditor()
 		{
+
 		}
 
 		bool HMModLevelEditor::AwakeInitialize()

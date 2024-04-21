@@ -13,19 +13,39 @@ namespace HARMONY
         using value_type = T;
         using iterator = value_type*;
         using const_iterator = const value_type*;
-
+    public:
         HMArray();
         HMArray(std::initializer_list<value_type> init);
         HMArray(size_t size);
         ~HMArray() = default;
-
+    public:
+        /// @brief 
+        /// @param value 
         void Add(const value_type& value);
+        /// @brief 要素数を取得する
+        /// @return 要素数
         size_t GetSize() const;
+        /// @brief 要素の先頭アドレスを取得する
+        /// @return 先頭アドレス
         value_type* GetData()const;
+        /// @brief 要素の一番最後の要素を取得する
+        /// @return 一番最後の要素
         value_type& Back()const;
+        /// @brief 要素が空かを判定する
+        /// @return 結果
         bool isEmpty()const noexcept;
-        value_type& operator[](size_t size)const;
         void ReSize(size_t size);
+        void Clear();
+        void Reserve(size_t capacity);
+        void Insert(iterator pos, const value_type& value);
+        void Insert(iterator pos, std::initializer_list<value_type> init);
+        void Insert(iterator pos, const value_type* first,size_t _size);
+        void Sort();
+    public:
+        value_type& operator[](size_t size)const;
+        void operator==(const HMArray& other);
+        void operator==(HMArray&& other) noexcept;
+    public:
         iterator begin();
         iterator end();
         const_iterator begin() const;
@@ -38,7 +58,6 @@ namespace HARMONY
             // 削除した要素の次を指すイテレータを返す
             return pos;
         }
-
     private:
         value_type* data;
         size_t capacity;

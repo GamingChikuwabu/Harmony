@@ -25,7 +25,7 @@ namespace HARMONY
 			~HMModConsole();
 			bool Initialize()override;
 		private:
-			void SendDebugLog(const char* log,const char* color);
+			void SendDebugLog(const TCHAR* log,const TCHAR* color);
 			HMModIPCManager* _manager;
 		};
 	}

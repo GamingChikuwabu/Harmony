@@ -17,6 +17,8 @@ int main(int argc, char** argv)
 #endif//WIN32
 //#endif // _WIN32
 	GC_INIT();
+	// スレッドの登録を許可
+	GC_allow_register_threads();
 	// 自動GCを無効にする
 	GC_disable();
 	using namespace HARMONY;

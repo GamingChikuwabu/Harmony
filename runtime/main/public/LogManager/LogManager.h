@@ -83,6 +83,7 @@ namespace HARMONY
 #define HM_ASSERT(o,message,...)\
 	if(o == false){\
 		HARMONY::EventManager::GetEvent<const TCHAR*, const TCHAR*,int32_t>(TSTR("Assert")).Broadcast(TSTR(message), TSTR(""),__LINE__);\
+		assert(false);\
 	};
 
 	struct LogMessage

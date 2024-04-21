@@ -15,7 +15,7 @@ namespace HARMONY
     inline HMArray<T>::HMArray(std::initializer_list<value_type> init) : size(init.size()), capacity(init.size())
     {
         data = static_cast<value_type*>(GC_MALLOC(sizeof(value_type) * capacity));
-        std::copy(init.begin(), init.end(), data);    
+        std::copy(init.begin(), init.end(), data);
     }
 
     template<typename T>
@@ -64,9 +64,65 @@ namespace HARMONY
     }
 
     template<typename T>
+    inline void HMArray<T>::operator==(const HMArray& other)
+    {
+    }
+
+    template<typename T>
+    inline void HMArray<T>::operator==(HMArray&& other) noexcept
+    {
+
+    }
+
+    template<typename T>
     inline void HMArray<T>::ReSize(size_t size)
     {
         ensureCapacity(size);
+    }
+
+    template<typename T>
+    inline void HMArray<T>::Clear()
+    {
+        for (size_t i = 0; i < size; ++i) {
+			data[i].~T();
+		}
+		size = 0;
+    }
+
+    template<typename T>
+    inline void HMArray<T>::Reserve(size_t capacity)
+    {
+        ensureCapacity(capacity);
+    }
+
+    template<typename T>
+    inline void HMArray<T>::Insert(iterator pos, const value_type& value)
+    {
+        Insert(pos, &value, sizeof(value_type));
+    }
+
+    template<typename T>
+    inline void HMArray<T>::Insert(iterator pos, std::initializer_list<value_type> init)
+    {
+        ensureCapacity(size + init.size());
+		std::move_backward(pos, data + size, data + size + init.size());
+		std::copy(init.begin(), init.end(), pos);
+		size += init.size();
+    }
+
+    template<typename T>
+    inline void HMArray<T>::Insert(iterator pos, const value_type* first, size_t _size)
+    {
+        ensureCapacity(_size);
+        std::move_backward(end(), data + size, data + size + _size);
+        std::copy(first, first + _size, pos);
+        size += _size;
+    }
+
+    template<typename T>
+    inline void HMArray<T>::Sort()
+    {
+        std::sort(data, data + size);
     }
 
     template<typename T>

@@ -7,12 +7,19 @@ namespace HARMONY
 	namespace EDITOR
 	{
 		struct MessageData {
-			char message[246]; // 文字列
-			char color[10];    // 文字列の色
+			HM_MANUAL_REGISTER_BASE_CLASS_BODY(MessageData)
+			HMString message; // 文字列
+			HMString color;    // 文字列の色
 		};
+
+		HM_MANUAL_REGISTER_BASE_CLASS_BODY_PROPERTIES(MessageData)
+			HM_ADD_PROPERTY_STRING(MessageData, message),
+			HM_ADD_PROPERTY_STRING(MessageData, color)
+		HM_MANUAL_REGISTER_BASE_CLASS_BODY_PROPERTIES_END(MessageData)
 
 		RegisterModuleClass(HMModConsole) 
 		HMModConsole::HMModConsole()
+		:_manager(nullptr)
 		{
 		}
 
@@ -22,31 +29,22 @@ namespace HARMONY
 
 		bool HMModConsole::Initialize()
 		{
-			//EventManager::GetEvent<const char*, const char*>(TSTR("DebugLog")).Add(std::bind(&HMModConsole::SendDebugLog,this, std::placeholders::_1,std::placeholders::_2));
+			EventManager::GetEvent<const TCHAR*, const TCHAR*>(TSTR("DebugLog")).Add(std::bind(&HMModConsole::SendDebugLog,this, std::placeholders::_1,std::placeholders::_2));
 			_manager = ModuleManager::GetModule<HMModIPCManager>();
 			return true;
 		}
 
-		void HMModConsole::SendDebugLog(const char* log, const char* color)
+		void HMModConsole::SendDebugLog(const TCHAR* log, const TCHAR* color)
 		{
-			std::vector<char> send_data;
-			MessageData data;
+			MessageData data; 
+			data.message = log;
+			data.color = color;
 
-			// 文字列をMessageData構造体にコピー
-			size_t message_length = std::min(std::strlen(log), sizeof(data.message) - 1);
-			std::strncpy(data.message, log, message_length);
-			data.message[message_length] = '\0'; // 終端文字を追加
+			SERIALIZER::OJsonArchiver oja;
+			auto jsonStr = (oja & data);
+			HMArray<uint8_t> send_data(jsonStr.Length());
 
-			size_t color_length = std::min(std::strlen(color), sizeof(data.color) - 1);
-			std::strncpy(data.color, color, color_length);
-			data.color[color_length] = '\0'; // 終端文字を追加
-
-			// MessageData構造体の内容をバイト列としてsend_dataベクターにコピー
-			const char* dataPtr = reinterpret_cast<const char*>(&data);
-			size_t dataSize = sizeof(MessageData);
-
-			send_data.insert(send_data.end(), dataPtr, dataPtr + dataSize);
-
+			send_data.Insert(send_data.end(), reinterpret_cast<uint8_t*>(jsonStr.GetRaw()),jsonStr.Length());
 			_manager->SendIPCData4Editor(_manager->GetCommandInfo(TSTR("SendLog"))._id, send_data);
 		}
 	}

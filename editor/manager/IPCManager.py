@@ -21,6 +21,10 @@ class mTcpIp(QObject):
         self.server.listen(QHostAddress(self.IPAdder),int(Port))
         self.server.newConnection.connect(self.handle_new_connection)
         self.port = Port
+        # 次に受信するデータのサイズ
+        self.pending_data_size = None  
+        # ヘッダーを期待しているかどうかのフラグ
+        self.expecting_header = True  
 
     def handle_new_connection(self):
         if self.clientcounter == 0:
@@ -29,14 +33,26 @@ class mTcpIp(QObject):
             self.client.readyRead.connect(self.read_data)  
             self.connectsignal.emit()
             print(self.port)
-            
+
+    def receivedHeader(self):
+        if self.client.bytesAvailable() < 8:
+            return
+        header = self.client.read(8)
+        self.pending_data_size = struct.unpack('<Q', header.data())[0]
+        self.expecting_header = False
+    
+    def receivedData(self):
+        if self.client.bytesAvailable() < self.pending_data_size:
+            return
+        data = self.client.read(self.pending_data_size)
+        self.receivedBytes.emit(data)
+        self.expecting_header = True      
+
     def read_data(self):
-        if self.clientcounter == 1:
-            try:
-                data = self.client.readAll()
-                self.receivedBytes.emit(data)
-            except:
-                print("erra")
+        if self.expecting_header:
+            self.receivedHeader()
+        else:
+            self.receivedData()
             
     def send_data(self, data):
         if self.clientcounter == 1:
@@ -74,16 +90,25 @@ class IPCManager(QObject):
     runtime_terminate = Signal()
     def __new__(cls):
         if cls.__instance is None:
+            # インスタンスが存在しない場合にのみインスタンスを作成する
             cls.__instance = super(IPCManager, cls).__new__(cls)
+            # モニタースレッドのインスタンスを保持する変数
             cls.monitor_thread = None
+            # ランタイムプロセスの情報を保持する変数
             cls.runtime_process = None
+            # TCPIPをポート11111で開く
             cls.modeltcp = mTcpIp(11111)
+            #　データを受け取るとReceveDataを呼び出す
             cls.modeltcp.receivedBytes.connect(cls.__instance.ReceveData)
+            # コールバック関数を格納する辞書
             cls.callbackdict = dict()
+            # 接続されたかどうかのフラグ
             cls.modeltcp.connectsignal.connect(cls.__instance.is_connected)
+            # コマンドリストを読み込む
             cls.commandlist = cls.LoadIPCCommandList(cls.__instance)
+            # 接続されているかどうかのフラグ
             cls.isconnected = False
-            cls.buffer = QByteArray()
+            
         return cls.__instance
     
     def LoadIPCCommandList(self):
@@ -102,13 +127,16 @@ class IPCManager(QObject):
     def SendData(self,datasize:int,command:int,data:bytes):
         #データサイズ、コマンド、データの順になるようにする
         header = struct.pack('<Q',datasize + 4) #コマンドのint型４バイト分を足したサイズ
+        #ヘッダーを送信
         self.modeltcp.send_data(header)
+        #データを送信
         self.modeltcp.send_data(struct.pack('<I',command) + data)
 
     def RegisterReceveDataCallBack(self,command,func):
         self.callbackdict[command] = func
 
     def ReceveData(self, data: QByteArray):
+        print(data.data().decode('utf-8'))
         if len(data.data()) < 8:
             raise ValueError("data length must be at least 8 bytes")
         bytedata = data.data()

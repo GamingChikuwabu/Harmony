@@ -1,5 +1,8 @@
+#define GC_THREADS
 #include"AsioTCPIPClient.h"
 #include"LogManager/LogManager.h"
+#include"gc/gc.h"
+#include"gc_cpp.h"
 
 namespace HARMONY
 {
@@ -61,6 +64,7 @@ namespace HARMONY
 						AsyncSendMainData(data);
 					}
 					else {
+						auto err = ec.message();
 						HM_ERROR_LOG("red", TSTR("データの送信に失敗"));
 					}
 				});
@@ -135,7 +139,13 @@ namespace HARMONY
 
 		void AsioTCPIPClient::Running()
 		{
-			io_context.run();
+			GC_stack_base sb;
+			GC_get_stack_base(&sb);
+			GC_register_my_thread(&sb);  // スレッドを登録
+
+			io_context.run();  // io_contextの実行
+
+			GC_unregister_my_thread();  // スレッドの登録解除
 		}
 
 		void AsioTCPIPClient::connect_handler(const asio::error_code& ec)

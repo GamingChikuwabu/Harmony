@@ -53,7 +53,7 @@ namespace HARMONY
 			bool AwakeInitialize()override;
 			bool LateInitialize()override;
 			void RegisterCallBack(int command, IPCCallBackFunc func);
-			void SendIPCData4Editor(unsigned int command, std::vector<char>& data);
+			void SendIPCData4Editor(uint32_t command, HMArray<uint8_t>& data);
 			CommandInfo GetCommandInfo(const TCHAR* commandname);
 			void Terminate()override;
 		private:

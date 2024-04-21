@@ -30,10 +30,9 @@ namespace HARMONY
         size_t Length() const;
 
         TCHAR* GetRaw()const;
-
     public:
         HMString& operator=(HMString&&) noexcept = default;
     private:
         class HMStringImpl* pImpl; // Pimplパターンの実装
     };
-}
+} /// namespace HARMONY

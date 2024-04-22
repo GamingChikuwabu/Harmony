@@ -19,27 +19,84 @@ namespace HARMONY
         HMArray(size_t size);
         ~HMArray() = default;
     public:
-        /// @brief 
-        /// @param value 
+        /**
+         * @brief 要素を追加します。
+         * @param value 追加する要素
+         */
         void Add(const value_type& value);
-        /// @brief 要素数を取得する
-        /// @return 要素数
+
+        /**
+         * @brief 要素を追加します。
+         * @param value 追加する要素
+         */
+        void Add(const value_type* ptr, size_t size);
+
+        /**
+         * @brief 要素数を取得します。
+         * @return 要素数
+         */
         size_t GetSize() const;
-        /// @brief 要素の先頭アドレスを取得する
-        /// @return 先頭アドレス
-        value_type* GetData()const;
-        /// @brief 要素の一番最後の要素を取得する
-        /// @return 一番最後の要素
-        value_type& Back()const;
-        /// @brief 要素が空かを判定する
-        /// @return 結果
-        bool isEmpty()const noexcept;
+
+        /**
+         * @brief 要素の先頭アドレスを取得します。
+         * @return 先頭アドレス
+         */
+        value_type* GetData() const;
+
+        /**
+         * @brief 要素の一番最後の要素を取得します。
+         * @return 一番最後の要素
+         */
+        value_type& Back() const;
+
+        /**
+         * @brief 要素が空かどうかを判定します。
+         * @return 結果
+         */
+        bool isEmpty() const noexcept;
+
+        /**
+         * @brief サイズを変更します。
+         * @param size 新しいサイズ
+         */
         void ReSize(size_t size);
+
+        /**
+         * @brief 要素をクリアします。
+         */
         void Clear();
+
+        /**
+         * @brief 容量を予約します。
+         * @param capacity 予約する容量
+         */
         void Reserve(size_t capacity);
+
+        /**
+         * @brief 指定した位置に要素を挿入します。
+         * @param pos 挿入する位置のイテレータ
+         * @param value 挿入する要素
+         */
         void Insert(iterator pos, const value_type& value);
+
+        /**
+         * @brief 指定した位置に初期化リストの要素を挿入します。
+         * @param pos 挿入する位置のイテレータ
+         * @param init 挿入する初期化リスト
+         */
         void Insert(iterator pos, std::initializer_list<value_type> init);
-        void Insert(iterator pos, const value_type* first,size_t _size);
+
+        /**
+         * @brief 指定した位置に配列の要素を挿入します。
+         * @param pos 挿入する位置のイテレータ
+         * @param first 挿入する配列の先頭ポインタ
+         * @param _size 挿入する配列の要素数
+         */
+        void Insert(iterator pos, const value_type* first, size_t _size);
+
+        /**
+         * @brief 要素をソートします。
+         */
         void Sort();
     public:
         value_type& operator[](size_t size)const;

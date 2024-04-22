@@ -41,4 +41,4 @@ namespace HARMONY
             MATH::Quaternion           _rotate;
         };
     }
-}
+} /// namespace HARMONY

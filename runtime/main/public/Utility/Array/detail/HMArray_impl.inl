@@ -126,20 +126,39 @@ namespace HARMONY
     }
 
     template<typename T>
+    inline void HMArray<T>::Add(const value_type* ptr, size_t size)
+    {
+        // 現在の要素数と追加する要素数を合計した新しいサイズを計算
+        size_t newSize = size + this->size;
+
+        // 新しいサイズに合わせて容量を確保
+        ensureCapacity(newSize);
+
+        // ポインタから要素をコピーして追加
+        std::copy(ptr, ptr + size, data + this->size);
+
+        // サイズを更新
+        this->size = newSize;
+    }
+
+    template<typename T>
     HMArray<T>::iterator HMArray<T>::begin()
     {
         return data;
     }
+
     template<typename T>
     inline HMArray<T>::iterator HMArray<T>::end()
     {
         return data + size;
     }
+
     template<typename T>
     inline HMArray<T>::const_iterator HMArray<T>::begin() const
     {
         return data;
     }
+
     template<typename T>
     inline HMArray<T>::const_iterator HMArray<T>::end() const
     {
@@ -165,3 +184,5 @@ namespace HARMONY
         }
     }
 }
+
+// Path: main/public/Utility/Map/HMUnorderedMap.h

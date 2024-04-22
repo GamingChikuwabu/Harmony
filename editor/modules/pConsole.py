@@ -3,6 +3,7 @@ import IPresenter
 import ModuleManager
 from Console.view.vConsole import vConsole
 from IPCManager import IPCManager
+import json
 
 @IPresenter.register("Console")
 class pConsole(IPresenter.IPresenter):
@@ -33,14 +34,12 @@ class pConsole(IPresenter.IPresenter):
     def PrintLog(self,Type,message,Color = None):
         self.consolewindow.addLog(Type,message,Color)
     
-    def PrintRuntimeLog(self, data_bytes):
+    def PrintRuntimeLog(self, jsonStr:str):
         try:
-            raw_data = data_bytes
-            # メッセージと色名をUTF-8としてデコード
-            # マルチバイト文字セットを考慮してデコード
-            message = raw_data[:246].decode('utf-8','ignore').rstrip('\x00')
-            color_name = raw_data[246:256].decode('utf-8','ignore').rstrip('\x00')
+            data = json.loads(jsonStr)
+            message = data["MessageData"]["members"]["message"]
+            color = data["MessageData"]["members"]["color"]
             # ログを出力
-            self.PrintLog("engine", message, color_name)
+            self.PrintLog("engine", message, color)
         except Exception as e:
             print(f"Error in __PrintRuntimeLog: {e}")

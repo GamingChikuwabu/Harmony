@@ -37,6 +37,17 @@
                     }
                 },
                 {
+                    "Key": "SendLog",
+                    "Value": {
+                        "type": "CommandInfo",
+                        "members": {
+                            "_description": "debugLogをエディタに送信する",
+                            "_id": 301
+                        },
+                        "base": null
+                    }
+                },
+                {
                     "Key": "AddScene",
                     "Value": {
                         "type": "CommandInfo",

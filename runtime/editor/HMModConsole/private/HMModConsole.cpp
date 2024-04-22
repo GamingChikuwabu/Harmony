@@ -42,9 +42,9 @@ namespace HARMONY
 
 			SERIALIZER::OJsonArchiver oja;
 			auto jsonStr = (oja & data);
-			HMArray<uint8_t> send_data(jsonStr.Length());
 
-			send_data.Insert(send_data.end(), reinterpret_cast<uint8_t*>(jsonStr.GetRaw()),jsonStr.Length());
+			HMArray<uint8_t> send_data;
+			send_data.Add(reinterpret_cast<uint8_t*>(jsonStr.GetRaw()),jsonStr.GetDataSize());
 			_manager->SendIPCData4Editor(_manager->GetCommandInfo(TSTR("SendLog"))._id, send_data);
 		}
 	}

@@ -29,6 +29,8 @@ namespace HARMONY
 
 		void HMModNetwork::Terminate()
 		{
+			EventManager::GetEvent<HPROTOCOL, HMArray<uint8_t>&>
+				(TSTR("SendData")).Clear();
 			m_pNetworkMod->Terminate();
 		}
 

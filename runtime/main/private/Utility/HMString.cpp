@@ -98,4 +98,8 @@ namespace HARMONY
 	{
 		return pImpl->data;
 	}
+	size_t HMString::GetDataSize() const
+	{
+		return static_cast<size_t>(pImpl->length * sizeof(TCHAR));
+	}
 }

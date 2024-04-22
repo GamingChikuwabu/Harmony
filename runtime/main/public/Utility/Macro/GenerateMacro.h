@@ -59,6 +59,11 @@ HM_PROPERTY_ACCESSER_MEMBER_NUM(HARMONY::PropertyBool)(OFFSET_OF(classType, Memb
 new (GC_NEW(HM_PROPERTY_ACCESSER_MEMBER_NUM(HARMONY::PropertyClassBase<member_type<decltype(&classType::Member)>::type>)))\
 HM_PROPERTY_ACCESSER_MEMBER_NUM(HARMONY::PropertyClassBase<member_type<decltype(&classType::Member)>::type>)(OFFSET_OF(classType, Member), TSTR(#Member))
 
+#define HM_ADD_PROPERTY_OBJECT(classType,Member)\
+new (GC_NEW(HM_PROPERTY_ACCESSER_MEMBER_NUM(HARMONY::PropertyObjectBase<member_type<decltype(&classType::Member)>::type>)))\
+HM_PROPERTY_ACCESSER_MEMBER_NUM(HARMONY::PropertyObjectBase<member_type<decltype(&classType::Member)>::type>)(OFFSET_OF(classType, Member), TSTR(#Member))
+
+
 #define HM_ADD_PROPERTY_ARRAY(classType,Member)\
 new (GC_NEW(HM_PROPERTY_ACCESSER_MEMBER_NUM(HARMONY::PropertyArrayBase<member_type<decltype(&classType::Member)>::type::value_type>)))\
 HM_PROPERTY_ACCESSER_MEMBER_NUM(HARMONY::PropertyArrayBase<member_type<decltype(&classType::Member)>::type::value_type>)(OFFSET_OF(classType, Member), TSTR(#Member))

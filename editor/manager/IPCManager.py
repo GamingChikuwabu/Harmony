@@ -136,27 +136,15 @@ class IPCManager(QObject):
         self.callbackdict[command] = func
 
     def ReceveData(self, data: QByteArray):
-        print(data.data().decode('utf-8'))
-        if len(data.data()) < 8:
-            raise ValueError("data length must be at least 8 bytes")
+        if len(data.data()) < 4:#コマンドがあるか確認
+            raise ValueError("data length must be at least 4 bytes")
         bytedata = data.data()
-        read_offset = 0
-        fulldatasize = data.size()
-        while read_offset < fulldatasize:
-            try:
-                datasize, command = struct.unpack_from('<II', bytedata, read_offset)
-                read_offset += 8
-            except struct.error as e:
-                print("アンパックエラー:", e)
-                break
-            # 登録されたコールバック関数を呼び出す
-            if command in self.callbackdict:
-                print(command)
-                # コマンドに関連付けられたデータの抽出
-                command_data = bytedata[read_offset:read_offset + datasize]
-                # コールバック関数の実行
-                self.callbackdict[command](command_data)
-            read_offset += datasize
+        command = struct.unpack_from('<I', bytedata[:4])[0]
+        print(command)
+        jsonstr = bytedata[4:].decode('utf-16le')
+        print(jsonstr)
+        if command in self.callbackdict:
+            self.callbackdict[command](jsonstr)
 
     def is_connected(self):
         self.isconnected = True

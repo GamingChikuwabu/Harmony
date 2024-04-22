@@ -8,8 +8,8 @@ namespace HARMONY
 {
 	void LogManager::InitLogManager()
 	{
-		EventManager::GetEvent<const TCHAR*,const TCHAR*>(TSTR("DebugLog")).Add(LogManager::AddLog);
-		EventManager::GetEvent<const TCHAR*, const TCHAR*,int32_t>(TSTR("Assert")).Add(LogManager::AssertLog);
+		//EventManager::GetEvent<const TCHAR*,const TCHAR*>(TSTR("DebugLog")).Add(LogManager::AddLog);
+		//EventManager::GetEvent<const TCHAR*, const TCHAR*,int32_t>(TSTR("Assert")).Add(LogManager::AssertLog);
 	}
 
 	void LogManager::AddLog(const TCHAR* message,const TCHAR* color)
@@ -26,9 +26,6 @@ namespace HARMONY
 		if (!file.is_open()) {
 			// ファイルが開けなかった場合のエラー処理
 			return;
-		}
-		{
-			
 		}
 	}
 

@@ -11,12 +11,17 @@ namespace HARMONY
     public:
         TCHAR* data; // 文字列データを保持する配列
         size_t length; // 文字列の長さ
+        size_t datasize;//データのサイズ
 
         HMStringImpl(const TCHAR* str = TSTR("")) {
+            // 文字列の長さを取得
             length = TSTRLEN(str);
             // GC_mallocを使用してメモリを確保
             data = static_cast<TCHAR*>(GC_MALLOC((length + 1) * sizeof(TCHAR)));
+            // 文字列をコピー
             TSTRCPY(data, str);
+            // データのサイズを取得
+            datasize = sizeof(TCHAR) * length;
         }
 
         // コピーコンストラクタ

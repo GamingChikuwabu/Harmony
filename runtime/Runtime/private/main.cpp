@@ -20,7 +20,7 @@ int main(int argc, char** argv)
 	// スレッドの登録を許可
 	GC_allow_register_threads();
 	// 自動GCを無効にする
-	GC_disable();
+	//GC_disable();
 	using namespace HARMONY;
 	ModuleManager::CommandLineAnalyze(argc, (void**)argv);
 	LogManager::InitLogManager();
@@ -33,7 +33,7 @@ int main(int argc, char** argv)
 	HM_DEBUG_LOG("white",TSTR("成功"));
 	GameLoopManager::Run();
 	ModuleManager::Terminate();
-	LogManager::WriteToFile(std::filesystem::path(ModuleManager::GetProjectAssetsPath()).append("Logs").c_str());
+	//LogManager::WriteToFile(std::filesystem::path(ModuleManager::GetProjectAssetsPath()).append("Logs").c_str());
 	// 手動でガーベージコレクションを実行
 	GC_gcollect();
 	GC_dump();

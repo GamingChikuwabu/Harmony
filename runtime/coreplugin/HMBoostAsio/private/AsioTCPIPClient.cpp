@@ -61,6 +61,7 @@ namespace HARMONY
 			asio::async_write(socket, asio::buffer(header.get(), sizeof(DataHeader)),
 				[this, header, data](const asio::error_code& ec, std::size_t bytes_transferred) {
 					if (!ec) {
+						OutputDebugString(std::to_wstring(bytes_transferred).c_str());
 						AsyncSendMainData(data);
 					}
 					else {
@@ -76,7 +77,7 @@ namespace HARMONY
 			asio::async_write(socket, asio::buffer(sharedData->GetData(), sharedData->GetSize()),
 				[this](const asio::error_code& ec, std::size_t bytes_transferred) {
 					if (!ec) {
-						
+						OutputDebugString(std::to_wstring(bytes_transferred).c_str());
 					}
 					else {
 						HM_ERROR_LOG("red", TSTR("データの送信に失敗"));
@@ -154,7 +155,7 @@ namespace HARMONY
 				_netthred = std::thread(std::bind(&AsioTCPIPClient::Running, this));
 			}
 			else {
-				
+				HM_ERROR_LOG("red", TSTR("接続に失敗"));
 			}
 		}
 	}

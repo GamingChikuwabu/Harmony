@@ -36,5 +36,3 @@ class pHierarchy(IPresenter.IPresenter):
     
     def Terminate(self, setting: QSettings):
         return super().Terminate(setting)
-    
-    

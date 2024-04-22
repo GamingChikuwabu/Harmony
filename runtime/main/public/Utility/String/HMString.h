@@ -30,6 +30,8 @@ namespace HARMONY
         size_t Length() const;
 
         TCHAR* GetRaw()const;
+
+        size_t GetDataSize()const;
     public:
         HMString& operator=(HMString&&) noexcept = default;
     private:

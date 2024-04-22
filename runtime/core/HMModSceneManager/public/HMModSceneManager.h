@@ -11,6 +11,7 @@ namespace HARMONY
 	{
 		class HMMODSCENEMANAGER_API HMModSceneManager: public IModule
 		{
+			HM_MANUAL_REGISTER_BASE_CLASS_BODY(HMModSceneManager)
 		public:
 			/// @brief コンストラクタ
 			HMModSceneManager();
@@ -50,7 +51,8 @@ namespace HARMONY
 			SceneBase* FindSceneFromGUID(const char* guid);
 		private:
 			void LoadScene(std::filesystem::path scenefilepath,SceneBase* parentscene,uint32_t type);
-			HMArray<SceneBase*> _rootScenes;
+			const HMString GetRootSceneGuid();
+			SceneBase* _rootScenes;
 		};
 	}
-}
+} /// namespace HARMONY

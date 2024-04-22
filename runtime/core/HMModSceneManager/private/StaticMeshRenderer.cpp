@@ -1,4 +1,4 @@
-﻿#include"StaticMeshRenderer.h"
+#include"StaticMeshRenderer.h"
 
 namespace HARMONY
 {
@@ -6,10 +6,14 @@ namespace HARMONY
 	{
 		StaticMeshRenderer::StaticMeshRenderer()
 		{
+
 		}
+
 		StaticMeshRenderer::~StaticMeshRenderer()
 		{
+
 		}
+
 		void StaticMeshRenderer::OnRender(const ICommandBuffer* commandbuffer)
 		{
 

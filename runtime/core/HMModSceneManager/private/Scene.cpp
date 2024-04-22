@@ -1,0 +1,9 @@
+#include"Scene.h"
+namespace HARMONY
+{
+	namespace CORE
+	{
+		HM_MANUAL_REGISTER_BASE_CLASS_BODY_PROPERTIES(SceneBase)
+		HM_MANUAL_REGISTER_BASE_CLASS_BODY_PROPERTIES_END(SceneBase)
+	}
+}

@@ -57,7 +57,6 @@ namespace HARMONY
 			CommandInfo GetCommandInfo(const TCHAR* commandname);
 			void Terminate()override;
 		private:
-			void debugLog(const char* log);
 			void getDataCallBack(const HMArray<uint8_t>& data);
 		private:
 			uint32_t											_hProtocol;

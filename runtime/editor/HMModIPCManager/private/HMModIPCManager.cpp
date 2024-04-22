@@ -76,11 +76,10 @@ namespace HARMONY
 
 		void HMModIPCManager::SendIPCData4Editor(uint32_t command, HMArray<uint8_t>& data)
 		{
+			uint32_t _command = command;
 			HMArray<uint8_t> combinedData;
-			combinedData.ReSize(sizeof(uint32_t) + data.GetSize());
-			combinedData.Insert(combinedData.end(), command);
-			combinedData.Insert(combinedData.end(), data.GetData(),data.GetSize());
-			
+			combinedData.Add(reinterpret_cast<uint8_t*>(&_command), sizeof(uint32_t));
+			combinedData.Add(data.GetData(), data.GetSize());
 			EventManager::GetEvent<HPROTOCOL, HMArray<uint8_t>&>(TSTR("SendData")).Broadcast(_hProtocol, combinedData);
 		}
 
@@ -107,14 +106,6 @@ namespace HARMONY
 			{
 				HM_ERROR_LOG("red", TSTR("ファイルの書き込みに失敗しました"));
 			}
-		}
-
-		void HMModIPCManager::debugLog(const char* log)
-		{
-			// 文字列をstd::vector<char>に変換 
-			std::vector<char> logData(log, log + strlen(log));
-			// イベントをブロードキャスト
-			EventManager::GetEvent<HPROTOCOL, std::vector<char>&>(TSTR("SendData")).Broadcast(_hProtocol, logData);
 		}
 
 		// データを受信したときに呼び出されるコールバック関数

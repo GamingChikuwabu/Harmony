@@ -5,8 +5,8 @@
 #include"Utility/String/HMString.h"
 #include"Utility/Map/HMUnorderedMap.h"
 
-namespace HARMONY {
-
+namespace HARMONY 
+{
     // Delegate と MulticastDelegate のテンプレート宣言
     template <typename... Args>
     using Delegate = std::function<void(Args...)>;
@@ -24,6 +24,11 @@ namespace HARMONY {
                 delegate(args...);
             }
         }
+
+        void Clear() {
+            delegates.Clear();
+        }
+
     private:
         HMArray<Delegate<Args...>> delegates;
     };

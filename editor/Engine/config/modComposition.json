@@ -1,7 +1,0 @@
-{
-  "window": "KsModWin32",
-  "renderer": "KsModDirectX12",
-  "sceneobject": "KsModMonoSceneObject",
-  "script": "KsModMonoScript",
-  "network": "KsModBoostNetWork"
-}

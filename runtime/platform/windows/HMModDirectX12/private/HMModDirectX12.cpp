@@ -1,8 +1,9 @@
-﻿#include"HMModDirectX12.h"
+#include"HMModDirectX12.h"
 #include"ModuleManager.h"
 #include"HMDirectX12Swapchain.h"
 #include"HMDirectX12ShaderObject.h"
 #include"HMDirectX12Material.h"
+#include"Utility.hpp"
 
 //必要なライブラリファイルのロード
 #pragma comment(lib,"d3d12.lib")
@@ -91,23 +92,23 @@ namespace HARMONY
 				_device.Reset();
 			}
 
-			std::shared_ptr<void> HMModDirectX12::CreateResource(ResourceType type)
+			void* HMModDirectX12::CreateResource(ResourceType type)
 			{
-				std::shared_ptr<void> resource;
+				void* resource;
 				switch (type)
 				{
 				case ResourceType::SwapChain:
-					resource = std::make_shared<HMDirectX12SwapChain>();
+					resource = CreateObject<HMDirectX12SwapChain>();
 					break;
 				case ResourceType::CommandBuffer:
 					break;
 				case ResourceType::RenderTarget:
 					break;
 				case ResourceType::ShaderObject:
-					resource = std::make_shared<HMDirectX12ShaderObject>();
+					resource = CreateObject<HMDirectX12ShaderObject>();
 					break;
 				case ResourceType::Material:
-					resource = std::make_shared<HMDirectX12Material>();
+					resource = CreateObject<HMDirectX12Material>();
 					break;
 				default:
 					break;

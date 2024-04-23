@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include"IRenderingAPI.h"
 #include"HMDirectX12DescriptorPool.h"
 #include<d3d12.h>
@@ -19,7 +19,7 @@ namespace HARMONY
 				~HMModDirectX12();
 				bool AwakeInitialize()override;
 				void Terminate()override;
-				std::shared_ptr<void> CreateResource(ResourceType type)override;
+				void* CreateResource(ResourceType type)override;
 				void WiteGPU()override;
 				inline ID3D12Device* GetDevice() const{ return _device.Get(); }
 				inline ID3D12CommandQueue* GetCommandQueue() const { return _commandQueue.Get(); }

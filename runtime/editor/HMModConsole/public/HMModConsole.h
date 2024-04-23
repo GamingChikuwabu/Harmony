@@ -29,4 +29,4 @@ namespace HARMONY
 			HMModIPCManager* _manager;
 		};
 	}
-}
+} /// namespace HARMONY

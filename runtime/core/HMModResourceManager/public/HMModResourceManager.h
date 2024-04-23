@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include"IModule.h"
 #include"ModuleManager.h"
 #include"IRenderingAPI.h"
@@ -56,4 +56,4 @@ namespace HARMONY
 			std::unordered_map<std::string, std::shared_ptr<IMaterial>> _materialArray;
 		};
 	}
-}
+} /// namespace HARMONY

@@ -7,6 +7,7 @@
 #include"EventManager.h"
 #include"LogManager.h"
 #include <fstream>
+#include<filesystem>
 #include"Serializer.hpp"
 
 namespace HARMONY
@@ -14,7 +15,7 @@ namespace HARMONY
 	namespace CORE
 	{
 		HM_MANUAL_REGISTER_BASE_CLASS_BODY_PROPERTIES(HMModSceneManager)
-			HM_ADD_PROPERTY_OBJECT(HMModSceneManager, _rootScenes)
+			HM_ADD_PROPERTY_OBJECT(HMModSceneManager, _Scenes)
 		HM_MANUAL_REGISTER_BASE_CLASS_BODY_PROPERTIES_END(HMModSceneManager)
 
 		RegisterModuleClass(HMModSceneManager)
@@ -30,49 +31,19 @@ namespace HARMONY
 
 		bool HMModSceneManager::AwakeInitialize()
 		{
-			_rootScenes = CreateObject<RootScene>();
+			//パスを取得
 			auto path =  ModuleManager::GetAllAssetsRootPath();
+			//シーンのメタファイルを取得
 			auto scenePath = FindMetaFileWithGUID(path,GetRootSceneGuid().GetRaw());
-			SERIALIZER::OJsonArchiver archiver;
-			auto sceneData = archiver & _rootScenes;
 			{
 				auto scenefile = RemoveMetaExtension(scenePath).GetRaw();
-				Ofstream ofs(scenefile);
-				if (ofs)
-				{
-					ofs << sceneData.GetRaw();
-				}
+				CreateScene(scenePath.c_str());
 			}
 			
 			return true;
 		}
 
 		void HMModSceneManager::Terminate()
-		{
-			SerializeAllScene();
-		}
-
-		void HMModSceneManager::SerializeAllScene()
-		{
-			
-		}
-
-		void HMModSceneManager::SerializeScene(SceneBase* scene)
-		{
-			
-		}
-
-		SceneBase* HMModSceneManager::GetRootSceneFromName(const char* name)
-		{
-			return nullptr;
-		}
-
-		SceneBase* HMModSceneManager::GetRootSceneFromGuid(const char* guid)
-		{
-			return nullptr;
-		}
-
-		void HMModSceneManager::CreateRootScene(const char* name, const char* guid)
 		{
 			
 		}
@@ -81,6 +52,24 @@ namespace HARMONY
 		{
 			
 		}
+
+		void HMModSceneManager::CreateScene(const TCHAR* path)
+		{
+			_Scenes = CreateObject<RootScene>();
+			Ifstream ifs(path);
+			SERIALIZER::IJsonArchiver ij(ifs);
+			ij& _Scenes;
+			//シーンのロードイベントを送信
+			SERIALIZER::OJsonArchiver oja;
+			auto jsonStr = oja & _Scenes;
+			EventManager::GetEvent<const TCHAR*>(TSTR("LoadedScene")).Broadcast(jsonStr.GetRaw());
+		}
+
+		SceneBase* HMModSceneManager::GetScene()
+		{
+			return _Scenes;
+		}
+
 		const HMString HMModSceneManager::GetRootSceneGuid()
 		{
 			HMString path = HMString(ModuleManager::GetProjectAssetsPath()) + HMString(TSTR("/config")) + HMString(TSTR("/sceneroot.json"));

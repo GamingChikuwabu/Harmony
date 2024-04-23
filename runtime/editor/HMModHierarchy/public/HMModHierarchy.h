@@ -24,8 +24,8 @@ namespace HARMONY
 			~HMModHierarchy();
 			bool Initialize()override;
 		private:
-			void SendAddedSceneData(const char* name, const char* parent_name);
+			void CreateSceneObject(const TCHAR* sceneJson);
 			CORE::HMModSceneManager* _sceneManager;
 		};
 	}
-}
+} /// namespace HARMONY

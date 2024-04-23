@@ -1,5 +1,4 @@
 #pragma once
-
 #include"ModuleManager.h"
 #include"Utility.hpp"
 #include<filesystem>
@@ -24,35 +23,21 @@ namespace HARMONY
 			/// @brief 終了処理
 			void Terminate()override;
 
-			/// @brief 現在読み込まれているシーンをすべてシリアライズする関数
-			void SerializeAllScene();
+			/// @brief 新しいシーンを作成しロードする 
+			/// @param scenefilepath シーンファイルのパス
+			void CreateScene(const TCHAR* path);
 
-			/// @brief 引数のシーンをシリアライズする
-			/// @param scene シリアライズするシーン
-			void SerializeScene(SceneBase* scene);
+			/// @brief 新しいシーンを
+			/// @param jsonStr 
+			void CreateScene(const TCHAR* jsonStr);
 
-			/// @brief 名前検索でrootのシーンを取得する関数
-			/// @return rootのシーン
-			SceneBase* GetRootSceneFromName(const char* name);
+			SceneBase* GetScene();
 
-			/// @brief GUID検索でrootシーンを取得する関数
-			/// @param guid 
-			/// @return シーンオブジェクト
-			SceneBase* GetRootSceneFromGuid(const char* guid);
 
-			/// @brief ルートのシーンを追加する関数
-			/// @param name シーンの名前
-			/// @param guid シーンのguid
-			void CreateRootScene(const char* name,const char* guid);
-
-			/// @brief GUIDからオブジェクトを探す関数
-			/// @param guid guid
-			/// @return 見つかったオブジェクト
-			SceneBase* FindSceneFromGUID(const char* guid);
 		private:
 			void LoadScene(std::filesystem::path scenefilepath,SceneBase* parentscene,uint32_t type);
 			const HMString GetRootSceneGuid();
-			SceneBase* _rootScenes;
+			SceneBase* _Scenes;
 		};
 	}
 } /// namespace HARMONY

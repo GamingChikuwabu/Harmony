@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include"ModuleManager.h"
 #include"IRenderingAPI.h"
 #include"ISwapchain.h"
@@ -18,7 +18,7 @@ namespace HARMONY
 		private:
 			void OnRender();
 			IRenderingAPI* _renderapi;
-			std::shared_ptr<ISwapchain> _swapchain;
+			ISwapchain* _swapchain;
 		};
 	}
-}
+} /// namespace HARMONY

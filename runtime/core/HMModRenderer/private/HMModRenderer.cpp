@@ -41,7 +41,7 @@ namespace HARMONY
 			uint32_t h = window->GetWindowHeight(TSTR("Harmony"));
 
 			//スワップチェインを作成
-			_swapchain = std::reinterpret_pointer_cast<ISwapchain>(_renderapi->CreateResource(ResourceType::SwapChain));
+			_swapchain = reinterpret_cast<ISwapchain*>(_renderapi->CreateResource(ResourceType::SwapChain));
 			if (!_swapchain->Initialize(handle, w, h))
 			{
 				return false;

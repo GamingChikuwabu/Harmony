@@ -19,7 +19,7 @@
                     "Value": {
                         "type": "CommandInfo",
                         "members": {
-                            "_description": "LevelEditorを選択状態にする",
+                            "_description": "Sceneを作成する",
                             "_id": 202
                         },
                         "base": null

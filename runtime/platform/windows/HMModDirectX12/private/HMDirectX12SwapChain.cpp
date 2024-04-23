@@ -1,4 +1,4 @@
-﻿#include"HMDirectX12Swapchain.h"
+#include"HMDirectX12Swapchain.h"
 #include"ModuleManager.h"
 #include"IRenderingAPI.h"
 #include"HMModDirectX12.h"
@@ -82,10 +82,12 @@ namespace HARMONY
 				_queue->ExecuteCommandLists(_countof(ppCommandLists), ppCommandLists);
 				m_swapchain->Present(0, 0);
 			}
+
 			void HMDirectX12SwapChain::Terminate()
 			{
 
 			}
+
 			unsigned int HMDirectX12SwapChain::GetSwapBufferSizeW()
 			{
 				return m_width;

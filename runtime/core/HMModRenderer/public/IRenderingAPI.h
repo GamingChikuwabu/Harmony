@@ -14,6 +14,6 @@ enum class ResourceType
 class IRenderingAPI : public HARMONY::IModule
 {
 public:
-	virtual std::shared_ptr<void> CreateResource(ResourceType type) = 0;
+	virtual void* CreateResource(ResourceType type) = 0;
 	virtual void WiteGPU() = 0;
 };

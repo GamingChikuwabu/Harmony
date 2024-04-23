@@ -18,7 +18,7 @@ class mHierarchyTree(QObject):
         self.IPC = IPCManager.IPCManager()
 
     def Load_last_open_scene_guid(self)->str:
-        project_path = os.path.join(PathManager.PathManager.WorkSpaceDir,"ProjectsRoot","Sample","project","config","sceneroot.json") 
+        project_path = os.path.join(PathManager.PathManager.WorkSpaceDir,"ProjectsRoot",sys.argv[5],"project","config","sceneroot.json") 
         #前回開いたrootシーンのファイルがあるかの確認
         if os.path.exists(project_path):
             with open(project_path, 'r', encoding='utf-8') as f:

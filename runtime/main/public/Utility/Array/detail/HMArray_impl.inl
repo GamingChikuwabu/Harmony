@@ -64,17 +64,6 @@ namespace HARMONY
     }
 
     template<typename T>
-    inline void HMArray<T>::operator==(const HMArray& other)
-    {
-    }
-
-    template<typename T>
-    inline void HMArray<T>::operator==(HMArray&& other) noexcept
-    {
-
-    }
-
-    template<typename T>
     inline void HMArray<T>::ReSize(size_t size)
     {
         ensureCapacity(size);

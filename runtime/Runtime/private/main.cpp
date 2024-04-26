@@ -24,7 +24,6 @@ int main(int argc, char** argv)
 	using namespace HARMONY;
 	ModuleManager::CommandLineAnalyze(argc, (void**)argv);
 	LogManager::InitLogManager();
-	//EventManager::GetEvent<const char*, const char*, int>("Assert").Add(GameLoopManager::AssertLoop);
 	if (!ModuleManager::Initialize())
 	{
 		LogManager::WriteToFile(std::filesystem::path(ModuleManager::GetProjectAssetsPath()).append("Logs").c_str());

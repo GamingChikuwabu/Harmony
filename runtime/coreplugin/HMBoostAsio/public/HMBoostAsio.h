@@ -12,6 +12,7 @@ namespace HARMONY
 		class HMBoostAsio : public INetWorkModule
 		{
 		public:
+
 			HPROTOCOL CreateTCPClient(const char* serverIP, int port, AsyncReceiveDataCallBackBinary callbackfunc)override;
 			void SendData(HPROTOCOL handle, HMArray<uint8_t>& data)override;
 			void Terminate()override;

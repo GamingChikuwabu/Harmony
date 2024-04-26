@@ -4,7 +4,7 @@
 #include"HMArray.h"
 
 using AsyncReceiveDataCallBackBinary = std::function<void(const HARMONY::HMArray<uint8_t>& data)>;
-
+using DisconnectionCallBack = std::function<void()>;
 namespace HARMONY
 {
 	struct DataHeader

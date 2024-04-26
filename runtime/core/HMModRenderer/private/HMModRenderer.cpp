@@ -8,7 +8,9 @@ namespace HARMONY
 	namespace CORE
 	{
 		RegisterModuleClass(HMModRenderer);
-		HMModRenderer::HMModRenderer():_renderapi(nullptr) 
+		HMModRenderer::HMModRenderer()
+		:_renderapi(nullptr)
+		,_swapchain(nullptr)
 		{
 		}
 

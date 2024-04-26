@@ -27,10 +27,6 @@ namespace HARMONY
 			/// @param scenefilepath シーンファイルのパス
 			void CreateScene(const TCHAR* path);
 
-			/// @brief 新しいシーンを
-			/// @param jsonStr 
-			void CreateScene(const TCHAR* jsonStr);
-
 			SceneBase* GetScene();
 
 

@@ -1,4 +1,4 @@
-﻿#include"HMModWindow.h"
+#include"HMModWindow.h"
 #include"EventManager.h"
 
 namespace HARMONY
@@ -27,7 +27,13 @@ namespace HARMONY
 			}
 			_nativeWindow->MakeWindow(L"Harmony",1280,720);
 			_mainWindowHandle = _nativeWindow->GetWindowHandle(L"Harmony");
+			EventManager::GetEvent<>(TSTR("OnWindowUpdate")).Add(std::bind(&HMModWindow::OnWindowUpdate,this));
 			return true;
+		}
+
+		void HMModWindow::OnWindowUpdate()
+		{
+			_nativeWindow->ProcessMessage();
 		}
 	}
 }

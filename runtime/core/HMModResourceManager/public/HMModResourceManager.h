@@ -44,16 +44,16 @@ namespace HARMONY
 			~HMModResourceManager();
 			bool Initialize()override;
 			void LoadShader(const char* path, Synchronous synchronous);
-			void LoadMesh(const char* path, Synchronous synchronous);
 			void LoadTexture(const char* path, Synchronous synchronous);
-			void LoadMaterial(const char* path, Synchronous synchronous);
-			const MESH* GetMesh(const char* meshname);
+			//void LoadMesh(const char* path, Synchronous synchronous);
+			/*void LoadMaterial(const char* path, Synchronous synchronous);
+			const MESH* GetMesh(const char* meshname);*/
 		private:
 			IRenderingAPI* _renderApi;
 			//シェーダーオブジェクト
-			std::unordered_map<std::string, std::shared_ptr<IShaderObject>> _shaderArray;
-			std::unordered_map<std::string, std::shared_ptr<MESH>> _meshArray;
-			std::unordered_map<std::string, std::shared_ptr<IMaterial>> _materialArray;
+			HMUnorderedMap<HMString, IShaderObject*> _shaderArray;
+			//HMUnorderedMap<HMString,MESH*> _meshArray;
+			//HMUnorderedMap<HMString, IMaterial*> _materialArray;
 		};
 	}
 } /// namespace HARMONY

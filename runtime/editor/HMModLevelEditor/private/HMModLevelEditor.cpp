@@ -39,7 +39,6 @@ namespace HARMONY
 			HM_ASSERT(_window != nullptr, "windowの取得に失敗","");
             //IPCモジュールを取得してコールバック関数を登録
             auto IPC = ModuleManager::GetModule<HMModIPCManager>();
-            int32_t command = IPC->GetCommandInfo(TSTR("LevelEditorMakeChild"))._id;
             IPC->RegisterCallBack(IPC->GetCommandInfo(TSTR("LevelEditorMakeChild"))._id, std::bind(&HMModLevelEditor::handleGetLevelEditorWindowHandle, this, std::placeholders::_1));
 			return true;
 		}

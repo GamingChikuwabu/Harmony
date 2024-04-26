@@ -1,6 +1,7 @@
 #include "HMModIPCManager.h"
 #include"INetWorkModule.h"
 #include"IProtocol.h"
+#include"INetWorkModule.h"
 #include<functional>
 #include<filesystem>
 
@@ -51,7 +52,7 @@ namespace HARMONY
 			Ifstream ifs(std::filesystem::path(ModuleManager::GetEnginePath()).append("config").append("IPCSetting.json").string());
 			SERIALIZER::IJsonArchiver ij(ifs);
 			ij & _command;
-
+			
 			EventManager::GetEvent<const char*,int, ::AsyncReceiveDataCallBackBinary,HPROTOCOL&>
 				(TSTR("CreateTCPClient"))
 				.Broadcast(
@@ -60,12 +61,12 @@ namespace HARMONY
 					, std::bind(&HMModIPCManager::getDataCallBack, this, std::placeholders::_1)
 					, _hProtocol);
 			HM_ASSERT(_hProtocol != NULL, "クライアントの取得に失敗");
+			EventManager::GetEvent<>(TSTR("Disconnection")).Add(std::bind(&HMModIPCManager::disconnect, this));
 			return true;
 		}
 
 		bool HMModIPCManager::LateInitialize()
 		{
-
 			return true;
 		}
 
@@ -106,6 +107,11 @@ namespace HARMONY
 			{
 				HM_ERROR_LOG("red", TSTR("ファイルの書き込みに失敗しました"));
 			}
+		}
+
+		void HMModIPCManager::disconnect()
+		{
+			GameLoopManager::Stop();
 		}
 
 		// データを受信したときに呼び出されるコールバック関数

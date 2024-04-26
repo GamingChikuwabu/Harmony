@@ -1,4 +1,4 @@
-﻿#include"HMModResourceManager.h"
+#include"HMModResourceManager.h"
 #include"IShaderObject.h"
 #include<filesystem>
 #include<fstream>
@@ -48,27 +48,27 @@ namespace HARMONY
         }
         void HMModResourceManager::LoadShader(const char* path, Synchronous synchronous)
         {
-            std::shared_ptr<IShaderObject> shaderObject = std::reinterpret_pointer_cast<IShaderObject>(_renderApi->CreateResource(ResourceType::ShaderObject));
+            IShaderObject* shaderObject = reinterpret_cast<IShaderObject*>(_renderApi->CreateResource(ResourceType::ShaderObject));
             shaderObject->InitShaderObject(path);
-            _shaderArray[std::filesystem::path(path).filename().string().c_str()] = shaderObject;
+            _shaderArray[std::filesystem::path(path).c_str()] = shaderObject;
         }
-        void HMModResourceManager::LoadMesh(const char* path, Synchronous synchronous)
+        /*void HMModResourceManager::LoadMesh(const char* path, Synchronous synchronous)
         {
             MESH mesh;
             ReadFromFile(path, mesh);
             _meshArray[mesh.name] = std::make_shared<MESH>(mesh);
-        }
+        }*/
         void HMModResourceManager::LoadTexture(const char* path, Synchronous synchronous)
         {
 
         }
-        void HMModResourceManager::LoadMaterial(const char* path, Synchronous synchronous)
+        /*void HMModResourceManager::LoadMaterial(const char* path, Synchronous synchronous)
         {
              _materialArray[""] = std::reinterpret_pointer_cast<IMaterial>(_renderApi->CreateResource(ResourceType::Material)); 
-        }
-        const MESH* HMModResourceManager::GetMesh(const char* meshname)
+        }*/
+        /*const MESH* HMModResourceManager::GetMesh(const char* meshname)
         {
             return _meshArray[meshname].get();
-        }
+        }*/
 	}
 }

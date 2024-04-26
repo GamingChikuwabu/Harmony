@@ -43,6 +43,10 @@ namespace HARMONY
 
 			/// @brief 終了処理
 			virtual void Terminate()override;
+
+			/// @brief 接続が切れた時呼び出される関数を登録する関数
+			/// @param func 
+			void RegisterDisConnectCallBack(std::function<void()> func)override;
 		private:
 			void Running();
 			void AsyncReceiveHeader();
@@ -57,6 +61,7 @@ namespace HARMONY
 			asio::ip::tcp::resolver::results_type endpoints;
 
 			AsyncReceiveDataCallBackBinary _callBackFunc;
+			std::function<void()> _disConnectCallBack;
 		private:
 			// 非同期接続のハンドラ
 			void connect_handler(const asio::error_code& ec);

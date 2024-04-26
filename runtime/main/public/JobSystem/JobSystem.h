@@ -28,7 +28,6 @@ namespace HARMONY
         static inline std::vector<std::thread> workerThread;
         //JobQueue
         static inline std::queue<std::packaged_task<void()>> jobQueue;
-
         //mutex
         static inline std::mutex jobQueueMutex;
         //依存関係などの調節用コンディション
@@ -40,4 +39,4 @@ namespace HARMONY
         //ワーカスレッド内で呼び出される関数 
         static void workerThreadFunction();
     };
-} 
+} // namespace HARMONY

@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include"ModuleManager.h"
 #include"IWindow.h"
@@ -15,6 +15,7 @@ namespace HARMONY
 			bool AwakeInitialize()override;
 			void* GetMainWindowHandle() { return _mainWindowHandle; }
 		private:
+			void OnWindowUpdate();
 			IWindow* _nativeWindow;
 			void* _mainWindowHandle;
 		};

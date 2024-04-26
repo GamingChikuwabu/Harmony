@@ -1,6 +1,7 @@
 #define GC_THREADS
 #include"AsioTCPIPClient.h"
 #include"LogManager/LogManager.h"
+#include"GameLoopManager/GameLoopManager.h"
 #include"gc/gc.h"
 #include"gc_cpp.h"
 
@@ -99,6 +100,10 @@ namespace HARMONY
 					}
 					else {
 						HM_ERROR_LOG("red", TSTR("ヘッダの取得に失敗"));
+						if (ec.value() == 2)
+						{
+							EventManager::GetEvent<>(TSTR("Disconnection")).Broadcast();
+						}
 					}
 				});
 		}
@@ -114,6 +119,10 @@ namespace HARMONY
 					}
 					else {
 						HM_ERROR_LOG("red", TSTR("データ本体の取得に失敗"));
+						if (ec.value() == 2)
+						{
+							EventManager::GetEvent<>(TSTR("Disconnection")).Broadcast();
+						}
 					}
 				});
 		}
@@ -136,6 +145,11 @@ namespace HARMONY
 			if (_netthred.joinable()) {
 				_netthred.join();
 			}
+		}
+
+		void AsioTCPIPClient::RegisterDisConnectCallBack(std::function<void()> func)
+		{
+			_disConnectCallBack = func;
 		}
 
 		void AsioTCPIPClient::Running()

@@ -100,8 +100,6 @@ namespace HARMONY
         void Sort();
     public:
         value_type& operator[](size_t size)const;
-        void operator==(const HMArray& other);
-        void operator==(HMArray&& other) noexcept;
     public:
         iterator begin();
         iterator end();

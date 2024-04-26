@@ -55,14 +55,14 @@ namespace HARMONY
 
 		void HMModSceneManager::CreateScene(const TCHAR* path)
 		{
-			_Scenes = CreateObject<RootScene>();
-			Ifstream ifs(path);
-			SERIALIZER::IJsonArchiver ij(ifs);
-			ij& _Scenes;
-			//シーンのロードイベントを送信
-			SERIALIZER::OJsonArchiver oja;
-			auto jsonStr = oja & _Scenes;
-			EventManager::GetEvent<const TCHAR*>(TSTR("LoadedScene")).Broadcast(jsonStr.GetRaw());
+			//_Scenes = CreateObject<RootScene>();
+			//Ifstream ifs(path);
+			//SERIALIZER::IJsonArchiver ij(ifs);
+			//ij& _Scenes;
+			////シーンのロードイベントを送信
+			//SERIALIZER::OJsonArchiver oja;
+			//auto jsonStr = oja & _Scenes;
+			//EventManager::GetEvent<const TCHAR*>(TSTR("LoadedScene")).Broadcast(jsonStr.GetRaw());
 		}
 
 		SceneBase* HMModSceneManager::GetScene()

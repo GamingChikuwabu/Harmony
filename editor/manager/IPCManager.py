@@ -140,9 +140,7 @@ class IPCManager(QObject):
             raise ValueError("data length must be at least 4 bytes")
         bytedata = data.data()
         command = struct.unpack_from('<I', bytedata[:4])[0]
-        print(command)
         jsonstr = bytedata[4:].decode('utf-16le')
-        print(jsonstr)
         if command in self.callbackdict:
             self.callbackdict[command](jsonstr)
 

@@ -29,6 +29,9 @@ namespace HARMONY
 			/// @brief 同期的にデータを待つ関数
 			/// @return 送られてきたデータ
 			virtual HMArray<uint8_t> SyncReceive() = 0;
+
+			/// @brief 接続が切れた時呼び出される関数を登録する関数
+			virtual void RegisterDisConnectCallBack(std::function<void()> func) = 0;
 		};
 	}
 }

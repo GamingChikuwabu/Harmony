@@ -2,6 +2,8 @@
 #include <functional>
 #include <any>
 #include<stdexcept>
+#include<future>
+#include"Utility/Array/HMArray.h"
 #include"Utility/String/HMString.h"
 #include"Utility/Map/HMUnorderedMap.h"
 
@@ -19,15 +21,29 @@ namespace HARMONY
             delegates.Add(delegate);
         }
 
+        /// @brief 同期的にイベントをブロードキャストする
+        /// @param ...args 引数
         void Broadcast(Args... args) {
             for (auto& delegate : delegates) {
                 delegate(args...);
             }
         }
 
+        /// @brief 非同期でイベントをブロードキャストする
+        /// @param ...args 引数
+        void AsyncBroadcast(Args... args) {
+			for (auto& delegate : delegates) {
+				std::async(std::launch::async, delegate, args...);
+			}
+		}
+
         void Clear() {
             delegates.Clear();
         }
+
+        void Remove(Delegate<Args...> delegate) {
+			delegates.erase(delegate);
+		}
 
     private:
         HMArray<Delegate<Args...>> delegates;

@@ -1,4 +1,4 @@
-﻿#include"HMDirectX12DescriptorPool.h"
+#include"HMDirectX12DescriptorPool.h"
 
 
 namespace HARMONY 
@@ -137,6 +137,13 @@ namespace HARMONY
 
             }
 
+            void HMDirectX12DescriptorPool::Terminate()
+            {
+                m_c_s_u_heap.Reset();
+                m_dsv_heap.Reset();
+                m_rtv_heap.Reset();
+                m_sampler_heap.Reset();
+            }
 		}
 	}
 }

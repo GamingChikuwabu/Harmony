@@ -35,11 +35,9 @@ namespace HARMONY
 			auto path =  ModuleManager::GetAllAssetsRootPath();
 			//シーンのメタファイルを取得
 			auto scenePath = FindMetaFileWithGUID(path,GetRootSceneGuid().GetRaw());
-			{
-				auto scenefile = RemoveMetaExtension(scenePath).GetRaw();
-				CreateScene(scenePath.c_str());
-			}
-			
+			//.metaの拡張子を削除
+			auto scenefile = RemoveMetaExtension(scenePath).GetRaw();
+			CreateScene(scenefile);
 			return true;
 		}
 
@@ -55,14 +53,17 @@ namespace HARMONY
 
 		void HMModSceneManager::CreateScene(const TCHAR* path)
 		{
-			//_Scenes = CreateObject<RootScene>();
-			//Ifstream ifs(path);
-			//SERIALIZER::IJsonArchiver ij(ifs);
-			//ij& _Scenes;
-			////シーンのロードイベントを送信
-			//SERIALIZER::OJsonArchiver oja;
-			//auto jsonStr = oja & _Scenes;
-			//EventManager::GetEvent<const TCHAR*>(TSTR("LoadedScene")).Broadcast(jsonStr.GetRaw());
+			if (path != nullptr)
+			{
+				_Scenes = CreateObject<RootScene>();
+				Ifstream ifs(path);
+				SERIALIZER::IJsonArchiver ij(ifs);
+				ij& _Scenes;
+				//シーンのロードイベントを送信
+				SERIALIZER::OJsonArchiver oja;
+				auto jsonStr = oja & _Scenes;
+				EventManager::GetEvent<const TCHAR*>(TSTR("LoadedScene")).Broadcast(jsonStr.GetRaw());
+			}
 		}
 
 		SceneBase* HMModSceneManager::GetScene()

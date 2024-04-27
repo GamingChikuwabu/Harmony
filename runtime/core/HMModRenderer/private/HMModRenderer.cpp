@@ -25,7 +25,6 @@ namespace HARMONY
 			{
 				return false;
 			}
-
 			EventManager::GetEvent<>(TSTR("OnRender")).Add(std::bind(&HMModRenderer::OnRender, this)); 
 			return true;
 		}
@@ -49,6 +48,11 @@ namespace HARMONY
 				return false;
 			}
 			return true;
+		}
+
+		void HMModRenderer::Terminate()
+		{
+			_swapchain->Terminate();
 		}
 
 		void HMModRenderer::OnRender()

@@ -49,6 +49,7 @@ namespace HARMONY
 					return false;
 				}
 			}
+
 			Ifstream ifs(std::filesystem::path(ModuleManager::GetEnginePath()).append("config").append("IPCSetting.json").string());
 			SERIALIZER::IJsonArchiver ij(ifs);
 			ij & _command;

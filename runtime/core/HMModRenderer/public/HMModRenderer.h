@@ -14,6 +14,7 @@ namespace HARMONY
 			~HMModRenderer();
 			bool AwakeInitialize()override;
 			bool Initialize()override;
+			void Terminate()override;
 			IRenderingAPI* GetRenderingAPI() { return _renderapi; }
 		private:
 			void OnRender();

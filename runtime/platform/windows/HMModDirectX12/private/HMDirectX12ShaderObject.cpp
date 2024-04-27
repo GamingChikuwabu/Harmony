@@ -1,4 +1,4 @@
-﻿#include"HMDirectX12ShaderObject.h"
+#include"HMDirectX12ShaderObject.h"
 #include <fstream>
 #include <vector>
 #include <d3dcompiler.h>
@@ -76,7 +76,9 @@ namespace HARMONY
 			}
 			void HMDirectX12ShaderObject::Terminate()
 			{
+
 			}
+
 			void HMDirectX12ShaderObject::RefConstantBuffer(ComPtr<ID3D12ShaderReflection> refl)
 			{
                 D3D12_SHADER_DESC desc{};

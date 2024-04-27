@@ -85,7 +85,15 @@ namespace HARMONY
 
 			void HMDirectX12SwapChain::Terminate()
 			{
-
+				for (auto com : m_commandLists)
+				{
+					com.Reset();
+				}
+				for (auto com : m_commandAllocators)
+				{
+					com.Reset();
+				}
+				m_swapchain.Reset();
 			}
 
 			unsigned int HMDirectX12SwapChain::GetSwapBufferSizeW()

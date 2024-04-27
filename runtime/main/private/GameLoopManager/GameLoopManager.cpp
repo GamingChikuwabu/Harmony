@@ -13,6 +13,7 @@ namespace HARMONY
         HARMONY::EventManager::GetEvent<>(TSTR("OnReady")).Broadcast();
         while (running) {
             auto currentTime = Clock::now();
+            //ミリ秒
             deltaTime = std::chrono::duration<float, std::chrono::seconds::period>(currentTime - lastTime).count();
             lastTime = currentTime;
             // イベントを発火
@@ -73,6 +74,7 @@ namespace HARMONY
 	{
         return deltaTime;
 	}
+
     int GameLoopManager::GetNowFrameIndex()
     {
         uint32_t index = frameindex % 2;

@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include<d3d12.h>
 #include<wrl/client.h>
 #include<iostream>
@@ -28,6 +28,7 @@ namespace HARMONY
 			public:
 				bool CreateDescriptorPool(ID3D12Device* _device, uint32_t numCBV_SRV_UAV, uint32_t numRTV, uint32_t numDSV, uint32_t numSampler);
 				void CreatePoolObject(D3D12_DESCRIPTOR_HEAP_TYPE type, std::shared_ptr<PoolObject>& poolObj);
+				void Terminate();
 			private:
 				ID3D12Device* m_device;
 				std::queue<int> m_CVB_SRV_UAV_Queue;

@@ -87,6 +87,7 @@ namespace HARMONY
 					CloseHandle(_fenceEvent);
 					_fenceEvent = nullptr; // セーフティのため、nullptrに設定
 				}
+				m_descriptorPool->Terminate();
 				_fence.Reset();
 				_commandQueue.Reset();
 				_device.Reset();
@@ -94,7 +95,7 @@ namespace HARMONY
 
 			void* HMModDirectX12::CreateResource(ResourceType type)
 			{
-				void* resource;
+				void* resource = nullptr;
 				switch (type)
 				{
 				case ResourceType::SwapChain:

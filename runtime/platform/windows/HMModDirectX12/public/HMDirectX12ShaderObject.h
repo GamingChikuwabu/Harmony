@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include"IShaderObject.h"
 #include<d3d12.h>
 #include"d3dx12.h"
@@ -27,6 +27,9 @@ namespace HARMONY
 				void InitRootParameter();
 				ComPtr<ID3DBlob> m_shaderObject;
 				std::vector<CD3DX12_ROOT_PARAMETER> rootParams;
+				std::unordered_map<int, std::unordered_map<std::string, std::string>> m_ConstantBuffers;
+				std::unordered_map<int, std::string> m_Textures;
+				std::unordered_map<int, std::string> m_Samplers;
 			};
 		}
 	}

@@ -16,10 +16,14 @@ namespace HARMONY
 	{
 		HM_MANUAL_REGISTER_BASE_CLASS_BODY_PROPERTIES(HMModSceneManager)
 			HM_ADD_PROPERTY_OBJECT(HMModSceneManager, _Scenes)
-		HM_MANUAL_REGISTER_BASE_CLASS_BODY_PROPERTIES_END(HMModSceneManager)
+			HM_MANUAL_REGISTER_BASE_CLASS_BODY_PROPERTIES_END(HMModSceneManager)
 
 		RegisterModuleClass(HMModSceneManager)
 		HMModSceneManager::HMModSceneManager()
+		:_IsSceneLoaded(false),
+		_IsSceneUnLoaded(false),
+		_nextSceneName(nullptr),
+		_Scenes(nullptr)
 		{
 			
 		}
@@ -31,6 +35,9 @@ namespace HARMONY
 
 		bool HMModSceneManager::AwakeInitialize()
 		{
+			//フレームの最終処理時にシーンの状態を確認する
+			EventManager::GetEvent<>(TSTR("OnFrameFinalized")).Add(std::bind(&HMModSceneManager::CheckSceneState, this));
+
 			//パスを取得
 			auto path =  ModuleManager::GetAllAssetsRootPath();
 			//シーンのメタファイルを取得
@@ -46,6 +53,22 @@ namespace HARMONY
 			
 		}
 
+		void HMModSceneManager::LoadScene(const TCHAR* sceneName)
+		{
+		}
+
+		void HMModSceneManager::LoadSceneAdditive(const TCHAR* sceneName)
+		{
+		}
+
+		void HMModSceneManager::SetActiveScene(const TCHAR* sceneName)
+		{
+		}
+
+		void HMModSceneManager::UnloadScene(const TCHAR* sceneName)
+		{
+		}
+
 		void HMModSceneManager::LoadScene(std::filesystem::path scenefilepath, SceneBase* parentscene, uint32_t type)
 		{
 			
@@ -58,7 +81,7 @@ namespace HARMONY
 				_Scenes = CreateObject<RootScene>();
 				Ifstream ifs(path);
 				SERIALIZER::IJsonArchiver ij(ifs);
-				ij& _Scenes;
+				ij & _Scenes;
 				//シーンのロードイベントを送信
 				SERIALIZER::OJsonArchiver oja;
 				auto jsonStr = oja & _Scenes;
@@ -88,5 +111,28 @@ namespace HARMONY
 			}
 			return nullptr;
 		}
+		void HMModSceneManager::CheckSceneState()
+		{
+			if (_IsSceneLoaded)
+			{
+				std::filesystem::path assetsRootDir = HMString(ModuleManager::GetProjectAssetsPath()).GetRaw();
+				for (const auto& entry : std::filesystem::recursive_directory_iterator(assetsRootDir)) 
+				{
+					if (entry.is_regular_file() && entry.path().filename() == _nextSceneName) {
+						CreateScene(entry.path().c_str());
+						_nextSceneName = nullptr;
+					}
+				}
+				if (_nextSceneName == nullptr)
+				{
+					_IsSceneLoaded = false;
+					EventManager::GetEvent<>(TSTR("OnSceneLoaded")).Broadcast();
+				}
+			}
+			if (_IsSceneUnLoaded)
+			{
+
+			}
+		}
 	}
-}
+} /// namespace HARMONY

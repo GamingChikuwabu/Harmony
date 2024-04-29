@@ -50,7 +50,7 @@ namespace HARMONY
         {
             IShaderObject* shaderObject = reinterpret_cast<IShaderObject*>(_renderApi->CreateResource(ResourceType::ShaderObject));
             shaderObject->InitShaderObject(path);
-            _shaderArray[std::filesystem::path(path).c_str()] = shaderObject;
+            _shaderArray[std::filesystem::path(path).filename().c_str()] = shaderObject;
         }
         /*void HMModResourceManager::LoadMesh(const char* path, Synchronous synchronous)
         {

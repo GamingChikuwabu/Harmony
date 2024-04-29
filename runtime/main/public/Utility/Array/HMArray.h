@@ -120,7 +120,6 @@ namespace HARMONY
 
         void ensureCapacity(size_t minCapacity);
 	};
-    
 }
 
 // デフォルトのメタ関数定義。特定の型にはマッチしない。

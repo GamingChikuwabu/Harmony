@@ -1,6 +1,5 @@
 #pragma once
 #include"Renderer.h"
-#include"VertexType.h"
 #include"Utility.hpp"
 
 namespace HARMONY

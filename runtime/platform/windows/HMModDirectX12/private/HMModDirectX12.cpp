@@ -121,9 +121,9 @@ namespace HARMONY
 			{
 				// コマンドキューにシグナルを送信
 				auto hr = _commandQueue->Signal(_fence.Get(), _fenceValue); 
-				if (FAILED(hr)) 
+				if (FAILED(hr))
 				{
-					// エラー処理
+					HM_ERROR_LOG("red", TSTR("Failed to signal the fence"))
 				}
 
 				// フェンスが完了するのを待つ

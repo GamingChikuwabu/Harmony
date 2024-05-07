@@ -1,9 +1,8 @@
-﻿#pragma once
+#pragma once
 #include"IVertexBuffer.h"
-#include"ModuleManager.h"
+#include"Utility.hpp"
 #include"IRenderingAPI.h"
 #include"HMModDirectX12.h"
-#include<boost/describe.hpp>
 #include<d3d12.h>
 #include<wrl/client.h>
 #include <d3dx12.h>
@@ -25,6 +24,7 @@ namespace HARMONY
 			private:
 				ComPtr<ID3D12Resource> m_pBuffer = nullptr; // バッファ
 				D3D12_VERTEX_BUFFER_VIEW m_View = {}; // 頂点バッファビュー
+				D3D12_INPUT_LAYOUT_DESC m_InputLayout = {}; // 入力レイアウト
 			};
 
 			template<class T>

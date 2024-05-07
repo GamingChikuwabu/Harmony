@@ -16,7 +16,7 @@ namespace HARMONY
 			HMDirectX12SwapChain::~HMDirectX12SwapChain()
 			{
 			}
-			bool HMDirectX12SwapChain::Initialize(void* windowHandle, unsigned int bufferWidth, unsigned int bufferHeight)
+			bool HMDirectX12SwapChain::Initialize(void* windowHandle, uint32_t bufferWidth, uint32_t bufferHeight)
 			{
 				IRenderingAPI* renderapi = ModuleManager::GetModule<IRenderingAPI>();
 				HMModDirectX12* directX12obj = dynamic_cast<HMModDirectX12*>(renderapi); 
@@ -93,22 +93,46 @@ namespace HARMONY
 				{
 					com.Reset();
 				}
+				ResetRenderTarget();
+				ResetDsv();
 				m_swapchain.Reset();
 			}
 
-			unsigned int HMDirectX12SwapChain::GetSwapBufferSizeW()
+			uint32_t HMDirectX12SwapChain::GetSwapBufferSizeW()
 			{
 				return m_width;
 			}
-			unsigned int HMDirectX12SwapChain::GetSwapBufferSizeH()
+
+			uint32_t HMDirectX12SwapChain::GetSwapBufferSizeH()
 			{
 				return m_height;
 			}
-			void HMDirectX12SwapChain::Resize(unsigned int width, unsigned int height)
+
+			void HMDirectX12SwapChain::Resize(uint32_t width, uint32_t height)
 			{
+				ResetRenderTarget();
+				ResetDsv();
+				m_width = width;
+				m_height = height;
+				// バックバッファのリサイズ
+				for (UINT i = 0; i < backbuffernum; ++i)
+				{
+					backBuffer[i].Reset();
+				}
+				// スワップチェーンのリサイズ
+				m_swapchain->ResizeBuffers(backbuffernum, width, height, DXGI_FORMAT_R8G8B8A8_UNORM, 0);
+				CreateRenderTarget();
+				CreateDsv();
 			}
+
+			void HMDirectX12SwapChain::SetFullScreen(bool enable)
+			{
+
+			}
+
 			void HMDirectX12SwapChain::SetVSync(bool enable)
 			{
+
 			}
 
 			void HMDirectX12SwapChain::SetRenderTarget(float r, float g, float b)
@@ -182,6 +206,15 @@ namespace HARMONY
 				return true;
 			}
 
+			void HMDirectX12SwapChain::ResetRenderTarget()
+			{
+				rtvHeap.Reset();
+				for(auto com : backBuffer)
+				{
+					com.Reset();
+				}
+			}
+
 			bool HMDirectX12SwapChain::CreateDsv()
 			{
 				// 深度バッファのリソース記述子を作成
@@ -223,6 +256,12 @@ namespace HARMONY
 				// 深度ステンシルビューの作成
 				_device->CreateDepthStencilView(depthStencilBuffer.Get(), nullptr, dsvHeap->GetCPUDescriptorHandleForHeapStart());
 				return true;
+			}
+
+			void HMDirectX12SwapChain::ResetDsv()
+			{
+				dsvHeap.Reset();
+				depthStencilBuffer.Reset();
 			}
 
 			bool HMDirectX12SwapChain::CreateCommandLists()

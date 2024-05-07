@@ -6,6 +6,7 @@
 #include "rapidjson/writer.h"
 #include <rapidjson/prettywriter.h> // prettywriterをインクルード
 #include "Reflection/Reflection.hpp"
+#include"IArchiver.h"
 
 #ifdef UNICODE
 #ifdef _WIN32 // UTF16 for Windows
@@ -31,13 +32,18 @@ namespace HARMONY
 {
 	namespace SERIALIZER
 	{
-		class UTILITY_API OJsonArchiver
+		class UTILITY_API OJsonArchiver : public IArchiver
 		{
 		public:
 			OJsonArchiver();
 			~OJsonArchiver();
 			template<typename T, typename Tp = std::remove_cvref_t<T>>
 			HMString operator&(T&& obj);
+			template<typename T,typename N,std::enable_if<std::is_same_v<T,HMArray<N>>>>
+			HMString operator&(T&& obj);
+			template<typename T,typename N, typename M,std::enable_if<std::is_same_v<T,HMUnorderedMap<N,M>>>>
+			HMString operator&(T&& obj);
+
 		};
 	}
 }
@@ -61,6 +67,11 @@ namespace HARMONY
 			bool UTILITY_API SerializeObject(Writer& writer, Class* classPtr, void* obj);// オブジェクトをシリアライズする関数
 		}
 
+		/// @brief クラスをシリアライズするための演算子
+		/// @tparam T クラスの型
+		/// @tparam Tp 
+		/// @param obj 
+		/// @return 
 		template<typename T, typename Tp>
 		HMString OJsonArchiver::operator&(T&& obj)
 		{
@@ -86,5 +97,7 @@ namespace HARMONY
 			writer.EndObject();
 			return HMString(sb.GetString());
 		}
+
+		
 	}
 }

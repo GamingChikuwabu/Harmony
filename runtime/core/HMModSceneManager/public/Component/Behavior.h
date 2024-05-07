@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include"Component.h"
 
 namespace HARMONY
@@ -16,4 +16,3 @@ namespace HARMONY
 		};
 	}
 }
-

@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include"ISwapchain.h"
 #include<wrl/client.h>
 #include<d3d12.h>
@@ -16,21 +16,23 @@ namespace HARMONY
 			public:
 				HMDirectX12SwapChain();
 				~HMDirectX12SwapChain();
-				bool Initialize(void* windowHandle, unsigned int bufferWidth, unsigned int bufferHeight);
-				void Present();
-				void Terminate();
-				unsigned int GetSwapBufferSizeW();
-				unsigned int GetSwapBufferSizeH();
-				void Resize(unsigned int width, unsigned int height);
-				void SetVSync(bool enable);
-				void SetRenderTarget(float r,float g,float b);
-
+				bool Initialize(void* windowHandle, uint32_t bufferWidth, uint32_t bufferHeight)override;
+				void Present()override;
+				void Terminate()override;
+				uint32_t GetSwapBufferSizeW()override;
+				uint32_t GetSwapBufferSizeH()override;
+				void Resize(uint32_t width, uint32_t height)override;
+				void SetFullScreen(bool enable)override;
+				void SetVSync(bool enable)override;
+				void SetRenderTarget(float r,float g,float b)override;
 			private:
 				//=====================================================================
 				// メンバ関数
 				//=====================================================================
 				bool CreateRenderTarget();
+				void ResetRenderTarget();
 				bool CreateDsv();
+				void ResetDsv();
 				bool CreateCommandLists();
 
 				//=====================================================================

@@ -47,6 +47,7 @@ namespace HARMONY
 			{
 				return false;
 			}
+			EventManager::GetEvent<void*, uint32_t, uint32_t>(TSTR("WindowResize")).Add(std::bind(&ISwapchain::Resize, _swapchain, std::placeholders::_2, std::placeholders::_3));
 			return true;
 		}
 

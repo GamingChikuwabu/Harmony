@@ -41,7 +41,6 @@ namespace HARMONY
             //フレーム終了処理
             EventManager::GetEvent<>(TSTR("OnFrameFinalized")).Broadcast();
 
-
             frameCount++;
             totalTime += deltaTime;
             // シンプルなフレームレート計算

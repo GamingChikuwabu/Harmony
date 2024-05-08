@@ -27,6 +27,8 @@ macro(lib_path_setting targetname)
     LINK_LIB_GC(${targetname})
     include("${CMAKE_SOURCE_DIR}/.cmake/thirdparty/eigen.cmake")
     LINK_LIB_EIGEN(${targetname})    
+    include("${CMAKE_SOURCE_DIR}/.cmake/thirdparty/messagepack.cmake")
+    LINK_LIB_MESSAGEPACK(${targetname})
 endmacro()
 
 

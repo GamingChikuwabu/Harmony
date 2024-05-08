@@ -1,8 +1,0 @@
-﻿add_subdirectory(Runtime)
-add_subdirectory(ModuleManager)
-add_subdirectory(JobSystem)
-add_subdirectory(EventManager)
-add_subdirectory(GameLoopManager)
-add_subdirectory(LogManager)
-add_subdirectory(Reflecter)
-add_subdirectory(Serializer)

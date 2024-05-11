@@ -18,11 +18,18 @@ int main(int argc, char** argv)
 	// スレッドの登録を許可
 	GC_allow_register_threads();
 
-	EventManager::GetEvent<>(TEXT("Init")).Broadcast();
-	EventManager::GetEvent<>(TEXT("Ready")).Broadcast();
-	EventManager::GetEvent<>(TEXT("Terminate")).Broadcast();
+	if (!GameManager::Init())
+	{
+		return 0;
+	}
+
+	GameManager::Run();
+
+	GameManager::Terminate();
 
 	GC_gcollect();
+	
 	GC_dump();
+	
 	return 0;
 }

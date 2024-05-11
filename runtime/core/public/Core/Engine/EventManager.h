@@ -12,7 +12,7 @@ using Delegate = std::function<void(Args...)>;
 
 // MulticastDelegate クラスの定義
 template <typename... Args>
-class CORE_API MulticastDelegate {
+class MulticastDelegate {
 public:
     void Add(Delegate<Args...> delegate) {
         delegates.push_back(delegate);
@@ -46,6 +46,7 @@ private:
     HMArray<Delegate<Args...>> delegates;
 };
 
+// イベントマネージャクラスの定義
 class CORE_API EventManager
 {
 public:
@@ -65,7 +66,6 @@ public:
             throw std::runtime_error("Event type mismatch");
         }
     }
-
 private:
     static inline HMUnorderedMap<HMString, std::any> events;
 };

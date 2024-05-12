@@ -3,8 +3,8 @@
 #include <any>
 #include<stdexcept>
 #include<future>
-#include"Utility/collections/containers.h"
-#include"Utility/collections/strings.h"
+#include"Utility/Collections/containers.h"
+#include"Utility/Collections/strings.h"
 
 // Delegate と MulticastDelegate のテンプレート宣言
 template <typename... Args>

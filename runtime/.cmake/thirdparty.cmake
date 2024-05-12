@@ -24,6 +24,12 @@ FetchContent_Declare(
   GIT_TAG v1.1.0
 )
 
+FetchContent_Declare(
+  Eigen
+  GIT_REPOSITORY https://gitlab.com/libeigen/eigen.git
+  GIT_TAG master
+)
+
 FetchContent_GetProperties(libatomic_ops)
 if(NOT libatomic_ops_POPULATED)
   FetchContent_Populate(libatomic_ops)
@@ -55,4 +61,10 @@ if(NOT rapidjson_POPULATED)
   set(RAPIDJSON_BUILD_TESTS OFF CACHE BOOL "Disable tests" FORCE)
 
   add_subdirectory(${rapidjson_SOURCE_DIR} ${rapidjson_BINARY_DIR})
+endif()
+
+FetchContent_GetProperties(Eigen)
+if(NOT Eigen_POPULATED)
+  FetchContent_Populate(Eigen)
+  add_subdirectory(${eigen_SOURCE_DIR} ${eigen_BINARY_DIR})
 endif()

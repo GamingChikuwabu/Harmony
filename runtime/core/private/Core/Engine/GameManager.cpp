@@ -1,4 +1,4 @@
-#include"Core/Engine/GameLoopManager.h"
+#include"Core/Engine/GameManager.h"
 #include"Core/Engine/EventManager.h"
 #include"Core/Engine/Time.h"
 

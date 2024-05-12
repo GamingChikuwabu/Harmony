@@ -1,4 +1,5 @@
 #pragma once
+#include<inttypes.h>
 
 class CORE_API Time
 {
@@ -10,13 +11,19 @@ public:
 	static void Update();
 	/// @brief デルタタイムを取得
 	/// @return デルタタイム
-	static double GetDeltaTime();
+	static float GetDeltaTime();
 	/// @brief ゲーム開始からの経過時間を取得
-	static double GetWorldTime();
-	/// @brief fpsを取得
-	static double GetFPS();
+	static float GetWorldTime();
+	/// @brief 前回呼び出した時からの平均FPSを取得
+	static float GetFPS();
+	/// @brief ゲームが始まってからのフレーム数を取得
+	/// @return フレーム数
+	static uint64_t GetWorldFrame();
 private:
-	static inline double _deltaTime;
-	static inline double _worldTime;
-	static inline double _lastTime;
+	static inline float _deltaTime;
+	static inline float _worldTime;
+	static inline float _lastTime;
+	static inline float _fpstimer;
+	static inline uint64_t _worldFrame;
+	static inline uint32_t _fpscounter;
 };
